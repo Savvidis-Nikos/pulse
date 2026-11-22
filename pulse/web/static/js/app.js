@@ -451,7 +451,10 @@ async function loadInvestigation(inc) {
   for (const iid of [inc.id, inc.interpretation_id].filter(Boolean)) {
     try { interp = await api.interpretation(iid); break; } catch (e) { /* try next id */ }
   }
+  // no investigation yet: no graph to draw, so the panel is hidden instead of left empty
+  $("#inv-shell").classList.toggle("no-graph", !interp);
   if (!interp) {
+    $("#inv-shell .orrery-note")?.remove();
     $("#orrery-host").innerHTML = "";
     reading.innerHTML = `<div class="empty">${esc(tidy(inc.headline || kpiLabel(inc.kpi)))}<br>Not investigated yet.</div>`;
     S.inv.orrery = createOrrery($("#orrery-host"), { onSelect: jumpToNode });
@@ -465,11 +468,18 @@ async function loadInvestigation(inc) {
   const firstLoad = !S.inv.interp || S.inv.interp.interpretation_id !== interp.interpretation_id;
   S.inv.key = key; S.inv.interp = interp; S.inv.snap = snap;
 
+  // a snapshot can be unreadable for a moment while a live investigation writes it: keep the graph (never wipe its
+  // svg, later updates draw into it) and try again shortly, for about 30 s
+  const panel = $("#inv-shell .orrery-panel");
+  panel?.querySelector(".orrery-note")?.remove();
   if (snap) {
+    S.inv.snapTries = 0;
     // always the whole picture so far: the relevant metrics highlighted (a running investigation grows step by step)
     S.inv.frame = S.inv.orrery.setData(snap, interp, { partial: interp.partial }).length - 1;
   } else {
-    $("#orrery-host").innerHTML = `<div class="empty" style="margin:24px">Graph not available.</div>`;
+    S.inv.snapTries = (S.inv.snapTries || 0) + 1;
+    if (S.inv.snapTries <= 20) S.inv.key = "";   // not drawn yet: the next poll fetches it again
+    panel?.insertAdjacentHTML("beforeend", `<div class="orrery-note">${S.inv.snapTries <= 20 ? "Loading the graph…" : "Graph not available."}</div>`);
   }
   // the console followed the agent here: bring the graph into view
   const followed = S.con.follow === inc.id && (firstLoad || interp.partial);
@@ -482,7 +492,7 @@ async function loadInvestigation(inc) {
   });
 
   clearTimeout(S.inv.livePoll);
-  if (interp.partial) S.inv.livePoll = setTimeout(() => { if (S.view === "investigation" && S.inv.incidentId === inc.id) loadInvestigation(inc); }, 1500);
+  if (interp.partial || (!snap && S.inv.snapTries <= 20)) S.inv.livePoll = setTimeout(() => { if (S.view === "investigation" && S.inv.incidentId === inc.id) loadInvestigation(inc); }, 1500);
 }
 
 function mountLegend(slot, present = null) {
@@ -893,7 +903,7 @@ async function renderGraph(navigated) {
   const id = S.param && snaps.some(s => s.snapshot_id === S.param) ? S.param : (S.graph.snapshotId && snaps.some(s => s.snapshot_id === S.graph.snapshotId) ? S.graph.snapshotId : snaps[0].snapshot_id);
   const changedSnap = id !== S.graph.snapshotId;
   S.graph.snapshotId = id;
-  if (changedSnap || navigated || !$("#graph-shell")) {
+  if (changedSnap || navigated || !$("#graph-shell") || S.graph.failed) {   // failed: the snapshot was unreadable, fetch it again
     root.innerHTML = `
       <div class="graph-controls">
         <div class="field"><label for="snap-select">Metric</label>
@@ -925,6 +935,7 @@ async function renderGraph(navigated) {
       const o = S.graph.orrery; b.dataset.gzoom === "in" ? o.zoomIn() : b.dataset.gzoom === "out" ? o.zoomOut() : o.fit();
     }));
     try { S.graph.snap = plainLabels(await api.snapshot(id)); } catch (e) { S.graph.snap = null; }
+    S.graph.failed = !S.graph.snap;
     mountLegend($("#graph-legend"), legendTokens(S.graph.snap, null));
     if (S.graph.snap) {
       S.graph.orrery.setData(S.graph.snap, null);

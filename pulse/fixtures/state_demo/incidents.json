@@ -2,6 +2,8 @@
   {
     "id": "inc-0412-orders",
     "kpi": "orders",
+    "direction": null,
+    "onset_ts": null,
     "state": "open",
     "severity": "alert",
     "opened_at": "2026-11-22T10:00:00Z",
@@ -15,11 +17,16 @@
       "10:00 orders -9% (watch)",
       "11:00 orders -14% (alert), investigation started",
       "11:02 first cause found: payment success DE / Android"
-    ]
+    ],
+    "recalled": [],
+    "segment": null,
+    "closed_reason": null
   },
   {
     "id": "inc-0409-conversion",
     "kpi": "conversion_rate",
+    "direction": null,
+    "onset_ts": null,
     "state": "persisting",
     "severity": "watch",
     "opened_at": "2026-11-22T00:00:00Z",
@@ -33,11 +40,16 @@
       "00:00 conversion -5% (watch)",
       "02:00 explained as FR campaign (hypothesis)",
       "11:00 still -6%, unchanged explanation"
-    ]
+    ],
+    "recalled": [],
+    "segment": null,
+    "closed_reason": null
   },
   {
     "id": "inc-0398-gmv",
     "kpi": "gmv",
+    "direction": null,
+    "onset_ts": null,
     "state": "resolved",
     "severity": "alert",
     "opened_at": "2026-11-21T13:00:00Z",
@@ -50,6 +62,9 @@
     "history": [
       "13:00 revenue -11%",
       "15:00 back within band, resolved"
-    ]
+    ],
+    "recalled": [],
+    "segment": null,
+    "closed_reason": null
   }
 ]

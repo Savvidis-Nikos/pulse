@@ -41,16 +41,18 @@ def iso(dt: datetime) -> str:
 
 def _series(base: float, amp: float, noise: float, seed: int, shock=None, missing_last: int = 0,
             band: float = 0.06) -> list[SeriesPoint]:
-    """48 hourly points: daily seasonality around `base`, optional shock(i) multiplier on the last hours."""
+    """48 hourly points: daily seasonality, `base` = the expected value at NOW (the number the story quotes);
+    optional shock(i) multiplier on the last hours. A shocked series ends without noise, so its last point is
+    exactly base * shock: the investigation text and the briefing table show the same change."""
     rnd = random.Random(seed)
+    season = lambda h: 1 + amp * math.sin((h - 8) / 24 * 2 * math.pi)
     pts = []
     for i in range(48):
         ts = NOW - timedelta(hours=47 - i)
-        season = 1 + amp * math.sin((ts.hour - 8) / 24 * 2 * math.pi)
-        exp = base * season
+        exp = base * season(ts.hour) / season(NOW.hour)
         val = exp * (1 + rnd.gauss(0, noise))
         if shock:
-            val *= shock(i)
+            val = (exp if i == 47 else val) * shock(i)
         val_out = None if i >= 48 - missing_last else round(val, 6)
         pts.append(SeriesPoint(ts=iso(ts), value=val_out, expected=round(exp, 6),
                                lo=round(exp * (1 - band), 6), hi=round(exp * (1 + band), 6)))
@@ -259,7 +261,7 @@ def trace_orders() -> list[TraceStep]:
     return [
         TraceStep(i=1, action="look", node="orders",
                   finding="Orders are 14% below the seasonal baseline (812 vs 945 per hour), z = -4.1.",
-                  numbers={"value": 812, "expected": 945, "deviation_pct": -14.1, "z": -4.1},
+                  numbers={"value": 812, "expected": 945, "deviation_pct": -14.0, "z": -4.1},
                   highlight_nodes=["orders"]),
         TraceStep(i=2, action="expand", node="orders",
                   finding="orders = sessions × conversion: traffic is up 3.9%, so the whole drop sits in conversion.",
@@ -324,7 +326,7 @@ def interp_orders(steps: list[TraceStep] | None = None) -> Interpretation:
                             numbers={"value": 0.581, "expected": 0.931, "explained_pct": 91}),
         confidence="supported",
         symptoms=[Finding(node="gmv", why="Revenue follows orders: -14% with an unchanged basket.",
-                          numbers={"deviation_pct": -14.1, "aov_dev_pct": 0.0}),
+                          numbers={"deviation_pct": -14.0, "aov_dev_pct": 0.0}),
                   Finding(node="auth_failure_rate", why="Failed authorisations are the payment failures, seen "
                                                         "from the provider side.",
                           numbers={"value": 0.178, "expected": 0.061}),

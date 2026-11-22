@@ -26,7 +26,7 @@
       "node": "gmv",
       "why": "Revenue follows orders: -14% with an unchanged basket.",
       "numbers": {
-        "deviation_pct": -14.1,
+        "deviation_pct": -14.0,
         "aov_dev_pct": 0.0
       }
     },
@@ -147,7 +147,7 @@
       "numbers": {
         "value": 812,
         "expected": 945,
-        "deviation_pct": -14.1,
+        "deviation_pct": -14.0,
         "z": -4.1
       },
       "highlight_nodes": [

@@ -313,6 +313,8 @@ main { padding: 28px; max-width: 1560px; margin: 0 auto; }
 .inv-tab span { display: block; color: var(--text-3); font-size: 12px; }
 
 .inv-body { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(340px, 1fr); gap: 28px; align-items: start; }
+.inv-body.no-graph { grid-template-columns: minmax(0, 1fr); }
+.inv-body.no-graph .orrery-panel { display: none; }
 .orrery-panel {
   position: sticky; top: 72px; border: 1px solid var(--rule); border-radius: 14px; background: var(--surface);
   overflow: hidden;
@@ -326,6 +328,7 @@ main { padding: 28px; max-width: 1560px; margin: 0 auto; }
 .orrery-stage svg.dragging { cursor: grabbing; }
 .orrery-tools { position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; }
 .orrery-tools .icon-btn { background: var(--surface-2); }
+.orrery-note { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; color: var(--text-3); font-family: var(--serif); font-size: 16px; }
 
 /* legend */
 .legend {
