@@ -1,0 +1,78 @@
+# System components -> metrics they can move directly (first-order effects), with the owning teams.
+# `component` matches the `component` column of the change log (events.csv); `aliases` match status-feed
+# components and service names. Downstream effects are derived from the metric graph, not listed here.
+# `signals` are the component's own telemetry: a change to the component that really acted moves them.
+search:
+  description: Search engine, ranker, index and autocomplete
+  owners: [search-infra, search-frontend, search-relevance]
+  aliases: [search]
+  services: [search]
+  metrics: [search_rate, search_ctr, zero_result_rate, product_view_rate, service_error_rate]
+  signals: [search_ctr, zero_result_rate, search_rate]       # telemetry of the component itself: direct evidence it acted
+recommendations:
+  description: For You feed models, features and the inventory filter
+  owners: [recsys]
+  aliases: [recommendations]
+  services: [recommendations]
+  metrics: [feed_click_rate, oos_exposure_share, feed_calibration, feature_freshness_h, product_view_rate, cart_rate, discount_share]
+  signals: [oos_exposure_share, feed_calibration, feature_freshness_h, feed_click_rate]       # telemetry of the component itself: direct evidence it acted
+checkout:
+  description: Cart and checkout service, checkout database, checkout UI
+  owners: [checkout-web, checkout-platform]
+  aliases: [checkout, cart]
+  services: [checkout, cart]
+  metrics: [checkout_rate, payment_attempt_rate, service_error_rate, p99_latency_ms, capacity_util]
+  signals: [checkout_rate, payment_attempt_rate, service_error_rate, p99_latency_ms, capacity_util]       # telemetry of the component itself: direct evidence it acted
+payments:
+  description: Payment SDKs in the apps, payment gateway, payment service providers
+  owners: [payments-mobile, payments-platform]
+  aliases: [payments, card authorisation]
+  services: [payments]
+  metrics: [payment_success_rate, auth_failure_rate, crash_rate, service_error_rate]
+  signals: [auth_failure_rate, payment_success_rate]       # telemetry of the component itself: direct evidence it acted
+app:
+  description: Web front end and mobile apps (releases, flags, UI)
+  owners: [web-platform, mobile-ios, mobile-android]
+  aliases: [app, edge network, api-gateway]
+  services: [api-gateway]
+  metrics: [sessions, product_view_rate, cart_rate, checkout_rate, crash_rate, service_error_rate]
+  signals: [crash_rate]       # telemetry of the component itself: direct evidence it acted
+pricing:
+  description: Price setting for first-party retail
+  owners: [pricing-team]
+  aliases: [pricing]
+  metrics: [price_index, cart_rate, aov, cogs_rate, margin_rate]
+  signals: [avg_price_change, price_index]       # telemetry of the component itself: direct evidence it acted
+catalog:
+  description: Catalog ingestion, listings and seller feeds
+  owners: [product-team, catalog-ingest]
+  aliases: [catalog, catalog-ingest]
+  services: [catalog, catalog-ingest]
+  metrics: [listed_skus, in_stock_rate, offer_availability, seller_feed_errors, zero_result_rate]
+  signals: [listed_skus, offer_availability, seller_feed_errors]       # telemetry of the component itself: direct evidence it acted
+sponsored_ads:
+  description: Ad server, auctions, the budget pacer and invalid-traffic filtering
+  owners: [ads-delivery, ads-quality]
+  aliases: [sponsored_ads, ads-server]
+  services: [ads-server]
+  metrics: [fill_rate, budget_exhausted_share, below_floor_share, pacing_index, advertiser_spend, ad_ctr, avg_cpc, invalid_click_rate, ad_revenue, sponsored_share, ivt_share]
+  signals: [pacing_index, budget_exhausted_share, advertiser_spend, fill_rate]       # telemetry of the component itself: direct evidence it acted
+marketing:
+  description: Paid media and CRM campaigns
+  owners: [growth-marketing, crm-fr, crm-de, crm-nl, crm-pl]
+  aliases: [marketing]
+  metrics: [sessions, marketing_cost, discount_share, conversion_rate, ivt_share]
+  signals: [marketing_cost, sessions, ivt_share]       # telemetry of the component itself: direct evidence it acted
+wholesale:
+  description: Purchasing (forecast and reorders) and supplier deliveries
+  owners: [purchasing-system, supply-chain]
+  aliases: [wholesale, purchasing]
+  metrics: [po_coverage, delivery_fill_rate, in_stock_rate, top_sku_availability]
+  signals: [delivery_fill_rate, po_coverage]       # telemetry of the component itself: direct evidence it acted
+data_pipeline:
+  description: Data platform (ingestion, Airflow, warehouse loads)
+  owners: [data-platform]
+  aliases: [data_pipeline, airflow]
+  metrics: []
+  signals: [feature_freshness_h]       # telemetry of the component itself: direct evidence it acted
+  max_lag_h: 12                         # batch jobs: a bad deploy bites at the next scheduled run

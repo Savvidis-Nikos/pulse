@@ -1,0 +1,65 @@
+# Asserted mechanism edges: cause metric -> effect metric. These are *possible* mechanisms (hypotheses the
+# investigator may test), not facts. Each needs a shared dimension to be testable; edges whose join dims are
+# not shared by both metrics are rejected by graph validation.
+#   sign: +1 cause up -> effect up; -1 cause up -> effect down
+#   lag_h: typical delay; join: dimensions on which cause and effect can be aligned
+- {cause: in_stock_rate, effect: cart_rate, sign: 1, lag_h: 0, join: [category], mechanism: "Out-of-stock product pages cannot be added to the cart"}
+- {cause: top_sku_availability, effect: cart_rate, sign: 1, lag_h: 0, join: [category], mechanism: "Best sellers going out of stock remove most of the add-to-cart volume"}
+- {cause: top_sku_availability, effect: gmv, sign: 1, lag_h: 0, join: [category], mechanism: "Best sellers carry most revenue"}
+- {cause: delivery_fill_rate, effect: top_sku_availability, sign: 1, lag_h: 6, join: [category], mechanism: "Short supplier deliveries leave popular products out of stock"}
+- {cause: po_coverage, effect: top_sku_availability, sign: 1, lag_h: 12, join: [category], mechanism: "Purchase orders below forecast run stock down"}
+- {cause: delivery_fill_rate, effect: in_stock_rate, sign: 1, lag_h: 6, join: [category], mechanism: "Short supplier deliveries reduce stock"}
+- {cause: po_coverage, effect: in_stock_rate, sign: 1, lag_h: 12, join: [category], mechanism: "Ordering below forecast runs stock down"}
+- {cause: oos_exposure_share, effect: feed_click_rate, sign: -1, lag_h: 0, join: [category], mechanism: "Feed slots spent on out-of-stock products earn few clicks"}
+- {cause: oos_exposure_share, effect: cart_rate, sign: -1, lag_h: 0, join: [category], mechanism: "Feed traffic lands on products that cannot be bought"}
+- {cause: feed_calibration, effect: feed_click_rate, sign: 1, lag_h: 0, join: [category], mechanism: "A miscalibrated model ranks products users do not click"}
+- {cause: feature_freshness_h, effect: feed_calibration, sign: -1, lag_h: 2, join: [category], mechanism: "Stale features degrade the recommendation model"}
+- {cause: feed_click_rate, effect: product_view_rate, sign: 1, lag_h: 0, join: [category], mechanism: "For You clicks are a large source of product views"}
+- {cause: auth_failure_rate, effect: payment_success_rate, sign: -1, lag_h: 0, join: [country, platform], mechanism: "Failed authorisations at the payment provider are failed payments"}
+- {cause: crash_rate, effect: payment_success_rate, sign: -1, lag_h: 0, join: [platform], mechanism: "App crashes during payment abort the order"}
+- {cause: crash_rate, effect: checkout_rate, sign: -1, lag_h: 0, join: [platform], mechanism: "App crashes abort checkout"}
+- {cause: service_error_rate, effect: checkout_rate, sign: -1, lag_h: 0, join: [platform], mechanism: "Cart and checkout service errors block checkout"}
+- {cause: service_error_rate, effect: payment_attempt_rate, sign: -1, lag_h: 0, join: [platform], mechanism: "Checkout service errors stop users before paying"}
+- {cause: p99_latency_ms, effect: payment_attempt_rate, sign: -1, lag_h: 0, join: [platform], mechanism: "Slow checkout makes users abandon before paying"}
+- {cause: capacity_util, effect: p99_latency_ms, sign: 1, lag_h: 0, join: [platform], mechanism: "Saturated services queue requests"}
+- {cause: service_error_rate, effect: search_ctr, sign: -1, lag_h: 0, join: [platform], mechanism: "Search service errors return empty or broken result pages"}
+- {cause: zero_result_rate, effect: search_ctr, sign: -1, lag_h: 0, join: [country, platform, category], mechanism: "Searches with no results produce no product views"}
+- {cause: price_index, effect: cart_rate, sign: -1, lag_h: 0, join: [country, category], mechanism: "Being more expensive than competitors loses the add-to-cart"}
+- {cause: price_index, effect: conversion_rate, sign: -1, lag_h: 0, join: [country, category], mechanism: "Price-sensitive shoppers buy elsewhere"}
+- {cause: competitor_promo, effect: conversion_rate, sign: -1, lag_h: 0, join: [country, category], mechanism: "A competitor promotion pulls buyers away"}
+- {cause: demand_index, effect: sessions, sign: 1, lag_h: 0, join: [country, category], mechanism: "Market demand drives traffic"}
+- {cause: marketing_cost, effect: sessions, sign: 1, lag_h: 0, join: [country, platform, category], mechanism: "Paid media buys traffic"}
+- {cause: marketing_cost, effect: contribution_margin, sign: -1, lag_h: 0, join: [country, platform, category], mechanism: "Paid media spend is booked against margin"}
+- {cause: discount_share, effect: margin_rate, sign: -1, lag_h: 0, join: [country, platform, category], mechanism: "Discounts come straight off margin"}
+- {cause: ivt_share, effect: conversion_rate, sign: -1, lag_h: 0, join: [country, platform, category], mechanism: "Bot sessions never buy and dilute conversion"}
+- {cause: budget_exhausted_share, effect: fill_rate, sign: -1, lag_h: 0, join: [category], mechanism: "Exhausted advertiser budgets leave ad slots empty"}
+- {cause: pacing_index, effect: budget_exhausted_share, sign: 1, lag_h: 2, join: [category], mechanism: "A pacer that overspends early exhausts budgets before the evening peak"}
+- {cause: fill_rate, effect: ad_revenue, sign: 1, lag_h: 0, join: [category], mechanism: "Empty ad slots earn nothing"}
+- {cause: invalid_click_rate, effect: roas, sign: -1, lag_h: 0, join: [category], mechanism: "Advertisers pay for bot clicks that never convert"}
+- {cause: offer_availability, effect: in_stock_rate, sign: 1, lag_h: 0, join: [category], mechanism: "Seller offers going offline make listings unavailable"}
+- {cause: seller_feed_errors, effect: offer_availability, sign: -1, lag_h: 1, join: [category], mechanism: "Broken seller feeds take offers offline"}
+- {cause: payment_success_rate, effect: support_tickets, sign: -1, lag_h: 1, join: [country], mechanism: "Failed payments generate payment_problem tickets"}
+- {cause: top_sku_availability, effect: support_tickets, sign: -1, lag_h: 2, join: [category], mechanism: "Unavailable products generate item_unavailable tickets"}
+- {cause: payment_success_rate, effect: ticket_sentiment, sign: 1, lag_h: 1, join: [country], mechanism: "Customers whose payment fails write angry tickets"}
+- {cause: service_error_rate, effect: support_tickets, sign: 1, lag_h: 1, join: [], mechanism: "Site errors generate website_slow_or_error tickets"}
+- {cause: in_stock_rate, effect: ticket_sentiment, sign: 1, lag_h: 2, join: [], mechanism: "Unavailable products frustrate customers"}
+- {cause: sponsored_share, effect: invalid_click_rate, sign: 1, lag_h: 0, join: [category], mechanism: "Bot clicks on sponsored ads inflate sponsored traffic and are billed as invalid clicks"}
+- {cause: ivt_share, effect: invalid_click_rate, sign: 1, lag_h: 0, join: [category], mechanism: "Invalid traffic clicks ads"}
+- {cause: ad_ctr, effect: sponsored_share, sign: 1, lag_h: 0, join: [category], mechanism: "Sponsored clicks bring sponsored sessions"}
+- {cause: pacing_index, effect: advertiser_spend, sign: 1, lag_h: 0, join: [category], mechanism: "A pacer ahead of schedule spends the budget early"}
+- {cause: advertiser_spend, effect: ad_revenue, sign: 1, lag_h: 0, join: [category], mechanism: "Advertiser spend is sponsored-products revenue"}
+- {cause: listed_skus, effect: in_stock_rate, sign: -1, lag_h: 0, join: [category], mechanism: "Newly listed products start with no stock"}
+- {cause: orders, effect: marketplace_fees, sign: 1, lag_h: 0, join: [country, platform, category], mechanism: "Commission is earned on every third-party order"}
+- {cause: sessions, effect: capacity_util, sign: 1, lag_h: 0, join: [platform], mechanism: "More traffic loads the services"}
+- {cause: avg_price_change, effect: cart_rate, sign: -1, lag_h: 0, join: [category], mechanism: "Higher prices on popular products lose add-to-carts"}
+- {cause: avg_price_change, effect: aov, sign: 1, lag_h: 0, join: [category], mechanism: "Higher prices raise the order value of those who still buy"}
+- {cause: ivt_share, effect: sponsored_share, sign: 1, lag_h: 0, join: [country, platform, category], mechanism: "Bots clicking sponsored ads arrive as sponsored sessions"}
+- {cause: competitor_promo, effect: cart_rate, sign: -1, lag_h: 0, join: [country, category], mechanism: "Shoppers compare and buy at the competitor running the promotion"}
+- {cause: offer_availability, effect: cart_rate, sign: 1, lag_h: 0, join: [category], mechanism: "Products whose seller offer is offline cannot be added to the cart"}
+- {cause: sessions, effect: conversion_rate, sign: -1, lag_h: 0, join: [country, platform, category], mechanism: "A traffic surge of low-intent visitors dilutes conversion"}
+- {cause: ivt_share, effect: search_ctr, sign: 1, lag_h: 0, join: [country, platform, category], mechanism: "Bots running searches and clicking results inflate search engagement"}
+- {cause: ivt_share, effect: ad_ctr, sign: 1, lag_h: 0, join: [category], mechanism: "Bots clicking ads inflate ad click-through"}
+- {cause: sessions, effect: ad_requests, sign: 1, join: [category], mechanism: "every search and product page requests sponsored slots: more traffic, more ad requests"}
+- {cause: ad_requests, effect: fill_rate, sign: -1, join: [category], mechanism: "when demand for ad slots outgrows advertiser budgets, a smaller share of requests is filled"}
+- {cause: ivt_sessions, effect: ad_requests, sign: 1, join: [category], mechanism: "bot traffic browses pages that request sponsored slots"}
+- {cause: ivt_sessions, effect: sessions, sign: 1, join: [country, platform, category], mechanism: "bot sessions are counted as sessions: a bot wave inflates traffic without buyers"}

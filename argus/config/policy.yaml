@@ -1,0 +1,55 @@
+# Monitoring policy: detection thresholds, attention budget, incident lifecycle, investigation budgets.
+detection:
+  z_min: 4.5            # |z| of the window vs the seasonal baseline
+  rel_min: 0.10         # and at least a 10 % relative change
+  z_strong: 8.0         # strong enough to alert without waiting for persistence
+  z_prev_min: 3.0       # persistence: the previous window must already lean the same way
+  health_rel_min: 0.30  # health / supply metrics (latency, freshness, errors) need a bigger relative move
+  sustained_z: 3.0      # ...or three consecutive windows at |z| >= 3 with a >= 15 % move (1-D slices)
+  sustained_rel: 0.15
+  min_events: 15        # ratio numerators below this many events are too sparse to page on
+  max_dims_values: 12   # breakdown dimensions with more distinct values are not scanned (sku, advertiser)
+attention:
+  budget_groups: 800    # (metric, breakdown) groups scored per hour; each group covers all its segments
+  two_dim_tiers: [north_star, outcome, driver]
+  explore_weight: 0.15
+trust:
+  completeness_min: 0.90
+  lag_max_minutes: 60
+  frozen_hours: 3
+incidents:
+  resolve_after_normal_checks: 2
+  reopen_window_h: 12
+  max_investigations_per_tick: 2
+  notify_on: [new, escalated, label_upgraded, resolved]
+investigation:
+  explain_share_min: 0.70
+  min_supports: 2
+  lead_max_iterations: 25
+  specialist_max_iterations: 12
+  critic_max_iterations: 10
+  wall_clock_s: 240
+  moved_z: 3.0           # a metric "moved" in a window: |z| >= 3 and |rel| >= 5 %
+  moved_rel: 0.05
+  harm_metrics: [gmv, orders, contribution_margin, roas]   # business outcomes; a planned change that hurts none is innocent
+  harm_rel: -0.05
+  innocent_change_types: [campaign, catalog, maintenance]   # business initiatives whose side effects on rates are expected
+  max_investigations: 3          # per incident (first look + re-investigations while uncertain)
+  reinvestigate_after_h: 3
+  weights: {mechanism: 1.5, entity: 1.5, timing: 1.0, scope: 1.0, control: 1.0, corroboration: 0.75, lagged_timing: 0.5, chain: 0.5, mechanism_weak: 0.5}
+  refute_weights: {scope: 2.0, timing: 2.0, mechanism: 1.0}
+economics:
+  hourly_value_metrics: [gmv, contribution_margin]
+
+agents:                      # Claude agents (only with --agents and an API key)
+  lead_effort: high
+  lead_turns: 20             # model turns per investigation (tool calls batch inside a turn)
+  lead_wall_s: 240
+  critic_effort: high
+  critic_turns: 8
+
+brief:
+  kpis: [gmv, orders, conversion_rate, contribution_margin, ad_revenue, take_rate, in_stock_rate, payment_success_rate]
+  kpi_window_h: 3            # tiles compare the last 3 hours with the same hours of the previous week
+  red_eur_h: 1000            # an open fault costing more than this per hour turns the status red
+  innocent_lookback_h: 24

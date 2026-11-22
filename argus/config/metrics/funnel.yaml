@@ -1,0 +1,26 @@
+# Funnel: traffic -> search -> product views -> cart -> checkout -> payment -> order.
+# facts carries country/platform/category; audience adds browser and user_type for the steps it has.
+- {name: sessions, description: "Visits to the marketplace (app and web)", type: simple, table: facts, column: sessions, alt_tables: [audience], domain: funnel, tier: outcome, polarity: up_is_good, min_volume: 300}
+- {name: searches, description: "Search queries submitted", type: simple, table: facts, column: searches, domain: funnel, polarity: up_is_good, min_volume: 200}
+- {name: zero_result_searches, description: "Searches that returned no results", type: simple, table: facts, column: zero_result_searches, domain: funnel, polarity: down_is_good, watch: false}
+- {name: product_views, description: "Product detail page views", type: simple, table: facts, column: product_views, alt_tables: [audience], domain: funnel, polarity: up_is_good, min_volume: 200}
+- {name: add_to_carts, description: "Products added to the cart", type: simple, table: facts, column: add_to_carts, alt_tables: [audience], domain: funnel, polarity: up_is_good}
+- {name: checkouts, description: "Checkout flows started", type: simple, table: facts, column: checkouts, alt_tables: [audience], domain: funnel, polarity: up_is_good}
+- {name: payment_attempts, description: "Payment authorisations attempted", type: simple, table: facts, column: payment_attempts, alt_tables: [audience], domain: funnel, polarity: up_is_good}
+- {name: orders, description: "Successfully paid orders", type: simple, table: facts, column: orders, alt_tables: [audience], domain: funnel, tier: outcome, polarity: up_is_good, min_volume: 40}
+- {name: feed_clicks, description: "Product clicks from the personalised For You feed", type: simple, table: facts, column: feed_clicks, domain: recommendations, polarity: up_is_good}
+- {name: sponsored_sessions, description: "Sessions that arrived through sponsored product placements", type: simple, table: facts, column: sponsored_sessions, domain: ads, watch: false}
+- {name: ivt_sessions, description: "Sessions flagged as invalid (bot) traffic", type: simple, table: facts, column: ivt_sessions, domain: funnel, tier: health, polarity: down_is_good, min_volume: 20}
+- {name: search_rate, description: "Share of sessions that search", type: ratio, numerator: searches, denominator: sessions, unit: ratio, domain: funnel, polarity: up_is_good, min_volume: 300}
+- {name: search_ctr, description: "Product views per search (search relevance)", type: ratio, numerator: product_views, denominator: searches, unit: ratio, domain: funnel, polarity: up_is_good, min_volume: 200}
+- {name: zero_result_rate, description: "Share of searches with no results", type: ratio, numerator: zero_result_searches, denominator: searches, unit: ratio, domain: funnel, polarity: down_is_good, min_volume: 200}
+- {name: product_view_rate, description: "Product page views per session", type: ratio, numerator: product_views, denominator: sessions, unit: ratio, domain: funnel, polarity: up_is_good, min_volume: 300}
+- {name: cart_rate, description: "Add-to-carts per product view (availability, price, relevance)", type: ratio, numerator: add_to_carts, denominator: product_views, unit: ratio, domain: funnel, polarity: up_is_good, min_volume: 200}
+- {name: checkout_rate, description: "Checkouts started per add-to-cart", type: ratio, numerator: checkouts, denominator: add_to_carts, unit: ratio, domain: funnel, polarity: up_is_good}
+- {name: payment_attempt_rate, description: "Payment attempts per checkout (checkout usability, latency)", type: ratio, numerator: payment_attempts, denominator: checkouts, unit: ratio, domain: funnel, polarity: up_is_good}
+- {name: payment_success_rate, description: "Successful payments per attempt", type: ratio, numerator: orders, denominator: payment_attempts, unit: ratio, domain: payments, polarity: up_is_good}
+- {name: conversion_rate, description: "Orders per session", type: ratio, numerator: orders, denominator: sessions, unit: ratio, domain: funnel, tier: outcome, polarity: up_is_good, min_volume: 300}
+- {name: cart_conversion_rate, description: "Orders per add-to-cart (cart abandonment = 1 - this)", type: ratio, numerator: orders, denominator: add_to_carts, unit: ratio, domain: funnel, polarity: up_is_good}
+- {name: feed_click_rate, description: "For You feed product clicks per session", type: ratio, numerator: feed_clicks, denominator: sessions, unit: ratio, domain: recommendations, polarity: up_is_good, min_volume: 300}
+- {name: sponsored_share, description: "Share of sessions bought through sponsored placements", type: ratio, numerator: sponsored_sessions, denominator: sessions, unit: ratio, domain: ads, min_volume: 300}
+- {name: ivt_share, description: "Share of sessions flagged as invalid traffic", type: ratio, numerator: ivt_sessions, denominator: sessions, unit: ratio, domain: funnel, tier: health, polarity: down_is_good, min_volume: 300}

@@ -1,0 +1,37 @@
+- name: refund_rate
+  description: Refunds as a share of GMV
+  type: derived
+  expr: refunds/gmv
+  unit: ratio
+  domain: economics
+  polarity: down_is_good
+  added_by: cartographer
+  added_at: 2026-11-19 18:00
+- name: revenue_per_session
+  description: GMV per session (monetisation of traffic)
+  type: derived
+  expr: gmv/sessions
+  unit: EUR
+  domain: economics
+  polarity: up_is_good
+  components:
+  - app
+  - marketing
+  added_by: cartographer
+  added_at: 2026-11-19 18:00
+- name: undelivered_share
+  description: Share of due wholesale units that did not arrive
+  type: sql
+  sql: 'SELECT ts, category, supplier, SUM(due_units - received_units) AS num, SUM(due_units)
+    AS den
+
+    FROM wholesale GROUP BY ts, category, supplier
+
+    '
+  unit: ratio
+  domain: supply
+  polarity: down_is_good
+  components:
+  - wholesale
+  added_by: cartographer
+  added_at: 2026-11-19 18:00

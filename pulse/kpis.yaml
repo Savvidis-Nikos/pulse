@@ -1,0 +1,38 @@
+# CEO KPIs Pulse checks every tick. `name` must be a metric id in the argus registry (argus/config/metrics).
+# Optional per-KPI keys (defaults in `defaults`):
+#   window_h     hours aggregated per check (value is reported per hour for flow metrics)
+#   watch_z      robust z (in the unwanted direction) from which the KPI is shown as "watch"
+#   alert_z      robust z from which it becomes an "alert" (opens an incident)
+#   min_dev_pct  smallest |deviation %| that may alert (keeps tiny-but-significant wobbles at "watch")
+#   polarity     override of the registry polarity (up_is_good | down_is_good | neutral)
+defaults:
+  window_h: 3
+  watch_z: 2.5
+  alert_z: 4.0
+  min_dev_pct: 3.0
+  series_h: 48
+
+kpis:
+  - name: gmv
+    label: Revenue / hour
+  - name: orders
+    label: Successful orders / hour
+  - name: conversion_rate
+    label: User conversion
+    min_dev_pct: 5.0
+  - name: contribution_margin
+    label: Contribution margin / hour
+    min_dev_pct: 8.0
+  - name: payment_success_rate
+    label: Payment success
+    min_dev_pct: 2.0
+  - name: sessions
+    label: Traffic (sessions / hour)
+  - name: ad_revenue
+    label: Ad revenue / hour
+  - name: in_stock_rate
+    label: Products in stock
+    min_dev_pct: 2.0
+  - name: cart_rate
+    label: Add-to-cart rate
+    min_dev_pct: 5.0

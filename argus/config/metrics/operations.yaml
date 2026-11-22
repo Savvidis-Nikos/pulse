@@ -1,0 +1,94 @@
+# Supply, recommendations, payments, platform, sellers, customer voice, market.
+
+# --- supply: catalog availability, top-product availability, wholesale purchasing and deliveries
+- {name: listed_skus, description: "Products listed in the catalog", type: simple, table: inventory, column: listed_skus, domain: supply, tier: driver, time_agg: mean, min_volume: 0}
+- {name: in_stock_skus, description: "Listed products currently in stock", type: simple, table: inventory, column: in_stock_skus, domain: supply, polarity: up_is_good, time_agg: mean, watch: false}
+- {name: in_stock_rate, description: "Share of listed products that are in stock", type: ratio, numerator: in_stock_skus, denominator: listed_skus, unit: ratio, domain: supply, tier: outcome, polarity: up_is_good, time_agg: mean, min_volume: 0}
+- name: top_sku_availability
+  description: "View-weighted availability of the most popular products per category"
+  type: sql
+  sql: "SELECT ts, category, SUM(view_share * in_stock) AS num, SUM(view_share) AS den FROM products GROUP BY ts, category"
+  unit: ratio
+  domain: supply
+  polarity: up_is_good
+  time_agg: mean
+  min_volume: 0
+- {name: forecast_units, description: "Demand forecast used by purchasing (units)", type: simple, table: wholesale, column: forecast_units, domain: supply, watch: false}
+- {name: po_units, description: "Units ordered on wholesale purchase orders", type: simple, table: wholesale, column: po_units, domain: supply, watch: false}
+- {name: due_units, description: "Units due for delivery from suppliers", type: simple, table: wholesale, column: due_units, domain: supply, watch: false}
+- {name: received_units, description: "Units received from suppliers", type: simple, table: wholesale, column: received_units, domain: supply, polarity: up_is_good, watch: false}
+- {name: delivery_fill_rate, description: "Units received per unit due from suppliers", type: ratio, numerator: received_units, denominator: due_units, unit: ratio, domain: supply, polarity: up_is_good, window_h: 4, min_volume: 100}
+- {name: po_coverage, description: "Units ordered per unit forecast (purchasing adequacy, daily)", type: ratio, numerator: po_units, denominator: forecast_units, unit: ratio, domain: supply, window_h: 24, min_volume: 500}
+
+# --- recommendations: For You exposure quality, calibration, feature freshness
+- {name: feed_impressions, description: "For You feed impressions", type: simple, table: feed_exposure, column: impressions, domain: recommendations, watch: false}
+- {name: oos_impressions, description: "Feed impressions of out-of-stock products", type: simple, table: feed_exposure, column: oos_impressions, domain: recommendations, watch: false}
+- {name: oos_exposure_share, description: "Share of feed impressions showing out-of-stock products", type: ratio, numerator: oos_impressions, denominator: feed_impressions, unit: ratio, domain: recommendations, polarity: down_is_good, min_volume: 1000}
+- name: feed_calibration
+  description: "Actual vs model-predicted For You click-through (1 = calibrated)"
+  type: sql
+  sql: "SELECT ts, category, SUM(actual_ctr * impressions) AS num, SUM(predicted_ctr * impressions) AS den FROM feed_exposure GROUP BY ts, category"
+  unit: ratio
+  domain: recommendations
+  polarity: up_is_good
+  min_volume: 0
+- {name: feature_freshness_h, description: "Age of the recommendation features in hours", type: simple, table: feed_exposure, column: feature_freshness_h, agg: max, time_agg: mean, unit: hours, domain: recommendations, tier: health, polarity: down_is_good, min_volume: 0, min_abs_change: 4}
+
+# --- payments: gateway authorisations by provider and method
+- {name: auth_attempts, description: "Payment authorisations sent to providers", type: simple, table: payments, column: auth_attempts, domain: payments, watch: false}
+- {name: auth_failures, description: "Failed payment authorisations", type: simple, table: payments, column: auth_failures, domain: payments, watch: false}
+- {name: auth_failure_rate, description: "Share of payment authorisations that fail", type: ratio, numerator: auth_failures, denominator: auth_attempts, unit: ratio, domain: payments, tier: health, polarity: down_is_good, min_volume: 100}
+
+# --- platform: services (errors, latency, capacity) and apps (versions, crashes)
+- {name: service_requests, description: "Requests served by backend services", type: simple, table: service_health, column: requests, domain: platform, watch: false}
+- {name: service_errors, description: "Failed service requests", type: simple, table: service_health, column: errors, domain: platform, watch: false}
+- {name: service_error_rate, description: "Share of service requests that fail", type: ratio, numerator: service_errors, denominator: service_requests, unit: ratio, domain: platform, tier: health, polarity: down_is_good, min_volume: 1000}
+- {name: p99_latency_ms, description: "Worst 99th-percentile service latency", type: simple, table: service_health, column: p99_ms, agg: max, time_agg: mean, unit: ms, domain: platform, tier: health, polarity: down_is_good, min_volume: 0, min_abs_change: 150}
+- {name: capacity_util, description: "Peak capacity utilisation of services", type: simple, table: service_health, column: capacity_util, agg: max, time_agg: mean, unit: ratio, domain: platform, tier: health, polarity: down_is_good, min_volume: 0}
+- {name: app_sessions, description: "App sessions seen by crash reporting", type: simple, table: app_health, column: sessions, domain: platform, watch: false}
+- {name: app_crashes, description: "App crashes", type: simple, table: app_health, column: crashes, domain: platform, watch: false}
+- {name: crash_rate, description: "Crashes per app session", type: ratio, numerator: app_crashes, denominator: app_sessions, unit: ratio, domain: platform, tier: health, polarity: down_is_good, min_volume: 500}
+
+# --- sellers: third-party offers and catalog-feed health
+- {name: seller_listed_skus, description: "Products listed by sellers (incl. 1P retail)", type: simple, table: sellers, column: listed_skus, time_agg: mean, domain: sellers, watch: false}
+- {name: active_offers, description: "Seller offers currently live", type: simple, table: sellers, column: active_offers, time_agg: mean, domain: sellers, watch: false}
+- {name: offer_availability, description: "Share of seller listings with a live offer", type: ratio, numerator: active_offers, denominator: seller_listed_skus, unit: ratio, domain: sellers, polarity: up_is_good, time_agg: mean, min_volume: 0}
+- {name: seller_feed_errors, description: "Errors in seller catalog feeds", type: simple, table: sellers, column: feed_errors, domain: sellers, tier: health, polarity: down_is_good, min_volume: 12}
+- {name: seller_commission, description: "Commission booked by seller", type: simple, table: sellers, column: commission, unit: EUR, domain: sellers, watch: false}
+
+# --- customer voice: support tickets
+- {name: support_tickets, description: "Customer support tickets opened", type: simple, table: support_tickets, column: tickets, domain: customer, tier: health, polarity: down_is_good, min_volume: 20}
+- name: ticket_sentiment
+  description: "Ticket-weighted customer sentiment (-1 angry .. +1 happy)"
+  type: sql
+  sql: "SELECT ts, country, topic, SUM(avg_sentiment * tickets) AS num, SUM(tickets) AS den FROM support_tickets WHERE tickets > 0 GROUP BY ts, country, topic"
+  unit: score
+  domain: customer
+  tier: health
+  polarity: up_is_good
+  min_volume: 20
+
+# --- market: price position and demand
+- {name: price_index, description: "Our prices vs competitors (1 = parity; above 1 = we are more expensive)", type: simple, table: market, column: price_index, agg: mean, time_agg: mean, unit: index, domain: market, polarity: down_is_good, min_volume: 0}
+- {name: demand_index, description: "Market demand (100 = normal)", type: simple, table: market, column: demand_index, agg: mean, time_agg: mean, unit: index, domain: market, polarity: up_is_good, min_volume: 0}
+- name: avg_price_change
+  description: "View-weighted price change of products vs their regular price (0 = regular prices)"
+  type: sql
+  sql: "SELECT ts, category, SUM(price_change * views) AS num, SUM(views) AS den FROM product_sales GROUP BY ts, category"
+  unit: ratio
+  domain: market
+  tier: health
+  polarity: neutral
+  time_agg: mean
+  min_volume: 0
+  min_abs_change: 0.03
+- name: competitor_promo
+  description: "Share of country x category segments where a competitor runs a promotion"
+  type: sql
+  sql: "SELECT ts, country, category, CASE WHEN competitor_promo IS NULL THEN 0.0 ELSE 1.0 END AS value FROM market"
+  agg: mean
+  time_agg: mean
+  unit: ratio
+  domain: market
+  polarity: down_is_good
+  min_volume: 0

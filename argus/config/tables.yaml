@@ -1,0 +1,62 @@
+# Data contract of the simulator (data/eye/), as Argus sees it.
+#   time:     column that places a row on the clock (rows with time >= now + 1h are invisible)
+#   dims:     columns a metric on this table can be broken down by
+#   source:   data source whose freshness gates metrics on this table (column_sources overrides per column)
+#   kind:     hourly (one row per hour x dims) | log (one row per event) | static
+# injected.json (ground truth) is deliberately NOT part of the warehouse.
+
+facts:
+  file: facts.csv
+  time: ts
+  kind: hourly
+  dims: [country, platform, category]
+  source: orders_db
+  column_sources:
+    web_analytics: [sessions, searches, zero_result_searches, product_views, add_to_carts, feed_clicks, ivt_sessions]
+    ads_platform: [ad_cost, sponsored_sessions, ad_impressions, ad_revenue, marketing_cost]
+audience:
+  file: audience.csv
+  time: ts
+  kind: hourly
+  dims: [country, platform, category, browser, user_type]
+  source: web_analytics
+  column_sources:
+    orders_db: [checkouts, payment_attempts, orders, gmv]
+inventory:     {file: inventory.csv, time: ts, kind: hourly, dims: [category], source: inventory}
+products:      {file: products.csv, time: ts, kind: hourly, dims: [category, sku, supplier], source: inventory}
+product_sales: {file: product_sales.csv, time: ts, kind: hourly, dims: [category, sku], source: orders_db}
+wholesale:     {file: wholesale.csv, time: ts, kind: hourly, dims: [category, supplier], source: erp}
+ads_auctions:  {file: ads_auctions.csv, time: ts, kind: hourly, dims: [category], source: ads_platform}
+ads_advertisers: {file: ads_advertisers.csv, time: ts, kind: hourly, dims: [advertiser, category, pacer], source: ads_platform}
+feed_exposure: {file: feed_exposure.csv, time: ts, kind: hourly, dims: [category, model, inventory_filter], source: recsys}
+payments:      {file: payments.csv, time: ts, kind: hourly, dims: [country, platform, provider, method], source: payment_gateway}
+service_health: {file: service_health.csv, time: ts, kind: hourly, dims: [service, platform], source: observability}
+services:      {file: services.csv, time: ts, kind: hourly, dims: [platform], source: observability}
+app_health:    {file: app_health.csv, time: ts, kind: hourly, dims: [platform, app_version, payment_sdk], source: observability}
+sellers:       {file: sellers.csv, time: ts, kind: hourly, dims: [seller, category, type, feed_status], source: seller_feeds}
+support_tickets: {file: support_tickets.csv, time: ts, kind: hourly, dims: [country, topic], source: support_desk}
+market:        {file: market.csv, time: ts, kind: hourly, dims: [country, category], source: price_monitoring}
+completeness:  {file: completeness.csv, time: ts, kind: hourly, dims: [source], source: meta}
+pipeline_health: {file: pipeline_health.csv, time: ts, kind: hourly, dims: [source], source: meta}
+events:        {file: events.csv, time: deployed_at, kind: log, dims: [type, component, owner, country, platform, category]}
+calendar:      {file: calendar.csv, time: announced_at, kind: log, dims: [kind, country]}
+status_feed:   {file: status_feed.csv, time: ts, kind: log, dims: [source, channel, component, region, severity]}
+external_events: {file: external_events.csv, time: ts, kind: log, dims: [kind, competitor, country, category]}
+support_ticket_samples: {file: support_ticket_samples.csv, time: ts, kind: log, dims: [country, topic]}
+sessions:      {file: sessions.csv, time: start_ts, kind: log, dims: [country, platform, category, traffic_source], panel: true}
+clickstream:   {file: clickstream.csv, time: ts, kind: log, dims: [page, event, version, error_code], panel: true}
+orders:        {file: orders.csv, time: ts, kind: log, dims: [country, platform, category, payment_method], panel: true}
+users:         {file: users.csv, kind: static, dims: [country, home_platform, persona, membership], panel: true}
+
+timestamp_columns:
+  events: [deployed_at, first_exposure_at, ts, end]
+  calendar: [start, end, announced_at]
+  status_feed: [ts]
+  external_events: [ts, start, end]
+  support_ticket_samples: [ts]
+  sessions: [start_ts, end_ts]
+  clickstream: [ts]
+  orders: [ts]
+  pipeline_health: [ts, last_update]
+  sellers: [ts, last_feed_sync]
+  ads_advertisers: [ts, exhausted_at]

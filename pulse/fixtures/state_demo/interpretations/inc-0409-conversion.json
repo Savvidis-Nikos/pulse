@@ -1,0 +1,189 @@
+{
+  "interpretation_id": "inc-0409-conversion",
+  "incident_id": "inc-0409-conversion",
+  "kpi": "conversion_rate",
+  "snapshot_id": "conversion_rate-conversion_rate-2026112202",
+  "ts": "2026-11-22T02:00:00Z",
+  "headline": "Conversion dip is innocent: FR campaign brings extra first-time visitors",
+  "summary": "Conversion is 6% below normal only because traffic grew: the French spring campaign added 35% more visitors, many of them first-time. Orders are on plan and conversion outside France is normal, so no action is needed.",
+  "path": [
+    "conversion_rate",
+    "sessions",
+    "sessions|FR"
+  ],
+  "first_cause": {
+    "node": "sessions|FR",
+    "why": "French sessions +35% from the campaign, converting below average.",
+    "numbers": {
+      "deviation_pct": 35.1
+    }
+  },
+  "confidence": "hypothesis",
+  "symptoms": [
+    {
+      "node": "sessions",
+      "why": "Total traffic +6.8%.",
+      "numbers": {
+        "deviation_pct": 6.8
+      }
+    }
+  ],
+  "unusual": [
+    {
+      "node": "new_visitor_share",
+      "why": "New visitors 41% of sessions vs 29%.",
+      "numbers": {
+        "value": 0.41,
+        "expected": 0.29
+      }
+    }
+  ],
+  "missing_data": [],
+  "ruled_out": [
+    {
+      "node": "orders",
+      "why": "Orders on plan.",
+      "numbers": {
+        "deviation_pct": 0.3
+      }
+    },
+    {
+      "node": "payment_success_rate",
+      "why": "Payments normal.",
+      "numbers": {
+        "value": 0.93
+      }
+    },
+    {
+      "node": "conversion_rate|excl_FR",
+      "why": "Conversion outside France normal.",
+      "numbers": {
+        "deviation_pct": -0.3
+      }
+    }
+  ],
+  "new_connections": [],
+  "uncertainty": "We have no campaign calendar in the data; the campaign is inferred from FR paid spend.",
+  "watch_next": [
+    "orders per FR session once the campaign ends"
+  ],
+  "trace": [
+    {
+      "i": 1,
+      "action": "look",
+      "node": "conversion_rate",
+      "args": {},
+      "finding": "Conversion is 6% below baseline (2.93% vs 3.12%), but orders are on plan.",
+      "numbers": {
+        "deviation_pct": -6.1,
+        "orders_dev_pct": 0.3
+      },
+      "highlight_nodes": [
+        "conversion_rate",
+        "orders"
+      ],
+      "highlight_edges": [
+        [
+          "orders",
+          "conversion_rate"
+        ]
+      ]
+    },
+    {
+      "i": 2,
+      "action": "expand",
+      "node": "conversion_rate",
+      "args": {},
+      "finding": "The denominator moved: sessions +6.8% while orders are flat.",
+      "numbers": {
+        "sessions_dev_pct": 6.8
+      },
+      "highlight_nodes": [
+        "conversion_rate",
+        "sessions"
+      ],
+      "highlight_edges": [
+        [
+          "sessions",
+          "conversion_rate"
+        ]
+      ]
+    },
+    {
+      "i": 3,
+      "action": "breakdown",
+      "node": "sessions",
+      "args": {
+        "by": [
+          "country"
+        ]
+      },
+      "finding": "France brings all the extra traffic (+35%); conversion outside France is normal.",
+      "numbers": {
+        "FR_dev_pct": 35.1,
+        "conv_excl_FR_dev_pct": -0.3
+      },
+      "highlight_nodes": [
+        "sessions",
+        "sessions|FR",
+        "conversion_rate|excl_FR"
+      ],
+      "highlight_edges": [
+        [
+          "sessions|FR",
+          "sessions"
+        ]
+      ]
+    },
+    {
+      "i": 4,
+      "action": "detail",
+      "node": "marketing_cost",
+      "args": {},
+      "finding": "Paid media spend in FR is up 50% since 23:00 - the spring campaign - bringing many first-time visitors.",
+      "numbers": {
+        "marketing_cost_dev_pct": 50.3,
+        "new_visitor_share": 0.41
+      },
+      "highlight_nodes": [
+        "marketing_cost",
+        "new_visitor_share",
+        "sessions|FR"
+      ],
+      "highlight_edges": [
+        [
+          "marketing_cost",
+          "sessions|FR"
+        ]
+      ]
+    },
+    {
+      "i": 5,
+      "action": "conclude",
+      "node": "sessions|FR",
+      "args": {},
+      "finding": "Innocent: more, lower-intent visitors from the FR campaign dilute conversion; no shopper is lost.",
+      "numbers": {
+        "orders_dev_pct": 0.3
+      },
+      "highlight_nodes": [
+        "conversion_rate",
+        "sessions",
+        "sessions|FR"
+      ],
+      "highlight_edges": [
+        [
+          "sessions",
+          "conversion_rate"
+        ],
+        [
+          "sessions|FR",
+          "sessions"
+        ]
+      ]
+    }
+  ],
+  "model": "claude-sonnet (replay)",
+  "llm_mode": "replay",
+  "cost_usd": 0.22
+}

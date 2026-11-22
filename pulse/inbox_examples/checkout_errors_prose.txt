@@ -1,0 +1,2 @@
+We'd like to track the checkout error rate: how many checkout errors we get per checkout request on the checkout service.
+I think it should explain drops in the checkout rate. (No idea where this lives in the data, sorry!)

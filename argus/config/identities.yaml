@@ -1,0 +1,5 @@
+# Accounting identities between stored columns. They are not definitions (each side is measured separately),
+# so the graph validates them on the data (total + every slice) before using them as formula edges.
+- {name: ad_cost_split, lhs: ad_cost, rhs: "ad_revenue + marketing_cost", note: "Advertising cost = sponsored-products revenue + paid media"}
+- {name: ad_request_outcomes, lhs: ad_requests, rhs: "auction_impressions + no_fill_no_eligible + no_fill_budget + no_fill_below_floor + ad_timeouts", note: "Every ad request is served, unfilled for a reason, or timed out"}
+- {name: sponsored_revenue_match, lhs: ad_revenue, rhs: "auction_revenue", note: "Sponsored revenue booked on orders matches the auction ledger"}

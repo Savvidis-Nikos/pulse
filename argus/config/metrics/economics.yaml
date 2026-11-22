@@ -1,0 +1,23 @@
+# Unit economics. gmv is the paid order value; discounts, cost of goods and advertising cost come off it.
+# ad_cost = ad_revenue (sponsored products, paid by advertisers) + marketing_cost (paid media we buy).
+- {name: gmv, description: "Gross merchandise value of paid orders", type: simple, table: facts, column: gmv, alt_tables: [audience], unit: EUR, domain: economics, tier: north_star, polarity: up_is_good, min_volume: 2000}
+- {name: discounts, description: "Discounts granted on orders", type: simple, table: facts, column: discounts, unit: EUR, domain: economics, polarity: down_is_good, min_volume: 200}
+- {name: cogs, description: "Cost of goods sold", type: simple, table: facts, column: cogs, unit: EUR, domain: economics, watch: false}
+- {name: refunds, description: "Refunded orders", type: simple, table: facts, column: refunds, domain: economics, polarity: down_is_good, watch: false}
+- {name: chargebacks, description: "Card chargebacks", type: simple, table: facts, column: chargebacks, domain: economics, polarity: down_is_good, watch: false}
+- {name: gmv_3p, description: "GMV sold by third-party sellers", type: simple, table: facts, column: gmv_3p, unit: EUR, domain: economics, polarity: up_is_good, watch: false}
+- {name: marketplace_fees, description: "Commission earned from third-party sellers", type: simple, table: facts, column: marketplace_fees, unit: EUR, domain: economics, tier: outcome, polarity: up_is_good, min_volume: 300}
+- {name: ad_cost, description: "Advertising cost booked against orders (sponsored products + paid media)", type: simple, table: facts, column: ad_cost, unit: EUR, domain: ads, min_volume: 100}
+- {name: ad_revenue, description: "Sponsored-products revenue paid by advertisers", type: simple, table: facts, column: ad_revenue, unit: EUR, domain: ads, tier: outcome, polarity: up_is_good, min_volume: 100}
+- {name: marketing_cost, description: "Paid media spend that bought traffic", type: simple, table: facts, column: marketing_cost, unit: EUR, domain: economics, polarity: down_is_good, min_volume: 50}
+- {name: fulfilment_cost, description: "Cost of picking, packing and shipping orders", type: simple, table: facts, column: fulfilment_cost, unit: EUR, domain: economics, watch: false}
+- {name: payment_cost, description: "Payment processing fees", type: simple, table: facts, column: payment_cost, unit: EUR, domain: economics, watch: false}
+- {name: retail_gross_profit, description: "Gross profit of first-party retail sales", type: simple, table: facts, column: retail_gross_profit, unit: EUR, domain: economics, polarity: up_is_good, watch: false}
+- {name: aov, description: "Average order value", type: ratio, numerator: gmv, denominator: orders, unit: EUR, domain: economics, polarity: up_is_good, min_volume: 40}
+- {name: discount_share, description: "Discounts as a share of GMV", type: ratio, numerator: discounts, denominator: gmv, unit: ratio, domain: economics, polarity: down_is_good, min_volume: 2000}
+- {name: cogs_rate, description: "Cost of goods as a share of GMV", type: ratio, numerator: cogs, denominator: gmv, unit: ratio, domain: economics, polarity: down_is_good, min_volume: 2000}
+- {name: ad_cost_share, description: "Advertising cost per EUR of GMV", type: ratio, numerator: ad_cost, denominator: gmv, unit: ratio, domain: economics, polarity: down_is_good, min_volume: 2000}
+- {name: ad_cost_per_session, description: "Advertising cost per session", type: ratio, numerator: ad_cost, denominator: sessions, unit: EUR, domain: ads, min_volume: 300}
+- {name: contribution_margin, description: "GMV minus discounts, cost of goods and advertising cost", type: derived, expr: "gmv - discounts - cogs - ad_cost", unit: EUR, domain: economics, tier: north_star, polarity: up_is_good, min_volume: 500}
+- {name: margin_rate, description: "Contribution margin per EUR of GMV", type: ratio, numerator: contribution_margin, denominator: gmv, unit: ratio, domain: economics, tier: outcome, polarity: up_is_good, min_volume: 2000}
+- {name: take_rate, description: "Commission earned per EUR of third-party GMV", type: ratio, numerator: marketplace_fees, denominator: gmv_3p, unit: ratio, domain: economics, tier: outcome, polarity: up_is_good, min_volume: 1000}

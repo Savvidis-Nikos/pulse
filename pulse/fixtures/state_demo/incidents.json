@@ -1,0 +1,55 @@
+[
+  {
+    "id": "inc-0412-orders",
+    "kpi": "orders",
+    "state": "open",
+    "severity": "alert",
+    "opened_at": "2026-11-22T10:00:00Z",
+    "last_seen": "2026-11-22T11:00:00Z",
+    "resolved_at": null,
+    "ticks_seen": 2,
+    "headline": "Orders down 14%: card payments failing on Android in Germany since app 3.42",
+    "snapshot_id": "orders-orders-2026112211",
+    "interpretation_id": "inc-0412-orders",
+    "history": [
+      "10:00 orders -9% (watch)",
+      "11:00 orders -14% (alert), investigation started",
+      "11:02 first cause found: payment success DE / Android"
+    ]
+  },
+  {
+    "id": "inc-0409-conversion",
+    "kpi": "conversion_rate",
+    "state": "persisting",
+    "severity": "watch",
+    "opened_at": "2026-11-22T00:00:00Z",
+    "last_seen": "2026-11-22T11:00:00Z",
+    "resolved_at": null,
+    "ticks_seen": 11,
+    "headline": "Conversion -6%: innocent, FR campaign brings extra first-time visitors",
+    "snapshot_id": "conversion_rate-conversion_rate-2026112202",
+    "interpretation_id": "inc-0409-conversion",
+    "history": [
+      "00:00 conversion -5% (watch)",
+      "02:00 explained as FR campaign (hypothesis)",
+      "11:00 still -6%, unchanged explanation"
+    ]
+  },
+  {
+    "id": "inc-0398-gmv",
+    "kpi": "gmv",
+    "state": "resolved",
+    "severity": "alert",
+    "opened_at": "2026-11-21T13:00:00Z",
+    "last_seen": "2026-11-21T15:00:00Z",
+    "resolved_at": "2026-11-21T16:00:00Z",
+    "ticks_seen": 3,
+    "headline": "Revenue dip during a 2-hour search outage - recovered",
+    "snapshot_id": "gmv-gmv-2026112115",
+    "interpretation_id": null,
+    "history": [
+      "13:00 revenue -11%",
+      "15:00 back within band, resolved"
+    ]
+  }
+]

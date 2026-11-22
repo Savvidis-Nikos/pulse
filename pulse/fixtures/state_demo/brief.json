@@ -1,0 +1,65 @@
+{
+  "ts": "2026-11-22T11:00:00Z",
+  "headline": "One real problem: Android payments in Germany are failing since this morning's app release.",
+  "items": [
+    {
+      "kpi": "orders",
+      "label": "Successful orders / hour",
+      "severity": "alert",
+      "sentence": "Down 14%: Android users in Germany cannot pay since app 3.42 - about EUR 6.9k revenue lost per hour. Roll back or hotfix 3.42.",
+      "incident_id": "inc-0412-orders"
+    },
+    {
+      "kpi": "conversion_rate",
+      "label": "User conversion",
+      "severity": "watch",
+      "sentence": "Down 6%, but innocent: the French campaign brings many first-time visitors; orders are on plan.",
+      "incident_id": "inc-0409-conversion"
+    },
+    {
+      "kpi": "contribution_margin",
+      "label": "Contribution margin / hour",
+      "severity": "data_issue",
+      "sentence": "Not reliable right now: the cost-of-goods feed is only 55% complete.",
+      "incident_id": null
+    },
+    {
+      "kpi": "gmv",
+      "label": "Revenue / hour",
+      "severity": "ok",
+      "sentence": "Slightly below normal (-3%) because of the payment issue, still within the band.",
+      "incident_id": null
+    },
+    {
+      "kpi": "sessions",
+      "label": "Traffic (sessions / hour)",
+      "severity": "ok",
+      "sentence": "Up 4% thanks to the French campaign.",
+      "incident_id": null
+    },
+    {
+      "kpi": "aov",
+      "label": "Average basket",
+      "severity": "ok",
+      "sentence": "Stable at about EUR 51.",
+      "incident_id": null
+    },
+    {
+      "kpi": "in_stock_rate",
+      "label": "Product availability",
+      "severity": "ok",
+      "sentence": "Normal at 95%.",
+      "incident_id": null
+    },
+    {
+      "kpi": "service_error_rate",
+      "label": "Site error rate",
+      "severity": "ok",
+      "sentence": "Normal - the platform is healthy.",
+      "incident_id": null
+    }
+  ],
+  "text": "Good morning. One issue needs action: since app release 3.42 went out at 09:00, Android users in Germany fail to pay 4 times in 10, which costs about 133 orders and EUR 6.9k revenue per hour. Everything else is either healthy or explained: conversion looks lower only because the French campaign brings extra visitors, and margin is temporarily unmeasurable because the cost feed is incomplete.",
+  "model": "claude-opus (replay)",
+  "llm_mode": "replay"
+}

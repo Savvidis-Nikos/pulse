@@ -1,0 +1,50 @@
+[
+ {
+  "lhs": "revenue_per_session",
+  "kind": "product",
+  "parts": [
+   [
+    "aov",
+    1.0
+   ],
+   [
+    "conversion_rate",
+    1.0
+   ]
+  ],
+  "text": "revenue_per_session = aov x conversion_rate",
+  "how": "symbolic"
+ },
+ {
+  "lhs": "ad_cost_per_session",
+  "kind": "product",
+  "parts": [
+   [
+    "revenue_per_session",
+    1.0
+   ],
+   [
+    "ad_cost_share",
+    1.0
+   ]
+  ],
+  "text": "ad_cost_per_session = revenue_per_session x ad_cost_share",
+  "how": "symbolic"
+ },
+ {
+  "lhs": "undelivered_share",
+  "kind": "sum",
+  "parts": [
+   [
+    "1",
+    1.0
+   ],
+   [
+    "delivery_fill_rate",
+    -1.0
+   ]
+  ],
+  "text": "undelivered_share = 1 - delivery_fill_rate",
+  "how": "numeric (total and all hours)"
+ }
+]

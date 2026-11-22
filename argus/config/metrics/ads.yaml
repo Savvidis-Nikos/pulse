@@ -1,0 +1,26 @@
+# Sponsored products: the ad marketplace (auctions per category; advertisers with budgets and a pacer).
+# ad_requests = impressions + no_fill_no_eligible + no_fill_budget_exhausted + no_fill_below_floor + timeouts (exact).
+- {name: ad_requests, description: "Sponsored-slot ad requests", type: simple, table: ads_auctions, column: ad_requests, domain: ads, watch: false}
+- {name: auction_impressions, description: "Sponsored ads served", type: simple, table: ads_auctions, column: impressions, domain: ads, polarity: up_is_good, watch: false}
+- {name: no_fill_no_eligible, description: "Ad requests with no eligible ad", type: simple, table: ads_auctions, column: no_fill_no_eligible, domain: ads, watch: false}
+- {name: no_fill_budget, description: "Ad requests not filled because advertiser budgets were exhausted", type: simple, table: ads_auctions, column: no_fill_budget_exhausted, domain: ads, watch: false}
+- {name: no_fill_below_floor, description: "Ad requests whose bids were below the floor price", type: simple, table: ads_auctions, column: no_fill_below_floor, domain: ads, watch: false}
+- {name: ad_timeouts, description: "Ad requests that timed out", type: simple, table: ads_auctions, column: timeouts, domain: ads, watch: false}
+- {name: ad_clicks, description: "Clicks on sponsored ads", type: simple, table: ads_auctions, column: clicks, domain: ads, polarity: up_is_good, watch: false}
+- {name: auction_revenue, description: "Revenue cleared in the sponsored auctions", type: simple, table: ads_auctions, column: ad_revenue, unit: EUR, domain: ads, polarity: up_is_good, watch: false}
+- {name: fill_rate, description: "Share of ad requests that served an ad", type: ratio, numerator: auction_impressions, denominator: ad_requests, unit: ratio, domain: ads, polarity: up_is_good, min_volume: 500}
+- {name: ad_ctr, description: "Clicks per sponsored impression", type: ratio, numerator: ad_clicks, denominator: auction_impressions, unit: ratio, domain: ads, polarity: up_is_good, min_volume: 500}
+- {name: avg_cpc, description: "Average price per sponsored click", type: ratio, numerator: auction_revenue, denominator: ad_clicks, unit: EUR, domain: ads, polarity: up_is_good, min_volume: 50}
+- {name: ad_rpm, description: "Ad revenue per thousand ad requests", type: derived, expr: "1000 * auction_revenue / ad_requests", unit: EUR, domain: ads, polarity: up_is_good, min_volume: 500}
+- {name: budget_exhausted_share, description: "Share of ad requests lost because advertiser budgets ran out", type: ratio, numerator: no_fill_budget, denominator: ad_requests, unit: ratio, domain: ads, polarity: down_is_good, min_volume: 500}
+- {name: below_floor_share, description: "Share of ad requests lost to the floor price", type: ratio, numerator: no_fill_below_floor, denominator: ad_requests, unit: ratio, domain: ads, polarity: down_is_good, min_volume: 500, watch: false}
+- {name: advertiser_spend, description: "Advertiser spend in the hour", type: simple, table: ads_advertisers, column: spend, unit: EUR, domain: ads, min_volume: 50}
+- {name: spent_today, description: "Advertiser spend so far today", type: simple, table: ads_advertisers, column: spent_today, unit: EUR, domain: ads, time_agg: last, watch: false}
+- {name: expected_spent_today, description: "Spend the pacing schedule expects by this hour", type: simple, table: ads_advertisers, column: expected_spent_today, unit: EUR, domain: ads, time_agg: last, watch: false}
+- {name: pacing_index, description: "Spend so far today vs the pacing schedule (1 = on schedule)", type: ratio, numerator: spent_today, denominator: expected_spent_today, unit: ratio, domain: ads, time_agg: last, window_h: 1, min_volume: 50}
+- {name: daily_budget, description: "Advertiser daily budgets", type: simple, table: ads_advertisers, column: daily_budget, unit: EUR, domain: ads, time_agg: mean, watch: false}
+- {name: advertiser_clicks, description: "Clicks billed to advertisers", type: simple, table: ads_advertisers, column: clicks, domain: ads, watch: false}
+- {name: invalid_clicks, description: "Clicks classified as invalid", type: simple, table: ads_advertisers, column: invalid_clicks, domain: ads, tier: health, polarity: down_is_good, min_volume: 20}
+- {name: invalid_click_rate, description: "Share of billed clicks that were invalid", type: ratio, numerator: invalid_clicks, denominator: advertiser_clicks, unit: ratio, domain: ads, tier: health, polarity: down_is_good, min_volume: 100}
+- {name: attributed_sales, description: "Sales attributed to sponsored clicks", type: simple, table: ads_advertisers, column: attributed_sales, unit: EUR, domain: ads, watch: false}
+- {name: roas, description: "Attributed sales per EUR of advertiser spend", type: ratio, numerator: attributed_sales, denominator: advertiser_spend, unit: ratio, domain: ads, polarity: up_is_good, min_volume: 100}

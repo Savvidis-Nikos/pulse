@@ -1,0 +1,62 @@
+[
+ {
+  "cause": "roas",
+  "effect": "revenue_per_session",
+  "sign": 1,
+  "lag_h": 0,
+  "join": [
+   "category"
+  ],
+  "mechanism": "learned from lagged residual correlation",
+  "status": "ambiguous",
+  "origin": "cartographer:revenue_per_session",
+  "data_corr": 0.813
+ },
+ {
+  "cause": "discounts",
+  "effect": "revenue_per_session",
+  "sign": 1,
+  "lag_h": 0,
+  "join": [
+   "category",
+   "country",
+   "platform"
+  ],
+  "mechanism": "learned from lagged residual correlation",
+  "status": "ambiguous",
+  "origin": "cartographer:revenue_per_session",
+  "data_corr": 0.674
+ },
+ {
+  "cause": "marketplace_fees",
+  "effect": "revenue_per_session",
+  "sign": 1,
+  "lag_h": 0,
+  "join": [
+   "category",
+   "country",
+   "platform"
+  ],
+  "mechanism": "learned from lagged residual correlation",
+  "status": "ambiguous",
+  "origin": "cartographer:revenue_per_session",
+  "data_corr": 0.621
+ },
+ {
+  "cause": "orders",
+  "effect": "revenue_per_session",
+  "sign": 1,
+  "lag_h": 0,
+  "join": [
+   "browser",
+   "category",
+   "country",
+   "platform",
+   "user_type"
+  ],
+  "mechanism": "learned from lagged residual correlation",
+  "status": "ambiguous",
+  "origin": "cartographer:revenue_per_session",
+  "data_corr": 0.616
+ }
+]

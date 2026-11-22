@@ -1,0 +1,347 @@
+{
+  "interpretation_id": "inc-0412-orders",
+  "incident_id": "inc-0412-orders",
+  "kpi": "orders",
+  "snapshot_id": "orders-orders-2026112211",
+  "ts": "2026-11-22T11:00:00Z",
+  "headline": "Orders down 14%: card payments failing on Android in Germany since app 3.42",
+  "summary": "Successful orders are 14% below normal (812 vs 945 per hour). Traffic is fine; the loss sits entirely in payments, where Android users in Germany now succeed only 58% of the time instead of 93%. The drop started at 09:00, the hour app release 3.42 reached Germany, and shows up as authorisation timeouts. It costs about 133 orders and EUR 6.9k revenue per hour.",
+  "path": [
+    "orders",
+    "payment_success_rate",
+    "payment_success_rate|DE·android"
+  ],
+  "first_cause": {
+    "node": "payment_success_rate|DE·android",
+    "why": "Payment success for DE / Android dropped from 93% to 58% at 09:00, explaining 91% of the order drop; all other segments are normal.",
+    "numbers": {
+      "value": 0.581,
+      "expected": 0.931,
+      "explained_pct": 91
+    }
+  },
+  "confidence": "supported",
+  "symptoms": [
+    {
+      "node": "gmv",
+      "why": "Revenue follows orders: -14% with an unchanged basket.",
+      "numbers": {
+        "deviation_pct": -14.1,
+        "aov_dev_pct": 0.0
+      }
+    },
+    {
+      "node": "auth_failure_rate",
+      "why": "Failed authorisations are the payment failures, seen from the provider side.",
+      "numbers": {
+        "value": 0.178,
+        "expected": 0.061
+      }
+    },
+    {
+      "node": "conversion_rate",
+      "why": "Conversion falls because payments fail, not because shoppers changed behaviour.",
+      "numbers": {
+        "deviation_pct": -17.3
+      }
+    }
+  ],
+  "unusual": [
+    {
+      "node": "auth_timeout_rate",
+      "why": "Timeouts jumped from 0.4% to 31% on DE / Android.",
+      "numbers": {
+        "value": 0.312,
+        "expected": 0.004
+      }
+    },
+    {
+      "node": "comp:android_app_3.42",
+      "why": "Release 3.42 rolled out to 71% of German Android users at 09:00.",
+      "numbers": {
+        "rollout_share_DE": 0.71
+      }
+    }
+  ],
+  "missing_data": [
+    {
+      "node": "in_stock_rate",
+      "why": "Inventory snapshot did not arrive; cart rate is flat so availability cannot explain the drop.",
+      "numbers": {
+        "completeness": 0.0
+      }
+    },
+    {
+      "node": "cogs",
+      "why": "Cost feed 55% complete: margin impact cannot be computed yet.",
+      "numbers": {
+        "completeness": 0.55
+      }
+    }
+  ],
+  "ruled_out": [
+    {
+      "node": "sessions",
+      "why": "Traffic is up 3.9% (FR campaign).",
+      "numbers": {
+        "deviation_pct": 3.9
+      }
+    },
+    {
+      "node": "checkout_rate",
+      "why": "Checkout starts per cart are flat.",
+      "numbers": {
+        "deviation_pct": -0.7
+      }
+    },
+    {
+      "node": "crash_rate",
+      "why": "Crash rate is normal at 0.81%.",
+      "numbers": {
+        "value": 0.0081
+      }
+    },
+    {
+      "node": "service_error_rate",
+      "why": "Backend error rate is normal at 0.42%.",
+      "numbers": {
+        "value": 0.0042
+      }
+    },
+    {
+      "node": "aov",
+      "why": "Basket value unchanged.",
+      "numbers": {
+        "deviation_pct": 0.0
+      }
+    }
+  ],
+  "new_connections": [
+    {
+      "source": "comp:android_app_3.42",
+      "target": "payment_success_rate|DE·android",
+      "kind": "proposed",
+      "status": "proposed",
+      "op": null,
+      "sign": -1,
+      "lag_h": 0,
+      "strength": 0.94,
+      "contribution_pct": null,
+      "label": "release 3.42 → DE/android payment success",
+      "added_by": "interpreter"
+    }
+  ],
+  "uncertainty": "We see the timing match and the timeouts, but not the app code: the release is the most likely trigger, a provider change for Android in DE at the same hour would look the same.",
+  "watch_next": [
+    "DE / Android payment success after a 3.42 rollback or hotfix",
+    "auth_timeout_rate by payment provider",
+    "in_stock_rate once the inventory snapshot arrives"
+  ],
+  "trace": [
+    {
+      "i": 1,
+      "action": "look",
+      "node": "orders",
+      "args": {},
+      "finding": "Orders are 14% below the seasonal baseline (812 vs 945 per hour), z = -4.1.",
+      "numbers": {
+        "value": 812,
+        "expected": 945,
+        "deviation_pct": -14.1,
+        "z": -4.1
+      },
+      "highlight_nodes": [
+        "orders"
+      ],
+      "highlight_edges": []
+    },
+    {
+      "i": 2,
+      "action": "expand",
+      "node": "orders",
+      "args": {},
+      "finding": "orders = sessions × conversion: traffic is up 3.9%, so the whole drop sits in conversion.",
+      "numbers": {
+        "sessions_dev_pct": 3.9,
+        "conversion_dev_pct": -17.3,
+        "conversion_share_pct": 128
+      },
+      "highlight_nodes": [
+        "orders",
+        "sessions",
+        "conversion_rate"
+      ],
+      "highlight_edges": [
+        [
+          "sessions",
+          "orders"
+        ],
+        [
+          "conversion_rate",
+          "orders"
+        ]
+      ]
+    },
+    {
+      "i": 3,
+      "action": "detail",
+      "node": "conversion_rate",
+      "args": {},
+      "finding": "Walking the funnel: views, cart, checkout and attempt rates are flat; payment success fell from 93.4% to 81.0%.",
+      "numbers": {
+        "product_view_rate": -1.2,
+        "cart_rate": -1.2,
+        "checkout_rate": -0.7,
+        "payment_attempt_rate": -0.3,
+        "payment_success_rate": -13.3
+      },
+      "highlight_nodes": [
+        "conversion_rate",
+        "product_view_rate",
+        "cart_rate",
+        "checkout_rate",
+        "payment_attempt_rate",
+        "payment_success_rate"
+      ],
+      "highlight_edges": [
+        [
+          "payment_success_rate",
+          "conversion_rate"
+        ]
+      ]
+    },
+    {
+      "i": 4,
+      "action": "rule_out",
+      "node": "crash_rate",
+      "args": {},
+      "finding": "App crashes (0.81%) and backend errors (0.42%) are normal, so the app and the platform are not breaking checkout.",
+      "numbers": {
+        "crash_rate": 0.0081,
+        "crash_expected": 0.0079,
+        "service_error_rate": 0.0042
+      },
+      "highlight_nodes": [
+        "crash_rate",
+        "service_error_rate",
+        "payment_attempt_rate"
+      ],
+      "highlight_edges": [
+        [
+          "crash_rate",
+          "payment_attempt_rate"
+        ],
+        [
+          "service_error_rate",
+          "payment_success_rate"
+        ]
+      ]
+    },
+    {
+      "i": 5,
+      "action": "breakdown",
+      "node": "payment_success_rate",
+      "args": {
+        "by": [
+          "country",
+          "platform"
+        ]
+      },
+      "finding": "By country × platform: DE / Android collapsed to 58% (expected 93%); every other segment is within ±1.5%. DE / Android explains 91% of the drop.",
+      "numbers": {
+        "DE_android": 0.581,
+        "DE_android_expected": 0.931,
+        "explained_pct": 91,
+        "other_segments_max_dev_pct": 1.5
+      },
+      "highlight_nodes": [
+        "payment_success_rate",
+        "payment_success_rate|DE·android"
+      ],
+      "highlight_edges": [
+        [
+          "payment_success_rate|DE·android",
+          "payment_success_rate"
+        ]
+      ]
+    },
+    {
+      "i": 6,
+      "action": "detail",
+      "node": "auth_failure_rate",
+      "args": {},
+      "finding": "Auth failures tripled (17.8% vs 6.1%), almost all timeouts (31% of DE / Android authorisations) - a metric the Graph Handler just added from raw auth logs.",
+      "numbers": {
+        "auth_failure_rate": 0.178,
+        "expected": 0.061,
+        "auth_timeout_rate": 0.312
+      },
+      "highlight_nodes": [
+        "auth_failure_rate",
+        "auth_timeout_rate",
+        "payment_success_rate"
+      ],
+      "highlight_edges": [
+        [
+          "auth_failure_rate",
+          "payment_success_rate"
+        ],
+        [
+          "auth_timeout_rate",
+          "auth_failure_rate"
+        ]
+      ]
+    },
+    {
+      "i": 7,
+      "action": "propose_edge",
+      "node": "comp:android_app_3.42",
+      "args": {},
+      "finding": "Android app 3.42 reached German users at 09:00 and the drop starts the same hour; proposed a new edge release → DE / Android payment success.",
+      "numbers": {
+        "lag_h": 0,
+        "correlation": 0.94,
+        "rollout_share_DE": 0.71
+      },
+      "highlight_nodes": [
+        "comp:android_app_3.42",
+        "payment_success_rate|DE·android"
+      ],
+      "highlight_edges": [
+        [
+          "comp:android_app_3.42",
+          "payment_success_rate|DE·android"
+        ]
+      ]
+    },
+    {
+      "i": 8,
+      "action": "conclude",
+      "node": "payment_success_rate|DE·android",
+      "args": {},
+      "finding": "First cause: payment success for Android users in Germany since the 3.42 release. Revenue and auth failures are symptoms. In-stock data is missing but cart rate is flat, so it cannot explain the drop.",
+      "numbers": {
+        "orders_lost_per_h": 133,
+        "revenue_lost_per_h_eur": 6850
+      },
+      "highlight_nodes": [
+        "orders",
+        "payment_success_rate",
+        "payment_success_rate|DE·android"
+      ],
+      "highlight_edges": [
+        [
+          "payment_success_rate",
+          "orders"
+        ],
+        [
+          "payment_success_rate|DE·android",
+          "payment_success_rate"
+        ]
+      ]
+    }
+  ],
+  "model": "claude-sonnet (replay)",
+  "llm_mode": "replay",
+  "cost_usd": 0.41
+}
