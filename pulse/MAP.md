@@ -81,7 +81,7 @@ first cause vs symptoms with supported/hypothesis; new metric placed + validated
 graph changes, incidents and orchestrator follow-ups persist across restarts; cost caps; replay cassettes.
 Also proven (scorecard): DE search fault during the FR campaign is caught (competing segment) and attributed to
 search-ranker 2.3; stockout escalates by slow-drift rule (12 h) and is attributed to the delayed Voltix delivery.
-Proven LIVE (22 Nov 2026, real API): all three agents; demo window 40 ticks ~$0.40 (Opus briefs are the main cost),
+Proven LIVE (22 Nov 2026, real API): all three agents; demo window 40 ticks ~$0.40-0.50 (Opus briefs are the main cost),
 same story as mock, live interpreter names GiroLokal / Android / DE and rates it hypothesis; replay of the recorded
 cassettes in a fresh state dir reproduces it for $0.
 NOT yet proven: 15-min cadence is pitch (data is hourly); faults that only move one segment and never the total KPI
