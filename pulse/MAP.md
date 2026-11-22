@@ -20,9 +20,11 @@ Never run `python -m marketplace.*` while others work: it rewrites `data/eye/`.
    (FR campaign) is NOT accepted when another segment is just as far off -> competing cause stays an alert)
 3. `incidents.IncidentBook.update` -> open / persisting / escalated / resolved (no re-reporting); a metric the CEO
    untracked -> its open incidents closed as "no longer tracked" (Incident.closed_reason, nothing written to memory)
-4. investigate (new, escalated, every 6 ticks, follow_up; max 3/tick) -> `interpreter.interpret(w, kpi, incident_id=)`
+4. investigate (new, escalated, every 6 ticks, follow_up held until the last investigation is PULSE_FOLLOW_UP_GAP=3
+   ticks old; max 3/tick) -> `interpreter.interpret(w, kpi, incident_id=)`
 5. on resolve -> `memory.remember` (case written to memory.jsonl); on investigate -> `memory.recall` (hypotheses only)
-6. brief: ONE orchestrator LLM call only on material change, else `brief.template_brief` (no LLM)
+6. brief: ONE orchestrator LLM call only on material change, else `brief.template_brief` (no LLM); the agent's
+   headline is kept on later ticks only while every KPI keeps its severity
 
 ## Modules (lines) -> public API
 | file | role | API |
@@ -42,30 +44,36 @@ Never run `python -m marketplace.*` while others work: it rewrites `data/eye/`.
 | evaluate.py (108) | scorecard vs simulator ground truth (throwaway state) | `python -m pulse.evaluate [--start --end --json]` |
 | dashboard/layout.py, encoding.py | pure helpers used by the web UI | solar_layout; node_style, edge_style, LEGEND, trace_frames, style_snapshot |
 | dashboard/make_fixtures.py | ONLY fixture source -> pulse/fixtures/state_demo | write_all, simulate |
-| web/server.py + web/static/js/{app,orrery,format,spark,api}.js | the ONLY demo UI (stdlib server; reads state, writes: POST /api/refresh runs `pulse tick --next`, preceded by `marketplace.live tick --hours 1` when data/eye/live.json exists and Pulse is at its last hour; POST /api/choices {action: pin/untrack/restore, metric} saves the choice and runs `pulse recheck` on the state on screen (GET /api/overview `choices`: pinned, untracked, labels); both off (403) with --demo; pin bar on graph pages = app.js `enablePinning()`, Untrack in a briefing row's detail, Restore in the background metrics line; briefing shows the tick log through app.js `activity()`, a plain-English rewrite of the orchestrator's log lines; graph legend lists only the tokens the current snapshot draws) | serve; pages Briefing / Investigations / Metric graph |
-| web/console.py | event console on the Investigations page: a live simulated market in data/live/ with its own state .pulse_live/ (never data/eye/ or the recorded run); one job at a time in a worker thread; simulator kept in memory, Pulse via `pulse replay` subprocess; log in .pulse_live/console.jsonl; CATALOG = offered scenarios | Console(root): status, act({action: source/start/inject/run}), run_sync, state_dir; GET/POST /api/console |
+| web/server.py + web/static/js/{app,orrery,format,spark,api}.js | the ONLY demo UI (stdlib server; reads state, writes: POST /api/refresh runs `pulse tick --next`, preceded by `marketplace.live tick --hours 1` when data/eye/live.json exists and Pulse is at its last hour; POST /api/choices {action: pin/untrack/restore, metric} saves the choice and runs `pulse recheck` on the state on screen (GET /api/overview `choices`: pinned, untracked, labels; `watch` = watch.json heartbeat, `server_time`); both off (403) with --demo; pin bar on graph pages = app.js `enablePinning()`, Untrack in a briefing row's detail, Restore in the background metrics line; the event console shows the check log through app.js `activity()`, a plain-English rewrite of the orchestrator's log lines; the Metric graph page's legend lists only the tokens the current snapshot draws) | serve; pages Briefing / Investigations / Metric graph |
+| web/console.py | event console on the Investigations page: a live simulated market in data/live/ with its own state .pulse_live/ (never data/eye/ or the recorded run); one job at a time in a worker thread; simulator kept in memory, Pulse via `pulse replay` subprocess with PULSE_LLM = the console's agents mode (live/replay/mock, starts as the server's) and PULSE_STREAM_LOG=1 (orchestrator `_Log` prints each decision "      - " and agent progress "      ~ " as it happens, incl. every investigator step via interpret on_step; parsed into kinds checking/step/note/check); log in .pulse_live/console.jsonl; CATALOG = offered scenarios; after each inject/run every injected scenario is scored with evaluate.score against marketplace.live.build's truth (status `results`, `session.injected[]` carries the truth). UI (app.js): pipeline strip (`conPipeline`), log grouped per market hour (`conGroups`: the monitor's decisions in one line, `monitorSummary`; one line per investigation + its logical steps, `logicalSteps`), scenario cards (`conScenario`), `followAgents` opens the investigation the agent works on after +N h (running = grows live; the investigation graph has no step player or legend, it shows the last frame with only the highlighted metrics labelled); briefing marks what the last check changed (`changesAt`) | Console(root): status, act({action: source/agents/start/inject/run}), run_sync, state_dir; GET/POST /api/console |
 
 Design rules (keep): statistics decide *whether*, the graph decides *where*, the LLM chooses next step and
 narrates; code (not the LLM) accepts/rejects graph edges; every LLM agent has a deterministic mock policy;
 UI reads only state files.
 
 ## State dir (`$PULSE_STATE`, default `.pulse/`, git-ignored)
-state.json, incidents.json, incidents_meta.json, orchestrator.json, brief.json, memory.jsonl,
+state.json, incidents.json, incidents_meta.json, orchestrator.json, brief.json, memory.jsonl, watch.json (heartbeat of
+`pulse watch`: pid, checking, next_check, errors, last_error, stopped, recent checks),
 snapshots/<kpi>-<center>-<YYYYmmddHH>.json, interpretations/<incident_id>.json (+ .partial.json while running),
 graph_changes.jsonl (re-applied on every load = graph survives restarts), inbox/, spend.json, llm_log.jsonl, cassettes/.
 
 ## Run
-- loop: `.venv/Scripts/python.exe -m pulse tick [--at TS | --next] | replay --start TS --end TS | watch | recheck | status | spend | reset [--all]`
+- loop: `.venv/Scripts/python.exe -m pulse tick [--at TS | --next] | replay --start TS --end TS | watch [--interval-s S]
+  [--start TS] | recheck | status | spend | reset [--all]`; watch = the always-on loop (a failing check is logged and
+  retried with back-off, one watcher per state dir, stops at the end of the data); the UI top bar shows it live
+  (app.js `loopState`). Briefing = status counts, the agent's short summary, the metrics table and
+  an Issues card; a row's detail = the problem in 1-2 sentences (`gist`) + one conclusion line (`kpiConclusion`,
+  overview interpretations[].cause = first_cause.node)
 - demo window: `replay --start "2026-11-17 12:00" --end "2026-11-19 03:00"` (payment fault DE/android 11-17 15:00,
   resolves 11-18 05:00; inventory data_issue 11-18 00-07; FR campaign = innocent from 11-18 18:00).
   Data-issue window: 11-21 20:00-23:00. Drop `pulse/inbox_examples/*` into the inbox for the new-metric moment.
 - UI: `.venv/Scripts/python.exe -m pulse.web --state .pulse | --demo | --demo-live` -> http://127.0.0.1:8765
-- tests: `.venv/Scripts/python.exe -m pytest tests/pulse -q` (58 pass, ~60 s, mostly world load; the live LLM path is
+- tests: `.venv/Scripts/python.exe -m pytest tests/pulse -q` (63 pass, ~40 s, mostly world load; the live LLM path is
   covered offline by tests/pulse/test_llm_live_stub.py with a fake client returning real SDK message objects)
 - scorecard: `.venv/Scripts/python.exe -m pulse.evaluate` (~90 s, 11-08..11-21, mock): faults detected 8/14, root-cause
   change named 6/11, segment named 6/12, innocent changes alerted 0/6, data issues seen 2/2, false alarms 0
 - env: PULSE_LLM=mock(default)|replay|live, PULSE_RUN_CAP_USD=0.60, PULSE_TOTAL_CAP_USD=12, PULSE_MODEL_<ROLE>,
-  PULSE_INBOX, PULSE_DATA, PULSE_CHOICES, PULSE_REINVESTIGATE_EVERY, PULSE_MAX_INVESTIGATIONS. Key in `.env` (ANTHROPIC_API_KEY).
+  PULSE_INBOX, PULSE_DATA, PULSE_CHOICES, PULSE_REINVESTIGATE_EVERY, PULSE_MAX_INVESTIGATIONS, PULSE_FOLLOW_UP_GAP, PULSE_STREAM_LOG (set by the console). Key in `.env` (ANTHROPIC_API_KEY).
 
 ## Claims: proven vs not (do not oversell, do not build beyond this without asking the user)
 Proven offline (mock, real data): autonomous loop; seasonality/completeness/planned events; no re-reporting;
@@ -73,8 +81,10 @@ first cause vs symptoms with supported/hypothesis; new metric placed + validated
 graph changes, incidents and orchestrator follow-ups persist across restarts; cost caps; replay cassettes.
 Also proven (scorecard): DE search fault during the FR campaign is caught (competing segment) and attributed to
 search-ranker 2.3; stockout escalates by slow-drift rule (12 h) and is attributed to the delayed Voltix delivery.
-NOT yet proven: any LIVE LLM run (request shape verified offline against SDK 2.12 types only); 15-min cadence is
-pitch (data is hourly); faults that only move one segment and never the total KPI are missed (6/14: margin squeeze
-NL, PSP outage NL 2 h, grocery feed drift, price increase, competitor promo, Safari checkout) - would need
+Proven LIVE (22 Nov 2026, real API): all three agents; demo window 40 ticks ~$0.40 (Opus briefs are the main cost),
+same story as mock, live interpreter names GiroLokal / Android / DE and rates it hypothesis; replay of the recorded
+cassettes in a fresh state dir reproduces it for $0.
+NOT yet proven: 15-min cadence is pitch (data is hourly); faults that only move one segment and never the total KPI
+are missed (6/14: margin squeeze NL, PSP outage NL 2 h, grocery feed drift, price increase, competitor promo, Safari checkout) - would need
 segment-level detection; click fraud is pinned on a decoy release (hypothesis, not supported); "self-improvement"
 = graph extension + case memory + offline scorecard loop (no learned thresholds).

@@ -11,7 +11,7 @@ When the live simulator owns data/eye (data/eye/live.json) and Pulse has already
 first asks the simulator for one more hour (`python -m marketplace.live tick`), so every click brings new data.
 A static dataset (no live.json) is never rewritten.
 The event console (pulse/web/console.py) runs a separate live market in data/live/ with its own state .pulse_live/:
-GET /api/console is its status and log, POST /api/console {action: source|start|inject|run} drives it. While the UI
+GET /api/console is its status and log, POST /api/console {action: source|agents|start|inject|run} drives it. While the UI
 shows the live market, every endpoint reads .pulse_live/ and Refresh runs the market one hour.
 The CEO's choices (pulse/choices.py, choices.json at the repo root, shared by the recorded run and the live market):
 GET /api/overview includes them; POST /api/choices {action: pin|untrack|restore, metric} saves one and runs
@@ -25,6 +25,7 @@ import re
 import subprocess
 import sys
 import threading
+import time
 from datetime import datetime, timedelta
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -158,6 +159,7 @@ def overview(state: Path) -> dict:
                             "incident_id": d.get("incident_id") or iid, "kpi": d.get("kpi"),
                             "snapshot_id": d.get("snapshot_id"), "headline": d.get("headline"),
                             "summary": d.get("summary"), "confidence": d.get("confidence"),
+                            "cause": (d.get("first_cause") or {}).get("node"),
                             "steps": len(d.get("trace") or [])})
     mt = [p.stat().st_mtime for p in state.rglob("*") if p.is_file()] if state.exists() else []
     if CH.path().exists():
@@ -169,6 +171,8 @@ def overview(state: Path) -> dict:
         "tick": _read_json(state / "state.json"),
         "incidents": _read_json(state / "incidents.json") or [],
         "brief": _read_json(state / "brief.json"),
+        "watch": _read_json(state / "watch.json"),      # heartbeat of `pulse watch`, None when it never ran here
+        "server_time": time.time(),
         "spend": _read_json(state / "spend.json") or {"usd": 0},
         "changes": _read_jsonl(state / "graph_changes.jsonl"),
         "snapshots": snaps,

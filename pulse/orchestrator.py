@@ -6,7 +6,8 @@
 Cost discipline: the Opus brief runs at most once per tick and only when something changed (new / escalated /
 resolved incident, a KPI changed severity, a fresh investigation). All-ok ticks get a template brief; unchanged
 non-ok ticks keep the last brief. Investigations: new incident, escalation, every K ticks while persisting,
-or a follow-up the previous brief asked for; at most PULSE_MAX_INVESTIGATIONS per tick, only new incidents when
+or a follow-up the previous brief asked for (held until the incident's last investigation is
+PULSE_FOLLOW_UP_GAP ticks old, so a persisting incident is not re-investigated every hour); at most PULSE_MAX_INVESTIGATIONS per tick, only new incidents when
 the LLM budget is nearly spent. Every decision is written to TickState.log in plain English.
 
 The KPI set is kpis.yaml adjusted by the CEO's choices (pulse.choices): pinned metrics are monitored like the KPIs,
@@ -33,6 +34,7 @@ from pulse.monitor import (SEG_BUDGET, Evaluation, evaluate_ex, evaluate_segment
 
 REINVESTIGATE_EVERY = int(os.environ.get("PULSE_REINVESTIGATE_EVERY", "6"))
 MAX_INVESTIGATIONS = int(os.environ.get("PULSE_MAX_INVESTIGATIONS", "3"))
+FOLLOW_UP_GAP = int(os.environ.get("PULSE_FOLLOW_UP_GAP", "3"))
 PRIORITY = {"new incident": 0, "escalated": 1, "follow-up requested by the last brief": 2, "periodic re-check": 3,
             "not investigated yet": 3}
 
@@ -127,6 +129,38 @@ def _events_at(book: IncidentBook, ts: str) -> dict[str, tuple[str, Incident]]:
 
 # ---------------------------------------------------------------- investigations
 
+class _Log(list):
+    """The tick's decision log. With PULSE_STREAM_LOG=1 (the event console) every line is also printed the moment it
+    is decided ("      - "), and note() prints progress that is not part of the log ("      ~ "), such as each step
+    of a running investigation, so the console can show the agents at work."""
+
+    def __init__(self):
+        super().__init__()
+        self.stream = os.environ.get("PULSE_STREAM_LOG") == "1"
+
+    def append(self, line):
+        super().append(line)
+        if self.stream:
+            print(f"      - {line}", flush=True)
+
+    def extend(self, lines):
+        for line in lines:
+            self.append(line)
+
+    def __iadd__(self, lines):
+        self.extend(lines)
+        return self
+
+    def note(self, line: str) -> None:
+        if self.stream:
+            print(f"      ~ {line}", flush=True)
+
+
+def _note(log, line: str) -> None:
+    if isinstance(log, _Log):
+        log.note(line)
+
+
 def _investigate(w, inc: Incident, reason: str, mem: OrchMemory, book: IncidentBook, ts: str,
                  log: list[str]) -> Interpretation | None:
     try:
@@ -136,7 +170,9 @@ def _investigate(w, inc: Incident, reason: str, mem: OrchMemory, book: IncidentB
         return None
     t0 = time.time()
     try:
+        _note(log, f"{inc.id}: investigator agent started")
         it = interpret(w, inc.kpi, incident_id=inc.id, onset=inc.onset_ts,
+                       on_step=lambda st: _note(log, f"{inc.id} step {st.i}: {st.finding}"),
                        **({"segment": inc.segment} if inc.segment else {}))
     except Exception as e:
         log.append(f"interpreter failed on {inc.id} ({type(e).__name__}: {str(e)[:160]}) - continuing")
@@ -181,6 +217,7 @@ def _ingest_inbox(w, log: list[str]) -> list[str]:
         try:
             from pulse import graph_api
             from pulse.graph_handler import ingest_metric
+            _note(log, f"graph handler agent started on inbox/{f.name}")
             changes = ingest_metric(w, f.read_text(encoding="utf-8"))
         except Exception as e:
             changes = None
@@ -365,7 +402,7 @@ def tick(now=None, *, w=None, kpis=None) -> TickState:
     same_hour = mem.last_ts == ts
     if not same_hour:
         mem.tick += 1
-    log: list[str] = []
+    log = _Log()
     if mem.last_ts and pd.Timestamp(ts) < pd.Timestamp(mem.last_ts):
         log.append(f"data clock moved backwards ({mem.last_ts} -> {ts}); run `python -m pulse reset` for a clean replay")
 
@@ -453,8 +490,14 @@ def tick(now=None, *, w=None, kpis=None) -> TickState:
             if last is None or mem.tick - last >= REINVESTIGATE_EVERY:
                 todo.setdefault(ev.incident.id, (ev.incident, "periodic re-check" if last is not None
                                                  else "not investigated yet"))
+    held: list[str] = []
     for k in mem.follow_up:
         for inc in book.active(k):
+            last = mem.last_investigated.get(inc.id)
+            if inc.id not in todo and last is not None and mem.tick - last < FOLLOW_UP_GAP:
+                held.append(k)       # investigated moments ago: keep the request, run it in a few ticks
+                log.append(f"{inc.id}: follow-up held, investigated {mem.tick - last} check(s) ago")
+                continue
             todo.setdefault(inc.id, (inc, "follow-up requested by the last brief"))
     queue = sorted(todo.values(), key=lambda x: (PRIORITY.get(x[1], 9), -by[x[0].kpi].bad_z if x[0].kpi in by else 0))
     if _budget_tight():
@@ -467,6 +510,8 @@ def tick(now=None, *, w=None, kpis=None) -> TickState:
                    f"deferred {', '.join(i.id for i, _ in queue[MAX_INVESTIGATIONS:])}")
         queue = queue[:MAX_INVESTIGATIONS]
     investigated: set[str] = set()
+    if queue and getattr(log, "stream", False):
+        book.save()      # the event console shows a new incident while its investigation is still running
     for inc, reason in queue:
         log.append(f"{inc.id}: {reason} -> asking the graph interpreter")
         it = _investigate(w, inc, reason, mem, book, ts, log)
@@ -497,19 +542,25 @@ def tick(now=None, *, w=None, kpis=None) -> TickState:
         if not nonok:
             log.append(f"all {len(statuses)} KPIs ok -> template brief (no LLM call)")
         else:
-            if prev is not None and prev.llm_mode in ("live", "replay"):
-                # keep the agent's wording, refresh the per-KPI numbers
+            same_picture = prev is not None and (
+                {i.kpi: i.severity for i in prev.items if i.severity != "ok"} ==
+                {s.name: s.severity for s in nonok})
+            if prev is not None and prev.llm_mode in ("live", "replay") and same_picture:
+                # keep the agent's wording while every KPI keeps its severity, refresh the per-KPI numbers;
+                # a metric that went on watch (or back) gets the headline rebuilt from the numbers
                 brief = template.model_copy(update={"headline": prev.headline, "text": prev.text,
                                                     "model": prev.model, "llm_mode": prev.llm_mode})
             log.append("nothing material changed -> brief numbers refreshed (no LLM call)")
     else:
         why = ", ".join([f"{k} {v}" for k, v in events.items()] +
                         ([f"investigated {len(investigated)}"] if investigated else []) + material) or "non-ok KPIs"
+        _note(log, "briefing agent started")
         brief, follow_up = _llm_brief(ts, evals, book, events, interps, prev, template, investigated, log, why)
         mem.llm_briefs += 1
-    mem.follow_up = [k for k in follow_up if k in by]
-    if mem.follow_up:
-        log.append(f"brief asked to re-investigate next tick: {', '.join(mem.follow_up)}")
+    asked = [k for k in follow_up if k in by]
+    if asked:
+        log.append(f"brief asked to re-investigate next tick: {', '.join(asked)}")
+    mem.follow_up = asked + [k for k in dict.fromkeys(held) if k not in asked and book.active(k)]
 
     # 5. persist
     mem.last_ts = ts

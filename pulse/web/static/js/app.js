@@ -1,6 +1,6 @@
 // Pulse web UI: briefing, investigations, metric graph. Reads the Pulse state directory through the server.
 import { api } from "./api.js";
-import { esc, fmtValue, fmtPct, fmtTime, fmtClock, tone, prettyId, numText, sevRank, SEVERITY, CONFIDENCE, MODE, ACTION } from "./format.js";
+import { esc, fmtValue, fmtPct, fmtTime, fmtClock, tone, prettyId, numText, sevRank, SEVERITY, CONFIDENCE, MODE } from "./format.js";
 import { sparkline, bindSparks } from "./spark.js";
 import { createOrrery, legendHTML } from "./orrery.js";
 
@@ -14,7 +14,7 @@ const S = {
   open: new Set(), refreshing: false, refreshMsg: "",
   inv: { incidentId: null, interp: null, snap: null, frame: 0, playing: false, timer: null, orrery: null, livePoll: null, key: "" },
   graph: { snapshotId: null, depth: Infinity, selected: null, orrery: null, snap: null },
-  con: { data: null, timer: null, key: "", error: "", scenario: "payment_failure" },
+  con: { data: null, timer: null, key: "", error: "", scenario: "payment_failure", runFrom: null, followed: new Set(), follow: null },
 };
 try { S.legendCollapsed = localStorage.getItem("pulse-legend") === "collapsed"; } catch (e) { /* storage blocked */ }
 
@@ -32,6 +32,7 @@ async function refresh() {
     S.error = null;
     const changed = ov.version !== S.version;
     S.ov = ov; S.version = ov.version;
+    S.skew = (ov.server_time || Date.now() / 1000) - Date.now() / 1000;
     renderStatus();
     if (changed) renderView(false);
     if (S.view === "investigation") await loadConsole();
@@ -66,12 +67,35 @@ function renderStatus() {
   const spent = S.ov?.spend?.usd ?? t?.spend_usd ?? 0, cap = S.ov?.cap_usd || 12;
   el.innerHTML = `
     <div class="status-item"><b>${t ? fmtTime(t.ts) : "No data yet"}</b><span>Data up to</span></div>
-    <div class="status-item hide-narrow"><b class="num">${t ? `Check ${t.tick}` : "—"}</b><span>Monitoring loop</span></div>
+    <div class="status-item hide-narrow" id="loop">${loopHTML()}</div>
     <div class="status-item"><b class="mode" data-mode="${mode}"><i class="mode-dot"></i>${esc(MODE[mode] || mode)}</b><span>Agents</span></div>
     <div class="status-item hide-narrow"><b class="num">$${spent.toFixed(2)} of $${cap.toFixed(0)}</b><span class="spend-bar" aria-hidden="true"><i style="width:${Math.min(100, spent / cap * 100).toFixed(1)}%"></i></span></div>
     ${S.error ? `<span class="faint">Connection lost, retrying</span>` : ""}${theme}`;
   bindTheme();
 }
+// The always-on loop (`pulse watch`) writes a heartbeat; the top bar shows from it whether it runs and what it does.
+function loopState() {
+  const w = S.ov?.watch, t = S.ov?.tick;
+  if (!w) return { kind: "manual", text: t ? `Check ${t.tick}` : "—" };
+  const now = Date.now() / 1000 + (S.skew || 0);
+  const failed = w.last_error ? ", last check failed, trying again" : "";
+  if (w.stopped === "end of data") return { kind: "off", text: "Stopped at the end of the data" };
+  if (w.stopped) return { kind: "off", text: "Not watching" };
+  if (w.loading && now - w.beat < 300) return { kind: "busy", text: "Loading the data" };
+  if (w.checking && now - w.beat < 900) return { kind: "busy", text: `Checking ${fmtClock(w.checking)} now` };
+  if (w.next_check && now < w.next_check + 120) {
+    const s = Math.max(0, Math.ceil(w.next_check - now));
+    return { kind: "on", text: `Next check in ${s < 90 ? `${s} s` : `${Math.round(s / 60)} min`}${failed}` };
+  }
+  return { kind: "off", text: "Not watching" };
+}
+function loopHTML() {
+  const l = loopState(), t = S.ov?.tick;
+  return `<b class="loop num" data-loop="${l.kind}">${l.kind === "manual" ? "" : `<i class="loop-dot"></i>`}${esc(l.text)}</b>
+    <span>${l.kind === "manual" || !t ? "Monitoring loop" : `Monitoring loop, check ${t.tick}`}</span>`;
+}
+setInterval(() => { const el = $("#loop"); if (el && S.ov?.watch) el.innerHTML = loopHTML(); }, 1000);
+
 function isDark() {
   const t = document.documentElement.dataset.theme;
   return t ? t === "dark" : !matchMedia("(prefers-color-scheme: light)").matches;
@@ -143,9 +167,10 @@ const ACTIVITY = [
   [RegExp(`^${STATUS} -> watch( - downgraded from alert)?(?: \\((.*)\\))?$`), (k, p, dg, w) => `${move(k, p)}. Watching${!w ? "" : /not dismissed/.test(w) ? `: the ${expectedBy(w)} does not explain all of it` : `, expected during the ${expectedBy(w)}`}.`],
   [/^(\S+) back to ok$/, k => `${segText(k)} is back to normal.`],
   [RegExp(`^${INC}: (.*) -> asking the graph interpreter$`), (id, r) => `Asked the investigator agent to look into ${issueText(id)} (${plain(r)}).`],
+  [RegExp(`^${INC}: follow-up held, investigated (\\d+) check\\(s\\) ago$`), (id, n) => `The briefing asked for a fresh look at ${issueText(id)}. It was investigated ${n === "1" ? "an hour" : `${n} hours`} ago, so the new investigation waits a little.`],
   [RegExp(`^interpreter on ${INC} \\(([^,]+), [\\d.]+s, \\w+\\): "(.*)" - (\\w+), path .*$`), (id, r, h, c) => `The investigator agent finished: ${plain(h)} (${(CONFIDENCE[c] || c).toLowerCase()}).`],
   [/^brief by orchestrator agent \([^)]*\) because: (.*)$/, w => `The orchestrator agent wrote a new briefing: ${briefReasons(w)}.`],
-  [/^brief asked to re-investigate next tick: (.*)$/, l => `Will re-check next hour: ${l.split(", ").map(segText).join(", ")}.`],
+  [/^brief asked to re-investigate next tick: (.*)$/, l => `The briefing asked for a fresh investigation of: ${l.split(", ").map(segText).join(", ")}.`],
   [/^orchestrator agent failed /, () => "The orchestrator agent could not run, so a standard briefing was written."],
   [RegExp(`^interpreter (?:unavailable|failed).*?${INC}`), id => `The investigator agent could not run on ${issueText(id)}. It will try again.`],
   [/^Graph Handler on inbox\/(\S+): (.*)$/, (f, t) => {
@@ -200,7 +225,6 @@ async function refreshData() {
   renderBriefing();
   try {
     const r = await api.refresh();
-    if (String(r.message).startsWith("no newer data")) S.refreshMsg = cap(r.message.replace("no newer data: ", "No newer data. ")) + ".";
   } catch (e) {
     S.refreshMsg = `Refresh failed: ${e.message}`;
   }
@@ -209,20 +233,31 @@ async function refreshData() {
   if (S.view === "briefing") renderBriefing();
 }
 
-// The latest issue on a metric (the open one if there is one) and what the interpreter concluded.
+// What happened, in the investigator's own first sentences: magnitude and where, not the path through the graph
+// or the verdict (the conclusion line says that). At most two sentences, so a CEO reads it in seconds.
+// An investigation summary without the sentences shown elsewhere on the page (first cause, confidence).
+const fresh = summary => String(summary || "").split(/(?<=[.!?])\s+(?=[A-Z'"(])/)
+  .filter(s => !/->|first cause|Confidence:|I rate|hypothesis|supported/i.test(s));
+// In a briefing row: also without the size of the move, which the row already shows.
+function gist(summary) {
+  const said = fresh(summary).filter(s => !/\d% (below|above) normal|% vs normal/.test(s));
+  return cap(plain(said.slice(0, 2).join(" ").replace(/^It is /, "")));
+}
+// "event:payments-sdk android 7.4.0" -> "payments-sdk android 7.4.0"; a metric id -> its name
+const causeName = node => !node ? "" : node.startsWith("event:") ? node.slice(6) : metricName(node.split("|")[0]);
+
+// The latest issue on a metric (the open one if there is one) and the one-line conclusion about it.
 function kpiConclusion(k) {
   const inc = incidents().find(i => i.id === k.incident_id) || incidents().find(i => i.kpi === k.name);
-  if (!inc) return "";
+  if (!inc) return { inc: null, html: "" };
   const it = interpIndex(inc.id), done = inc.state === "resolved";
-  const label = done ? `Last issue, ${inc.closed_reason ? "closed" : "resolved"} ${fmtTime(inc.resolved_at || inc.last_seen)}` :
-    it?.partial ? "Being investigated now" : it ? `Conclusion${it.confidence ? `, ${CONFIDENCE[it.confidence].toLowerCase()}` : ""}` : "Not investigated yet";
-  const head = it?.headline || inc.headline.split(" - ").pop();
-  return `<div class="kpi-conclusion">
-    <div class="concl-label">${esc(label)}</div>
-    <p class="concl-head">${esc(plain(head))}</p>
-    ${it?.summary && !done ? `<p class="concl-text">${esc(plain(it.summary))}</p>` : ""}
-    <a class="concl-link" href="#/investigation/${encodeURIComponent(inc.id)}">Open the investigation ${icon("arrow-right")}</a>
-  </div>`;
+  const cause = causeName(it?.cause);
+  let html;
+  if (it?.partial) html = `<p class="kpi-verdict"><i class="live-dot"></i><span>The investigator agent is looking into it now.</span></p>`;
+  else if (!it) html = `<p class="kpi-verdict"><span>Not investigated yet.</span></p>`;
+  else html = `<p class="kpi-verdict">${done ? "" : `<span class="chip" data-conf="${esc(it.confidence)}">${esc(CONFIDENCE[it.confidence] || it.confidence)}</span>`}
+    <span>${done ? `Resolved ${fmtTime(inc.resolved_at || inc.last_seen)}. ` : ""}${cause ? `Likely cause: <b>${esc(cause)}</b>` : esc(plain(it.headline || ""))}</span></p>`;
+  return { inc, it, html };
 }
 
 // "expected: FR Black Week teaser campaign (sessions up 19% while orders flat, so ...)" ->
@@ -233,21 +268,41 @@ const noteText = note => {
   return `${m[2] ? cap(m[2]) + ". " : ""}Expected during the ${m[1]}.`;
 };
 
+// A row's subtitle only for what its columns don't already show (value, change, since when, status).
+function rowNote(sentence) {
+  const m = /as expected during (?:the )?(.+?)\.?$/.exec(sentence);
+  return m ? `Expected during the ${m[1]}.` : /a good sign/.test(sentence) ? "A good sign." : "";
+}
+
 function kpiDetail(k, item) {
   const text = plain(item?.detail || noteText(k.note));
   const untrack = S.ov.choices ? `<button class="link-btn untrack-btn" type="button" data-untrack="${esc(k.name)}" ${CHOICE.busy ? "disabled" : ""}
     title="Move it to the background: no alerts of its own, still used in investigations">${CHOICE.busy === k.name ? "Untracking…" : "Untrack"}</button>` : "";
-  const last = (k.series || []).at(-1), facts = [];
-  if (last?.lo != null && last?.hi != null) {
-    const hi = k.unit === "ratio" ? Math.min(last.hi, 1) : last.hi;
-    facts.push(`Normal range at ${fmtClock(last.ts)}: ${fmtValue(Math.max(last.lo, 0), k.unit)} to ${fmtValue(hi, k.unit)}`);
-  }
-  if (k.onset_ts && k.severity !== "ok") facts.push(`Outside its normal range since ${fmtTime(k.onset_ts)}`);
-  if (k.completeness != null) facts.push(k.completeness >= 0.995 ? "All data for the hour arrived" : `${Math.round(k.completeness * 100)}% of the hour's data arrived`);
+  const c = kpiConclusion(k), open = c.inc && c.inc.state !== "resolved";
+  // the problem: the investigator's first sentences for an open issue, else the brief's own words
+  const problem = open && c.it?.summary && !c.it.partial ? gist(c.it.summary) : text;
+  const partial = k.completeness != null && k.completeness < 0.995 ? `Only ${Math.round(k.completeness * 100)}% of this hour's data has arrived.` : "";
+  const link = c.inc ? `<a class="concl-link" href="#/investigation/${encodeURIComponent(c.inc.id)}">Open the investigation ${icon("arrow-right")}</a>` : "";
   return `<div class="kpi-more">
-    <div>${text ? `<p class="kpi-why">${esc(text)}</p>` : ""}<p class="kpi-facts">${facts.map(esc).join(`<span aria-hidden="true"> · </span>`)}</p>${untrack}</div>
-    ${kpiConclusion(k)}
+    ${problem || partial ? `<p class="kpi-why">${esc([problem, partial].filter(Boolean).join(" "))}</p>` : ""}
+    ${c.html}
+    ${link || untrack ? `<div class="kpi-actions">${link}${untrack}</div>` : ""}
   </div>`;
+}
+
+// What the latest check changed, read from its log (only transitions are logged): metric -> plain words.
+function changesAt(t) {
+  const out = new Map();
+  for (const l of t?.log || []) {
+    const name = /^([a-z][\w|=]*?):? /.exec(l)?.[1];
+    if (!name) continue;
+    if (/ -> opened INC-/.test(l)) out.set(name, "New alert");
+    else if (/ ESCALATED /.test(l)) out.set(name, "Worse");
+    else if (/ back in band -> | back to ok$/.test(l)) out.set(name, "Back to normal");
+    else if (/ -> data_issue/.test(l)) out.set(name, "Data incomplete");
+    else if (/ -> watch/.test(l) && !out.has(name)) out.set(name, "Now on watch");
+  }
+  return out;
 }
 
 function renderBriefing() {
@@ -258,6 +313,8 @@ function renderBriefing() {
     return;
   }
   const items = new Map((b?.items || []).map(i => [i.kpi, i]));
+  const changes = changesAt(t);
+  const rewritten = (t.log || []).some(l => /^brief by orchestrator agent \((live|replay)/.test(l));
   // Under the headline: the first plain paragraph of the brief only. Per-metric lines live in the table.
   const strip = s => s.trim().replace(/[.\s]+$/, "");
   const intro = (b?.text || "").split("\n").map(l => l.trim())
@@ -272,10 +329,11 @@ function renderBriefing() {
     const live = interpIndex(i.id)?.partial;
     // "monitor headline - interpreter conclusion": lead with the conclusion
     const [what, ...why] = (i.headline || `${kpiLabel(i.kpi)} moved the wrong way`).split(" - ");
-    return `<li><a class="issue" href="#/investigation/${encodeURIComponent(i.id)}" data-sev="${i.severity}" data-state="${i.state}">
+    const fresh = i.opened_at === t.ts && i.state !== "resolved";
+    return `<li><a class="issue" href="#/investigation/${encodeURIComponent(i.id)}" data-sev="${i.severity}" data-state="${i.state}"${fresh ? " data-new" : ""}>
       <span class="issue-bar"></span><span>
-        <span class="issue-headline">${esc(plain(why.length ? why.join(" - ") : what))}</span>
-        <span class="issue-meta"><span>${esc(segText(i.kpi))}</span><span>${when}</span>${live ? `<span>Being investigated now</span>` : hasInvestigation(i) ? "" : `<span>Not investigated yet</span>`}</span>
+        <span class="issue-headline">${esc(cap(plain(why.length ? why.join(" - ") : what)))}</span>
+        <span class="issue-meta">${fresh ? `<span class="change-tag">New at ${fmtClock(t.ts)}</span>` : ""}<span>${esc(segText(i.kpi))}</span><span>${when}</span>${live ? `<span>Being investigated now</span>` : hasInvestigation(i) ? "" : `<span>Not investigated yet</span>`}</span>
       </span></a></li>`;
   }).join("");
   const kpis = t.kpis.slice().sort((a, b2) => sevRank(a.severity) - sevRank(b2.severity));
@@ -283,21 +341,24 @@ function renderBriefing() {
   const rows = kpis.map(k => {
     // colour only what the monitor flagged: an in-band wobble stays neutral even if it points down
     const tn = k.severity === "alert" || k.severity === "watch" ? tone(k.deviation_pct, k.polarity, true) : "flat";
-    const sentence = plain(items.get(k.name)?.sentence || "");
+    const sentence = rowNote(plain(items.get(k.name)?.sentence || ""));
     const open = S.open.has(k.name);
     const comp = k.completeness != null && k.completeness < 0.95 ? ` <span class="faint">(${Math.round(k.completeness * 100)}% of data)</span>` : "";
-    return `<tr class="kpi-row${open ? " open" : ""}" data-kpi="${esc(k.name)}">
+    const change = changes.get(k.name);
+    return `<tr class="kpi-row${open ? " open" : ""}" data-kpi="${esc(k.name)}"${change ? ` data-change` : ""}>
       <td><div class="kpi-label">${esc(cap(plain(k.label)))}${pinned.has(k.name) ? ` <span class="pin-tag">Pinned</span>` : ""}</div>${sentence ? `<div class="kpi-sentence">${esc(sentence)}</div>` : ""}</td>
       <td><span class="kpi-value num">${fmtValue(k.value, k.unit)}</span></td>
       <td class="col-expected"><span class="kpi-expected num">${fmtValue(k.expected, k.unit)}</span></td>
       <td><span class="delta num" data-tone="${tn}">${fmtPct(k.deviation_pct)}${k.onset_ts && k.severity !== "ok" ? `<span class="delta-since">since ${fmtClock(k.onset_ts)}</span>` : ""}</span></td>
       <td class="col-spark">${sparkline(k.series, { tone: tn, unit: k.unit, label: `${k.label}, last 48 hours against its normal range` })}</td>
-      <td><span class="sev" data-sev="${k.severity}"><i></i>${SEVERITY[k.severity] || k.severity}</span>${comp}</td>
+      <td><span class="sev" data-sev="${k.severity}"><i></i>${SEVERITY[k.severity] || k.severity}</span>${comp}${change ? `<span class="change-tag" title="Changed at the ${fmtClock(t.ts)} check">${change}</span>` : ""}</td>
       <td class="col-toggle"><button class="expand" type="button" aria-expanded="${open}" aria-label="More about ${esc(k.label)}">${icon("chevron-down")}</button></td>
     </tr>
     <tr class="kpi-detail" ${open ? "" : "hidden"}><td colspan="7">${kpiDetail(k, items.get(k.name))}</td></tr>`;
   }).join("");
-  const followUp = (b?.follow_up || []).map(x => esc(plain(kpiLabel(x))));
+  // only metrics that have no row of their own: the table already shows the others
+  const rowNames = new Set(t.kpis.map(k => cap(plain(k.label))));
+  const followUp = [...new Set((b?.follow_up || []).map(x => cap(plain(kpiLabel(x)))))].filter(x => !rowNames.has(x)).map(esc);
   const background = (S.ov.choices?.untracked || []).map(m => `<span class="bg-metric">${esc(metricName(m))}
     <button class="link-btn" type="button" data-restore="${esc(m)}" ${CHOICE.busy ? "disabled" : ""}>${CHOICE.busy === m ? "Restoring…" : "Restore"}</button></span>`);
   root.innerHTML = `
@@ -307,23 +368,18 @@ function renderBriefing() {
           <span>${longTime(b?.ts || t.ts)}</span>
           <button class="refresh-btn" type="button" id="refresh-btn" ${S.refreshing ? `disabled aria-busy="true"` : ""} title="Load the next hour of simulated marketplace data and run the check on it">${icon("refresh-cw")}<span>${S.refreshing ? "Loading new data…" : "Refresh data"}</span></button>
           ${S.refreshMsg ? `<span class="refresh-msg">${esc(S.refreshMsg)}</span>` : ""}
+          ${rewritten ? `<span class="change-tag">Rewritten by the briefing agent</span>` : ""}
         </div>
-        <h1 class="brief-headline">${esc(plain(b?.headline || "All headline metrics are within their normal range"))}</h1>
-        ${intro ? `<p class="brief-text">${esc(plain(intro))}</p>` : ""}
+        ${intro ? `<p class="brief-text"${rewritten ? " data-new" : ""}>${esc(plain(intro))}</p>` : ""}
         <p class="brief-counts">${counts.map(([s, n]) => `<span class="sev" data-sev="${s}"><i></i>${n} ${COUNT_WORD[s](n)}</span>`).join("")}</p>
-        ${followUp.length ? `<p class="follow-up"><b>Will re-check next hour:</b> ${followUp.join(", ")}</p>` : ""}
+        ${followUp.length ? `<p class="follow-up"><b>Watching closely:</b> ${followUp.join(", ")}</p>` : ""}
       </div>
       <aside class="brief-side">
         <div>
           <h2 class="section-title">Issues</h2>
           ${incs.length ? `<ul class="issues">${issueRows}</ul>` : `<p class="muted serif" style="font-size:16px">Nothing is moving the wrong way.</p>`}
         </div>
-        ${(t.log || []).length ? `<div>
-          <h2 class="section-title">What the agents did in check ${t.tick}</h2>
-          <ol class="ticklog">${t.log.map(l => `<li>${esc(activity(l))}</li>`).join("")}</ol>
-        </div>` : ""}
       </aside>
-    </div>
     <section class="ledger" aria-label="Headline metrics">
       <h2 class="section-title">Headline metrics</h2>
       <table>
@@ -332,7 +388,8 @@ function renderBriefing() {
       </table>
       ${background.length ? `<p class="background-line"><span class="faint">Background metrics</span>${background.join("")}</p>` : ""}
       ${CHOICE.msg ? `<p class="refresh-msg choice-msg">${esc(CHOICE.msg)}</p>` : ""}
-    </section>`;
+    </section>
+    </div>`;
   $("#refresh-btn", root).addEventListener("click", refreshData);
   root.querySelectorAll("[data-untrack]").forEach(b => b.addEventListener("click", () => choose("untrack", b.dataset.untrack)));
   root.querySelectorAll("[data-restore]").forEach(b => b.addEventListener("click", () => choose("restore", b.dataset.restore)));
@@ -348,14 +405,6 @@ function renderBriefing() {
 }
 
 // ---------- investigation ----------
-function stopPlay() {
-  S.inv.playing = false;
-  clearInterval(S.inv.timer);
-  S.inv.timer = null;
-  const b = $("#play-btn");
-  if (b) { b.innerHTML = icon("play"); b.setAttribute("aria-label", "Play the investigation"); }
-}
-
 async function renderInvestigation(navigated) {
   const view = $("#view-investigation");
   if (!$("#inv-main")) view.innerHTML = `<div id="console-slot"></div><div id="inv-main"></div>`;
@@ -377,7 +426,6 @@ async function renderInvestigation(navigated) {
       <span class="issue-bar"></span><span><b>${esc(kpiLabel(i.kpi))}</b><span>${i.state === "resolved" ? "Resolved" : i.state === "persisting" ? `Ongoing, ${i.ticks_seen} checks` : `Opened ${fmtClock(i.opened_at)}`}${interpIndex(i.id)?.partial ? ", investigating now" : ""}</span></span></button>`).join("");
 
   if (incidentChanged || navigated || !$("#inv-shell")) {
-    stopPlay();
     S.inv.key = "";
     root.innerHTML = `<div class="inv-tabs" role="tablist" aria-label="Issues">${tabs}</div>
       <div id="inv-shell" class="inv-body">
@@ -388,8 +436,6 @@ async function renderInvestigation(navigated) {
             <button class="icon-btn" type="button" data-zoom="out" aria-label="Zoom out">${icon("zoom-out")}</button>
             <button class="icon-btn" type="button" data-zoom="fit" aria-label="Fit the graph">${icon("scan")}</button>
           </div>
-          <div class="scrubber" id="scrubber"></div>
-          <div id="legend-slot"></div>
         </div>
         <article class="reading" id="reading" aria-live="polite"></article>
       </div>`;
@@ -414,8 +460,6 @@ async function loadInvestigation(inc) {
   }
   if (!interp) {
     $("#orrery-host").innerHTML = "";
-    $("#scrubber").innerHTML = "";
-    $("#legend-slot").innerHTML = "";
     reading.innerHTML = `<div class="empty">${esc(tidy(inc.headline || kpiLabel(inc.kpi)))}<br>Not investigated yet.</div>`;
     S.inv.orrery = createOrrery($("#orrery-host"), { onSelect: jumpToNode });
     return;
@@ -425,22 +469,24 @@ async function loadInvestigation(inc) {
   if (!snap && snapId) { try { snap = plainLabels(await api.snapshot(snapId)); } catch (e) { snap = null; } }
   const key = `${interp.interpretation_id}|${(interp.trace || []).length}|${interp.partial}`;
   if (key === S.inv.key) return;   // nothing new
-  const wasAtEnd = !S.inv.interp || S.inv.frame >= (S.inv.orrery?.frames?.length || 1) - 1;
   const firstLoad = !S.inv.interp || S.inv.interp.interpretation_id !== interp.interpretation_id;
   S.inv.key = key; S.inv.interp = interp; S.inv.snap = snap;
 
   if (snap) {
-    const frames = S.inv.orrery.setData(snap, interp, { partial: interp.partial });
-    if (firstLoad || (interp.partial && wasAtEnd) || (!interp.partial && wasAtEnd)) S.inv.frame = frames.length - 1;
-    S.inv.frame = Math.min(S.inv.frame, frames.length - 1);
-    mountLegend($("#legend-slot"), legendTokens(snap, interp));
+    // always the whole picture so far: the relevant metrics highlighted (a running investigation grows step by step)
+    S.inv.frame = S.inv.orrery.setData(snap, interp, { partial: interp.partial }).length - 1;
   } else {
     $("#orrery-host").innerHTML = `<div class="empty" style="margin:24px">Graph not available.</div>`;
-    $("#legend-slot").innerHTML = "";
   }
-  renderScrubber();
+  // the console followed the agent here: bring the graph into view
+  const followed = S.con.follow === inc.id && (firstLoad || interp.partial);
+  if (followed) S.con.follow = null;
   renderReading();
   setFrame(S.inv.frame);
+  const tabs = $(".inv-tabs");   // bring the graph into view below the console, once it is drawn
+  if (followed && tabs) requestAnimationFrame(() => {
+    if (tabs.getBoundingClientRect().top > innerHeight * 0.5) tabs.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
 
   clearTimeout(S.inv.livePoll);
   if (interp.partial) S.inv.livePoll = setTimeout(() => { if (S.view === "investigation" && S.inv.incidentId === inc.id) loadInvestigation(inc); }, 1500);
@@ -481,72 +527,16 @@ function legendTokens(snap, interp) {
   return t;
 }
 
-function stepLabel(step) {
-  if (!step) return "";
-  const verb = ACTION[step.action] || step.action;
-  const target = step.action === "breakdown" && step.args?.dim ? `${labelOf(step.node)} by ${step.args.dim}` : (step.node ? labelOf(step.node) : "");
-  return `${verb} ${target}`.trim();
-}
-
-function renderScrubber() {
-  const el = $("#scrubber");
-  const frames = S.inv.orrery?.frames || [];
-  const steps = S.inv.interp?.trace || [];
-  if (!steps.length) { el.innerHTML = `<div class="step-caption muted">No steps recorded yet.</div>`; return; }
-  const dots = steps.map((s, i) => `${i ? `<span class="step-link" data-i="${i + 1}"></span>` : ""}<button class="step-dot" type="button" data-i="${i + 1}" aria-label="Step ${i + 1}: ${esc(stepLabel(s))}">${i + 1}</button>`).join("");
-  el.innerHTML = `
-    <div class="scrubber-buttons">
-      <button class="icon-btn" type="button" id="prev-btn" aria-label="Previous step">${icon("skip-back")}</button>
-      <button class="icon-btn" type="button" id="play-btn" aria-label="Play the investigation">${icon("play")}</button>
-      <button class="icon-btn" type="button" id="next-btn" aria-label="Next step">${icon("skip-forward")}</button>
-    </div>
-    <div class="steps" role="group" aria-label="Investigation steps">${dots}</div>
-    <div class="step-caption" id="step-caption"></div>`;
-  el.querySelectorAll(".step-dot").forEach(b => b.addEventListener("click", () => { stopPlay(); setFrame(Number(b.dataset.i)); }));
-  $("#prev-btn").addEventListener("click", () => { stopPlay(); setFrame(S.inv.frame - 1); });
-  $("#next-btn").addEventListener("click", () => { stopPlay(); setFrame(S.inv.frame + 1); });
-  $("#play-btn").addEventListener("click", () => {
-    if (S.inv.playing) return stopPlay();
-    S.inv.playing = true;
-    $("#play-btn").innerHTML = icon("pause");
-    $("#play-btn").setAttribute("aria-label", "Pause");
-    if (S.inv.frame >= frames.length - 1) setFrame(0);
-    S.inv.timer = setInterval(() => {
-      if (S.inv.frame >= (S.inv.orrery?.frames?.length || 1) - 1) return stopPlay();
-      setFrame(S.inv.frame + 1);
-    }, 1700);
-  });
-}
-
 function setFrame(i) {
   const frames = S.inv.orrery?.frames || [];
   if (!frames.length) return;
-  i = Math.max(0, Math.min(i, frames.length - 1));
-  S.inv.frame = i;
-  S.inv.orrery.setFrame(i);
-  const steps = S.inv.interp?.trace || [];
-  document.querySelectorAll("#scrubber .step-dot").forEach(b => {
-    const n = Number(b.dataset.i);
-    b.dataset.done = String(n <= i);
-    if (n === i) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
-  });
-  document.querySelectorAll("#scrubber .step-link").forEach(l => { l.dataset.done = String(Number(l.dataset.i) <= i); });
-  document.querySelectorAll(".trace-item").forEach(b => {
-    const n = Number(b.dataset.i);
-    b.dataset.done = String(n <= i);
-    if (n === i) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
-  });
-  const cap = $("#step-caption");
-  if (cap) {
-    const s = steps[i - 1];
-    cap.textContent = i === 0 ? `Start: ${labelOf(S.inv.interp?.kpi)}` : tidy(s?.finding || stepLabel(s));
-  }
+  S.inv.frame = Math.max(0, Math.min(i, frames.length - 1));
+  S.inv.orrery.setFrame(S.inv.frame);
 }
 
+// a click on a metric (in the graph or the text) points it out; the picture stays the whole investigation
 function jumpToNode(nodeId) {
-  const steps = S.inv.interp?.trace || [];
-  const idx = steps.findIndex(s => s.node === nodeId || (s.highlight_nodes || []).includes(nodeId));
-  if (idx >= 0) { stopPlay(); setFrame(idx + 1); }
+  S.inv.orrery?.focusNode?.(nodeId);
 }
 
 // Prefer the snapshot's human label for a node id; fall back to a cleaned-up id.
@@ -569,12 +559,9 @@ function renderReading() {
   const it = S.inv.interp, el = $("#reading");
   if (!it) return;
   const steps = it.trace || [];
-  const stepList = steps.length ? `<div><h3 class="section-title">Steps</h3>
-    <ol class="trace-list">${steps.map((s, i) => `<li><button class="trace-item" type="button" data-i="${i + 1}" aria-label="Step ${i + 1}: ${esc(stepLabel(s))}">
-      <span class="trace-n">${i + 1}</span><span class="trace-finding">${esc(tidy(s.finding || stepLabel(s)))}</span></button></li>`).join("")}</ol></div>` : "";
   if (it.partial) {   // no conclusions until the interpreter has finished: only what it has found so far
     el.innerHTML = `<div class="live-banner"><i class="live-dot"></i>Investigating now, ${steps.length} ${steps.length === 1 ? "step" : "steps"} so far</div>
-      <h2 class="conclusion-headline">${esc(labelOf(it.kpi))}</h2>${stepList}`;
+      <h2 class="conclusion-headline">${esc(labelOf(it.kpi))}</h2>`;
   } else {
     const facts = [];
     if (it.first_cause) facts.push(["First cause", `${nodeRef(it.first_cause.node)}<div class="serif">${esc(tidy(it.first_cause.why || ""))}</div>`]);
@@ -590,38 +577,218 @@ function renderReading() {
     el.innerHTML = `
       <div class="verdict"><span class="chip" data-conf="${it.confidence}">${CONFIDENCE[it.confidence] || it.confidence}</span>
         <span>${fmtTime(it.ts)}${it.cost_usd ? ` · $${it.cost_usd.toFixed(2)}` : ""}</span></div>
-      <h2 class="conclusion-headline">${esc(tidy(it.headline || ""))}</h2>
-      ${it.summary ? `<p class="conclusion-summary">${esc(tidy(it.summary))}</p>` : ""}
-      ${facts.length ? `<dl class="facts">${facts.map(([dt, dd]) => `<div class="fact"><dt>${dt}</dt><dd>${dd}</dd></div>`).join("")}</dl>` : ""}
-      ${stepList}`;
+      <h2 class="conclusion-headline">${esc(cap(tidy(it.headline || "")))}</h2>
+      ${fresh(it.summary).length ? `<p class="conclusion-summary">${esc(tidy(fresh(it.summary).join(" ")))}</p>` : ""}
+      ${facts.length ? `<dl class="facts">${facts.map(([dt, dd]) => `<div class="fact"><dt>${dt}</dt><dd>${dd}</dd></div>`).join("")}</dl>` : ""}`;
   }
-  el.querySelectorAll(".trace-item").forEach(b => b.addEventListener("click", () => { stopPlay(); setFrame(Number(b.dataset.i)); }));
-  el.querySelectorAll(".node-ref").forEach(b => b.addEventListener("click", () => { S.inv.orrery?.focusNode(b.dataset.node); jumpToNode(b.dataset.node); }));
+  el.querySelectorAll(".node-ref").forEach(b => b.addEventListener("click", () => jumpToNode(b.dataset.node)));
 }
 
 // ---------- event console (top of the investigations page) ----------
-// A live simulated market (server: pulse/web/console.py): inject a scenario, run hours, watch Pulse react.
+// A live simulated market (server: pulse/web/console.py): inject a scenario, run hours, watch Pulse's agents react.
+// The log streams while Pulse works, grouped by market hour: one line for what the monitor saw change, one per
+// investigation (live while it runs, then its conclusion; the steps are drawn in the graph below), the briefing; the pipeline shows which agent works now; each injected scenario is scored against what was injected.
 const CON_GROUP = { fault: "Problems", innocent: "Planned changes", data: "Data problems" };
-const CON_TAG = { market: "Market", inject: "Injected", check: "Pulse", step: "Pulse", error: "Error" };
+const CON_KIND = { fault: "Problem", innocent: "Planned change", data: "Data problem" };
 const CON_QUIET = /^(nothing material changed|all \d+ KPIs ok) /;
+const AGENT_MODE = { live: "Live", replay: "Recorded", mock: "Scripted" };
+const AGENT_MODEL = { live: ["Claude Sonnet 5.5", "Claude Opus 5.5"], replay: ["Recorded answers", "Recorded answers"],
+  mock: ["Scripted, no AI", "Scripted, no AI"] };
+const ANSWERED_BY = { live: "answered by Claude", replay: "recorded Claude answer", mock: "scripted" };
+const RE_ASK = /^(INC-[^\s:]+): (.*) -> asking the graph interpreter$/;
+const RE_INV = /^(INC-[^\s:]+): investigator agent started$/;
+const RE_STEP = /^(INC-[^\s:]+) step (\d+): (.*)$/;
+const RE_CONCL = /^interpreter on (INC-[^\s:]+) \((.*?), ([\d.]+)s, (\w+)\): "(.*)" - (\w+), path (.*)$/;
+const RE_BRIEF = /^brief by orchestrator agent \(([\w ]+?), (.*?), \$([\d.]+)\) because: (.*)$/;
+const RE_TICK = /^\[[^\]]+\] tick\s+\d+ \| (.*?) \| (.*)$/;
 const clockText = ts => {
   const d = new Date(String(ts).replace(" ", "T"));
   return Number.isNaN(d.getTime()) ? ts : d.toLocaleString("en-GB", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
 };
+const hm = ts => String(ts || "").slice(11, 16);
+const hoursBetween = (a, b) => Math.round((new Date(String(b).replace(" ", "T")) - new Date(String(a).replace(" ", "T"))) / 3.6e6);
+const segWords = seg => Object.values(seg || {}).map(v => COUNTRY[v] || cap(String(v))).join(", ");
+const issueOf = id => lc1(segText((S.ov?.incidents || []).find(i => i.id === id)?.kpi || /^INC-(.+)-\d{10}$/.exec(id)?.[1] || id));
 
-function consoleRow(e) {
-  if (e.kind === "step" && CON_QUIET.test(e.text)) return "";
-  let tag = CON_TAG[e.kind] || "", text = e.text;
-  if (e.kind === "check") {
-    const m = /^\[[^\]]+\] tick\s+\d+ \| (.*?) \| (.*)$/.exec(e.text);
-    text = !m ? plain(e.text) : m[1] === "all ok" ? "All headline metrics normal" : tidy(m[2] || m[1]);
-  } else if (e.kind === "step") {
-    if (/^(interpreter|brief by orchestrator|orchestrator agent|Graph Handler)/.test(e.text)) tag = "Agent";
-    text = activity(e.text);
+// The log as market hours: each hour holds the monitor's decisions (summed up in one line), the investigations and
+// the briefing, closed by the hour's verdict. Market, injection, cost and error lines stand on their own.
+function conGroups(log) {
+  const out = [];
+  let g = null;
+  const open = t => { g = { t, items: [], inv: {}, mon: null, check: null }; out.push(g); };
+  for (const e of log) {
+    if (["market", "inject", "error", "cost"].includes(e.kind)) { out.push({ solo: e }); g = null; continue; }
+    if (e.kind === "checking") { open(e.t); continue; }
+    if (!g || g.t !== e.t) open(e.t);
+    if (e.kind === "check") { g.check = e; continue; }
+    const id = (RE_ASK.exec(e.text) || RE_INV.exec(e.text) || RE_STEP.exec(e.text) || RE_CONCL.exec(e.text))?.[1];
+    if (id) {
+      if (!g.inv[id]) { g.inv[id] = { id, reason: "", steps: [], concl: null }; g.items.push({ inv: g.inv[id] }); }
+      const b = g.inv[id], ask = RE_ASK.exec(e.text), st = RE_STEP.exec(e.text), c = RE_CONCL.exec(e.text);
+      if (ask) b.reason = ask[2];
+      if (st) b.steps.push(st[3]);
+      if (c) b.concl = { reason: c[2], seconds: c[3], mode: c[4], headline: c[5], confidence: c[6] };
+      continue;
+    }
+    if (e.kind !== "note" && !RE_BRIEF.test(e.text) && !/^Graph Handler on |^brief asked to re-investigate/.test(e.text)
+        && !CON_QUIET.test(e.text)) {
+      if (!g.mon) { g.mon = []; g.items.push({ mon: g.mon }); }
+      g.mon.push(e.text);
+      continue;
+    }
+    g.items.push({ e });
   }
-  const inc = /^interpreter on (INC-[^\s:]+)/.exec(e.text)?.[1];
-  const open = inc ? ` <a class="con-open" href="#/investigation/${encodeURIComponent(inc)}">Open</a>` : "";
-  return `<li class="con-row" data-tag="${tag}"><time>${e.t ? esc(e.t.slice(11, 16)) : ""}</time><span class="con-tag">${tag}</span><span>${esc(text)}${open}</span></li>`;
+  return out;
+}
+
+// The investigator's walk as a few logical steps (the graph shows every move): the path it followed down the graph,
+// where the change sits, the change it matched, what it ruled out. Loading the graph and its neighbours is left out.
+function logicalSteps(steps) {
+  const path = [], out = [], ruled = [];
+  for (const x of steps) {
+    let m;
+    if ((m = /^Ruled out ([^:]+):/.exec(x))) ruled.push(m[1]);
+    else if ((m = /^(.+?) is [\d.]+% (?:below|above) normal .*carries \d+% of the change/.exec(x))) path.push(m[1]);
+    else if ((m = /^(.+?) carries (\d+)% of the change in /.exec(x))) {
+      if (!out.some(o => o.startsWith("Found where"))) out.push(`Found where it is: ${m[1]}, ${m[2]}% of the change`);
+    }
+    else if (/recent change/.test(x)) {
+      m = /best match: '([^']+)' \((\w+)/.exec(x);
+      out.push(m ? `Matched a recent ${m[2].replace(/_/g, " ").replace(/^tv /, "TV ")}: ${m[1]}` : "Found no recent change nearby");
+    }
+  }
+  return [path.length ? `Traced it through the graph${path.length === 1 ? " to" : ":"} ${path.join(" → ")}` : "", ...out,
+    ruled.length ? `Ruled out: ${ruled.join(", ")}` : ""].filter(Boolean).map(tidy);
+}
+
+// The monitor's hour in one line: what changed. Issues that simply continue and recovery counts are left out.
+function monitorSummary(lines) {
+  const b = { opened: [], worse: [], back: [], watch: [], data: [] }, other = [];
+  for (const x of lines) {
+    const name = metricName(/^[\w.]+/.exec(x)?.[0] || "");
+    if (/ persisting \(| in band -> INC-\S+ recovering|follow-up held|investigations wanted|back to ok$/.test(x)) continue;
+    if (/ -> opened INC-/.test(x)) b.opened.push(name);
+    else if (/ ESCALATED /.test(x)) b.worse.push(name);
+    else if (/ back in band -> /.test(x)) b.back.push(name);
+    else if (/ data incomplete -> | -> data_issue/.test(x)) b.data.push(name);
+    else if (/ -> watch/.test(x)) {
+      const why = /expected: ([^;(]+)/.exec(x)?.[1]?.trim();
+      b.watch.push(why ? `${name}, expected during the ${plain(why)}` : name);
+    } else other.push(activity(x));
+  }
+  const part = (label, xs) => xs.length ? `${label}: ${[...new Set(xs)].join(", ")}` : "";
+  return [part(b.opened.length === 1 ? "New issue" : "New issues", b.opened), part("Worse", b.worse),
+    part("Back to normal", b.back), part("Watching", b.watch), part("Incomplete data", b.data), ...other]
+    .filter(Boolean).join(" · ");
+}
+
+function conItem(it, busyHere) {
+  if (it.mon) {
+    const text = monitorSummary(it.mon);
+    return text ? `<li class="con-item" data-agent="monitor"><span class="con-agent">Monitor</span><span>${esc(text)}</span></li>` : "";
+  }
+  if (it.inv) {
+    // the conclusion (or the agent working), then its logical steps
+    const b = it.inv, c = b.concl, n = b.steps.filter(x => !/^Conclusion \(/.test(x)).length, logic = logicalSteps(b.steps);
+    const head = c ? `<span class="chip" data-conf="${c.confidence}">${CONFIDENCE[c.confidence] || c.confidence}</span>
+        <span class="serif">${esc(cap(tidy(c.headline)))}</span>
+        <a class="con-open" href="#/investigation/${encodeURIComponent(b.id)}">Open</a>`
+      : `<span>Investigating ${esc(issueOf(b.id))}</span>${busyHere ? `<span class="con-working"><i class="live-dot"></i>${n ? `step ${n}` : "starting"}</span>` : ""}`;
+    return `<li class="con-item" data-agent="investigator"><span class="con-agent">Investigator</span><div>
+      <div class="con-concl">${head}</div>
+      ${logic.length ? `<ol class="con-logic">${logic.map(x => `<li>${esc(x)}</li>`).join("")}</ol>` : ""}</div></li>`;
+  }
+  const e = it.e, br = RE_BRIEF.exec(e.text);
+  if (br) return `<li class="con-item" data-agent="briefing"><span class="con-agent">Briefing</span>
+    <span>Updated the CEO briefing.${+br[3] > 0 ? ` <span class="faint num">$${(+br[3]).toFixed(3)}</span>` : ""}</span></li>`;
+  if (e.kind === "note") {
+    if (!busyHere) return "";
+    if (/^briefing agent started/.test(e.text)) return `<li class="con-item" data-agent="briefing"><span class="con-agent">Briefing</span><span class="con-working"><i class="live-dot"></i>Writing the CEO briefing</span></li>`;
+    if (/^graph handler agent started/.test(e.text)) return `<li class="con-item" data-agent="graph"><span class="con-agent">Graph</span><span class="con-working"><i class="live-dot"></i>Placing a new metric in the graph</span></li>`;
+    return "";
+  }
+  if (/^Graph Handler on /.test(e.text)) return `<li class="con-item" data-agent="graph"><span class="con-agent">Graph</span><span>${esc(activity(e.text))}</span></li>`;
+  if (CON_QUIET.test(e.text) || /^brief asked to re-investigate/.test(e.text)) return "";
+  return `<li class="con-item" data-agent="monitor"><span class="con-agent">Monitor</span><span>${esc(activity(e.text))}</span></li>`;
+}
+
+function conGroupHTML(g, last, busy) {
+  if (g.solo) {
+    if (/^Market ran /.test(g.solo.text)) return "";
+    const e = g.solo, tag = { market: "Market", inject: "Injected", error: "Error", cost: "Cost" }[e.kind];
+    return `<li class="con-solo" data-kind="${e.kind}"><time>${esc(hm(e.t))}</time><span class="con-agent">${tag}</span><span>${esc(e.text)}</span></li>`;
+  }
+  const running = busy && last && !g.check;
+  // drop a finished note only when something later in the hour replaced it (the briefing line, the conclusion)
+  const items = g.items.filter((it, i) => !(it.e?.kind === "note" && (!running || g.items.slice(i + 1).some(x => x.e && RE_BRIEF.test(x.e.text)))));
+  const m = g.check && RE_TICK.exec(g.check.text);
+  const verdict = running ? `<span class="con-working"><i class="live-dot"></i>Checking ${esc(hm(g.t))}</span>`
+    : m ? esc(m[1] === "all ok" ? "All headline metrics normal" : tidy(m[2].replace(/^NEW: /, ""))) : "";
+  const rows = items.map(it => conItem(it, running)).join("");
+  const said = rows && Object.values(g.inv).some(b => b.concl && m && m[2].includes(b.concl.headline));
+  return `<li class="con-hour"${running ? ` data-running="true"` : ""}><time>${esc(hm(g.t))}</time><div>
+    ${verdict && !said ? `<div class="con-verdict">${verdict}</div>` : ""}
+    ${rows ? `<ol class="con-items">${rows}</ol>` : ""}</div></li>`;
+}
+
+// Which part of the pipeline works now, and what each part did last.
+function conPipeline(c, groups) {
+  const model = AGENT_MODEL[c.agents] || AGENT_MODEL.mock;
+  const hours = groups.filter(g => !g.solo), lastHour = hours.at(-1), lastEntry = c.log.at(-1);
+  let active = null;
+  if (c.busy && lastEntry) {
+    if (["market", "inject"].includes(lastEntry.kind) || /^Starting/.test(c.job || "")) active = "market";
+    else if (lastEntry.kind === "note" && /^briefing agent/.test(lastEntry.text)) active = "briefing";
+    else if (lastEntry.kind === "note") active = "investigator";
+    else active = "monitor";
+  }
+  // each card says what its stage is doing or when it last ran; what it found is in the log below, once
+  const invs = hours.flatMap(g => Object.values(g.inv)), lastInv = invs.at(-1), done = invs.filter(b => b.concl).length;
+  const injected = c.session?.injected?.length || 0;
+  const briefHour = hours.filter(g => g.items.some(it => it.e && RE_BRIEF.test(it.e.text))).at(-1);
+  const stage = (key, name, sub, text, doneText, idleText) => {
+    const on = active === key;
+    return `<div class="con-stage" data-stage="${key}" data-state="${on ? "active" : doneText ? "done" : "idle"}">
+      <div class="con-stage-head"><i class="con-stage-dot"></i><b>${name}</b><span>${esc(sub)}</span></div>
+      <div class="con-stage-text">${esc(on ? text : doneText || idleText)}</div></div>`;
+  };
+  const steps = lastInv ? lastInv.steps.filter(x => !/^Conclusion \(/.test(x)).length : 0;
+  return `<div class="con-pipeline" aria-label="What the agents are doing">
+    ${stage("market", "Market", "Simulator", c.job || "Running",
+      c.session ? (injected ? `${injected} ${injected === 1 ? "scenario" : "scenarios"} injected` : "Quiet market") : "", "")}
+    ${stage("monitor", "Monitor", "Statistics, no AI", `Checking ${hm(lastHour?.t)}`,
+      lastHour?.check ? `Last check ${hm(lastHour.t)}` : "", "Checks every market hour")}
+    ${stage("investigator", "Investigator agent", model[0], steps ? `Working, step ${steps}` : "Starting the investigation",
+      done ? `${done} ${done === 1 ? "investigation" : "investigations"} finished` : "", "Starts when an alert opens")}
+    ${stage("briefing", "Briefing agent", model[1], "Writing the CEO briefing",
+      briefHour ? `Updated at ${hm(briefHour.t)}` : "", "Writes the CEO briefing")}
+  </div>`;
+}
+
+// Each injected scenario next to what Pulse made of it (scored like the offline scorecard).
+function conScenario(s, r) {
+  // what really changed (Pulse is not told) in one line, and the verdict as a few marks
+  const mark = (v, text, title = "") => `<span class="scn-mark" data-ok="${v === true ? "yes" : v === false ? "no" : "wait"}"${title ? ` title="${esc(title)}"` : ""}>${esc(text)}</span>`;
+  let marks;
+  if (s.kind === "fault") {
+    const after = r?.alert_at && s.start ? hoursBetween(s.start, r.alert_at) : null;
+    marks = !r?.detected ? mark(null, "Waiting for an alert")
+      : mark(true, `Alert ${hm(r.alert_at)}${after ? `, ${after} h after it started` : ""}`)
+        + (s.event ? mark(!!r.cause_named, "Cause", `It was ${plain(s.event)}`) : "")
+        + (Object.keys(s.segment).length ? mark(!!r.segment_named, "Place", `It was ${segWords(s.segment)}`) : "");
+  } else if (s.kind === "innocent") {
+    marks = r?.false_alert ? mark(false, "Alert raised") : r?.explained ? mark(true, "Matched, no alert") : mark(null, r?.seen ? "Being watched" : "No effect yet");
+  } else {
+    marks = r?.false_alert ? mark(false, "Alert raised") : r?.data_issue_seen ? mark(true, "Seen as incomplete data") : mark(null, "Not seen yet");
+  }
+  const inc = r?.incidents?.[0], truth = cap(plain(String(s.cause || "").split(": ")[0]));
+  return `<div class="con-scn" data-kind="${s.kind}">
+    <div class="con-scn-head"><i></i><span>${CON_KIND[s.kind] || "Scenario"} · ${esc(hm(s.at))}</span>
+      ${inc ? `<a href="#/investigation/${encodeURIComponent(inc)}">Investigation ${icon("arrow-right")}</a>` : ""}</div>
+    <div class="con-scn-title">${esc(s.title)}</div>
+    ${truth ? `<p class="con-scn-truth" title="What really changed (Pulse is not told): ${esc(plain(s.cause))}">${esc(truth)}</p>` : ""}
+    <div class="con-scn-marks">${marks}</div>
+  </div>`;
 }
 
 function renderConsole() {
@@ -629,12 +796,16 @@ function renderConsole() {
   if (!slot) return;
   if (!c?.enabled) { slot.innerHTML = ""; S.con.key = ""; return; }
   const live = c.source === "live", sess = live ? c.session : null, busy = c.busy;
-  const key = JSON.stringify([c.source, busy, c.job, sess?.clock, c.log.at(-1)?.n, S.con.error, (S.ov?.incidents || []).length]);
+  const key = JSON.stringify([c.source, busy, c.job, c.agents, c.spend, sess?.clock, c.log.at(-1)?.n, S.con.error,
+    (S.ov?.incidents || []).length, S.ov?.brief?.headline, c.results]);
   if (key === S.con.key && $("#console")) return;
   S.con.key = key;
   const dis = busy ? "disabled" : "";
   const options = ["fault", "innocent", "data"].map(k => `<optgroup label="${CON_GROUP[k]}">${c.catalog.filter(x => x.kind === k)
     .map(x => `<option value="${x.id}" ${x.id === S.con.scenario ? "selected" : ""}>${esc(x.title)}</option>`).join("")}</optgroup>`).join("");
+  const agents = !live ? "" : `<div class="con-agents"><span class="faint">Agents</span><div class="segmented" role="group" aria-label="Agents">${
+    ["live", "replay", "mock"].map(m => `<button type="button" data-agents="${m}" aria-pressed="${c.agents === m}" ${busy || (m === "live" && !c.has_key) ? "disabled" : ""}>${AGENT_MODE[m]}</button>`).join("")}</div>
+    ${c.spend > 0 ? `<span class="faint num">$${c.spend.toFixed(2)} spent</span>` : ""}</div>`;
   const controls = !live ? "" : !c.session
     ? `<div class="con-controls"><button class="btn btn-primary" type="button" data-con="start" ${dis}>Start live market</button></div>`
     : `<div class="con-controls">
@@ -645,24 +816,37 @@ function renderConsole() {
       </div>`;
   const status = busy ? `<span class="con-status"><i class="live-dot"></i>${esc(c.job)}</span>`
     : sess ? `<span class="con-status">Market at <b>${esc(clockText(sess.last_hour))}</b></span>` : "";
-  const rows = sess ? c.log.map(consoleRow).join("") : "";
+  const groups = sess ? conGroups(c.log) : [];
+  const lastHourIdx = groups.map(g => !g.solo).lastIndexOf(true);
+  const rows = groups.map((g, i) => conGroupHTML(g, i === lastHourIdx, busy)).join("");
+  const results = new Map((c.results || []).map(r => [`${r.id}|${r.at}`, r]));
+  const scenarios = (sess?.injected || []).slice().reverse().map(s => conScenario(s, results.get(`${s.id}|${s.at}`))).join("");
   slot.innerHTML = `<section class="console" id="console" aria-label="Event console">
     <div class="con-head"><h2 class="section-title">Event console</h2>
       <div class="segmented" role="group" aria-label="Data shown">
         <button type="button" data-source="recorded" aria-pressed="${!live}">Recorded run</button>
         <button type="button" data-source="live" aria-pressed="${live}">Live market</button></div>
-      ${status}</div>
+      ${agents}${status}</div>
     ${controls}
     ${S.con.error ? `<p class="con-error">${esc(S.con.error)}</p>` : ""}
-    ${rows ? `<ol class="con-log" id="con-log">${rows}</ol>` : ""}
+    ${sess ? conPipeline(c, groups) : ""}
+    ${rows || scenarios ? `<div class="con-body">
+      <ol class="con-log" id="con-log">${rows}</ol>
+      ${scenarios ? `<div class="con-scns">${scenarios}</div>` : ""}</div>` : ""}
   </section>`;
   slot.querySelectorAll("[data-source]").forEach(b => b.addEventListener("click", () => {
     if (b.getAttribute("aria-pressed") !== "true") consoleAct({ action: "source", source: b.dataset.source });
   }));
+  slot.querySelectorAll("[data-agents]").forEach(b => b.addEventListener("click", () => {
+    if (b.getAttribute("aria-pressed") !== "true") consoleAct({ action: "agents", mode: b.dataset.agents });
+  }));
   slot.querySelectorAll("[data-con]").forEach(b => b.addEventListener("click", () => {
     const a = b.dataset.con;
     if (a === "inject") consoleAct({ action: "inject", id: $("#con-scenario").value });
-    else if (a === "run") consoleAct({ action: "run", hours: Number(b.dataset.hours) });
+    else if (a === "run") {
+      S.con.followed = new Set(); S.con.runFrom = c.log.at(-1)?.n || 0;
+      consoleAct({ action: "run", hours: Number(b.dataset.hours) });
+    }
     else if (a === "start" || confirm("Restart the live market from a quiet history?")) consoleAct({ action: "start" });
   }));
   $("#con-scenario")?.addEventListener("change", e => { S.con.scenario = e.target.value; });
@@ -670,11 +854,27 @@ function renderConsole() {
   if (log) log.scrollTop = log.scrollHeight;
 }
 
+// After +N h the investigation on screen follows the agent: each investigation it starts opens by itself (a running
+// one streams into the graph, a finished one plays from the start).
+function followAgents() {
+  const c = S.con.data;
+  if (!c || c.source !== "live" || S.view !== "investigation" || S.con.runFrom == null) return;
+  const m = c.log.filter(e => e.n > S.con.runFrom && e.kind === "note")
+    .map(e => RE_INV.exec(e.text) || RE_STEP.exec(e.text)).filter(Boolean).at(-1);
+  const id = m?.[1];
+  if (!id || S.con.followed.has(id) || !(S.ov?.incidents || []).some(i => i.id === id)) return;
+  S.con.followed.add(id);
+  S.con.follow = id;
+  if (S.inv.incidentId !== id) location.hash = `#/investigation/${encodeURIComponent(id)}`;
+  else { S.inv.key = ""; renderInvestigation(false); }
+}
+
 async function loadConsole() {
   try { S.con.data = await api.console(); } catch (e) { return; }
   renderConsole();
+  followAgents();
   clearTimeout(S.con.timer);
-  if (S.con.data.busy) S.con.timer = setTimeout(refresh, 1200);   // follow a running job closely
+  if (S.con.data.busy) S.con.timer = setTimeout(refresh, 1000);   // follow a running job closely
 }
 
 async function consoleAct(body) {
@@ -688,11 +888,6 @@ async function consoleAct(body) {
   await refresh();
 }
 
-document.addEventListener("keydown", e => {
-  if (S.view !== "investigation" || e.target.closest("input, select, textarea")) return;
-  if (e.key === "ArrowRight") { stopPlay(); setFrame(S.inv.frame + 1); }
-  if (e.key === "ArrowLeft") { stopPlay(); setFrame(S.inv.frame - 1); }
-});
 
 // ---------- metric graph ----------
 async function renderGraph(navigated) {

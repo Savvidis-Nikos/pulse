@@ -168,7 +168,9 @@ export function createOrrery(host, { onSelect } = {}) {
     return m ? pt.matrixTransform(m.inverse()) : { x: 0, y: 0 };
   }
 
+  // the wheel scrolls the page; Ctrl + wheel (and a trackpad pinch, which arrives as one) zooms the graph
   svg.addEventListener("wheel", e => {
+    if (!e.ctrlKey && !e.metaKey) return;
     e.preventDefault();
     const p = toUser(e);
     zoom(e.deltaY > 0 ? 1.12 : 1 / 1.12, p.x, p.y);

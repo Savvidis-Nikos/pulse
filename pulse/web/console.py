@@ -7,8 +7,11 @@ One job runs at a time, in a worker thread:
     start           quiet history from 1 Nov up to START_AT, fresh Pulse state, first check
     inject <id>     a simulator scenario, live from the next market hour
     run <hours>     simulate the hours in memory, write the files once, then `python -m pulse replay` over them
+    agents <mode>   live (real Claude calls, capped), replay (recorded answers, free) or mock; starts as PULSE_LLM
 The simulator stays in memory between runs (about 0.1 s per hour); after a server restart it is rebuilt once from
-live.json (about 25 s). Pulse runs in its own process, exactly as on the command line.
+live.json (about 25 s). Pulse runs in its own process, exactly as on the command line, with PULSE_STREAM_LOG=1: every
+decision and every investigation step reaches the console log while it happens. After each run every injected
+scenario is scored against the simulator's ground truth with pulse.evaluate.score (detected, cause, segment).
 """
 from __future__ import annotations
 
@@ -46,6 +49,8 @@ CATALOG = [
 ]
 TITLE = {sid: title for sid, _, title in CATALOG}
 TICK_LINE = re.compile(r"^\[(\d{4}-\d\d-\d\d \d\d:\d\d)\] tick")
+CHECKING_LINE = re.compile(r"^\[(\d{4}-\d\d-\d\d \d\d:\d\d)\] checking$")
+AGENT_MODES = ("live", "replay", "mock")
 
 
 def _hm(ts) -> str:
@@ -67,6 +72,18 @@ class Console:
         self._mp = None                   # simulator kept in memory between runs
         self._pending: list = []
         self._truths: list = []
+        from pulse import llm
+        llm.load_dotenv()
+        self.has_key = bool(os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN"))
+        # which agents the market's Pulse runs with: the server's PULSE_LLM until the UI switches (live is deliberate)
+        env = os.environ.get("PULSE_LLM", "mock")
+        self.agents = env if env in AGENT_MODES and (env != "live" or self.has_key) else "mock"
+        self._results: list[dict] = []
+        self._truth_cache: dict = {}
+        try:
+            self._score()                 # after a server restart the scenario results come back from the state
+        except Exception:
+            pass
 
     # ---------- what the UI reads ----------
     def session(self) -> dict | None:
@@ -84,17 +101,96 @@ class Console:
     def status(self) -> dict:
         st = self.session()
         with self._log_lock:
-            log = self._log[-150:]
+            log = self._log[-LOG_KEEP:]
         return {
             "enabled": True, "source": self.source, "busy": self.job is not None, "job": self.job,
+            "agents": self.agents, "has_key": self.has_key, "spend": self._spend(),
             "catalog": [{"id": sid, "kind": kind, "title": title} for sid, kind, title in CATALOG],
             "session": None if not st else {
                 "clock": st["now"],
                 "last_hour": (datetime.fromisoformat(st["now"]) - timedelta(hours=1)).strftime("%Y-%m-%d %H:%M"),
-                "injected": [{"id": i["name"], "title": TITLE.get(i["name"], i["name"].replace("_", " ")), "at": i["at"]}
-                             for i in st["injected"]]},
+                "injected": [self._scenario(i) for i in st["injected"]]},
+            "results": self._results if st else [],
             "log": log,
         }
+
+    def _truth(self, name: str, at: str) -> dict:
+        """The simulator's ground truth for an injected scenario (what really changed; Pulse never reads it)."""
+        if (name, at) not in self._truth_cache:
+            try:
+                import pandas as pd
+                from marketplace import live as L
+                self._truth_cache[(name, at)] = dict(L.build(name, pd.Timestamp(at))[1])
+            except Exception:
+                self._truth_cache[(name, at)] = {"id": name, "kind": "fault", "segment": {}}
+        return self._truth_cache[(name, at)]
+
+    def _scenario(self, inj: dict) -> dict:
+        t = self._truth(inj["name"], inj["at"])
+        return {"id": inj["name"], "title": TITLE.get(inj["name"], inj["name"].replace("_", " ")), "at": inj["at"],
+                "kind": t.get("kind"), "metric": t.get("metric"), "segment": t.get("segment") or {},
+                "cause": t.get("cause"), "event": t.get("first_cause_event"), "start": t.get("start"), "end": t.get("end")}
+
+    def _spend(self) -> float:
+        try:
+            return float(json.loads((self.state / "spend.json").read_text(encoding="utf-8"))["usd"])
+        except Exception:
+            return 0.0
+
+    def _score(self):
+        """Score every injected scenario against what Pulse did, with the offline scorecard's rules."""
+        st = self.session()
+        if not st or not st["injected"]:
+            self._results = []
+            return
+        from pulse import contracts as C
+        from pulse.evaluate import score
+        try:
+            incs = [C.Incident.model_validate(x)
+                    for x in json.loads((self.state / "incidents.json").read_text(encoding="utf-8"))]
+        except Exception:
+            incs = []
+        interps = {}
+        for f in (self.state / "interpretations").glob("*.json"):
+            if not f.name.endswith(".partial.json"):
+                try:
+                    interps[f.stem] = json.loads(f.read_text(encoding="utf-8"))
+                except Exception:
+                    pass
+        with self._log_lock:
+            log = list(self._log)
+        nonok: dict[str, set] = {}
+        for e in log:
+            if e["kind"] == "check" and e.get("t"):
+                part = e["text"].split(" | ")[1] if " | " in e["text"] else ""
+                for word, sev in ((" DATA", "data_issue"), (" ALERT", "alert"), (" watch", "watch")):
+                    if word in " " + part:
+                        nonok.setdefault(sev, set()).add(e["t"])
+        truths = [self._truth(i["name"], i["at"]) for i in st["injected"]]
+        # the incident on the scenario's own metric speaks for it (score() reads the first one), then the oldest
+        metrics = {t.get("metric") for t in truths}
+        incs.sort(key=lambda i: (i.kpi not in metrics, i.opened_at))
+        card = score(incs, interps, nonok, truths)
+        opened = {}      # incident id -> the check hour that opened it
+        for e in log:
+            m = re.search(r"-> opened (INC-\S+)$", e["text"]) if e["kind"] == "step" else None
+            if m and e.get("t"):
+                opened.setdefault(m.group(1), e["t"])
+        rows = []
+        for inj, sc, r in zip(st["injected"], truths, card["scenarios"]):
+            mine = r.get("incidents", [])
+            row = {"id": inj["name"], "at": inj["at"], "kind": sc.get("kind"), "incidents": mine,
+                   "alert_at": opened.get(mine[0]) if mine else None,
+                   **{k: r.get(k) for k in ("detected", "hours_to_detect", "cause_named", "segment_named", "confidence",
+                                            "headline", "false_alert", "data_issue_seen")}}
+            if sc.get("kind") == "innocent":    # the dip was seen and matched to the planned change
+                ev = str(sc.get("first_cause_event") or "").lower()
+                row["seen"] = any(e["kind"] == "check" and (e.get("t") or "") >= sc["start"] and " watch" in e["text"]
+                                  for e in log)
+                row["explained"] = bool(ev) and any(e["kind"] == "step" and "-> watch" in e["text"]
+                                                    and ev in e["text"].lower() for e in log)
+            rows.append(row)
+        self._results = rows
 
     def state_dir(self, recorded: Path) -> Path:
         return self.state if self.source == "live" else recorded
@@ -106,6 +202,15 @@ class Console:
             if body.get("source") not in ("recorded", "live"):
                 return {"error": "source must be recorded or live"}, 400
             self.source = body["source"]
+            return self.status(), 200
+        if action == "agents":
+            if body.get("mode") not in AGENT_MODES:
+                return {"error": "mode must be live, replay or mock"}, 400
+            if self.job is not None:
+                return {"error": "The market is busy, try again when the current run ends"}, 409
+            if body["mode"] == "live" and not self.has_key:
+                return {"error": "No Claude API key: add ANTHROPIC_API_KEY to .env and restart the server"}, 400
+            self.agents = body["mode"]
             return self.status(), 200
         if action == "start":
             self.source = "live"
@@ -176,6 +281,7 @@ class Console:
         self._pulse(["reset"])                       # fresh Pulse state (keeps recorded LLM cassettes)
         with self._log_lock:
             self._log = []
+        self._results = []
         self.log_path.unlink(missing_ok=True)
         now = pd.Timestamp(START_AT)
         last = now - pd.Timedelta(hours=1)
@@ -201,6 +307,7 @@ class Console:
             self._truths.append(truth)
         start = pd.Timestamp(truth["start"])
         self._add("inject", f"{TITLE[sid]}, from {_hm(start)}", t=str(at)[:16], scenario=sid)
+        self._score()
 
     def _run(self, hours: int):
         import pandas as pd
@@ -222,7 +329,11 @@ class Console:
         self._save(st)
         span = f"{first:%H:%M}" if hours == 1 else f"{first:%H:%M} to {now - H:%H:%M}"
         self._add("market", f"Market ran {hours} hour{'s' if hours > 1 else ''} ({span})", t=str(now - H)[:16])
+        spent = self._spend()
         self._replay(first, now - H)
+        self._score()
+        if self._spend() > spent:
+            self._add("cost", f"The agents spent ${self._spend() - spent:.2f} on these hours", t=str(now - H)[:16])
 
     def _ensure_sim(self, st: dict):
         if self._mp is not None:
@@ -243,8 +354,8 @@ class Console:
 
     # ---------- Pulse ----------
     def _env(self) -> dict:
-        return {**os.environ, "PULSE_STATE": str(self.state), "PULSE_DATA": str(self.data),
-                "PYTHONIOENCODING": "utf-8", "PYTHONUNBUFFERED": "1"}
+        return {**os.environ, "PULSE_STATE": str(self.state), "PULSE_DATA": str(self.data), "PULSE_LLM": self.agents,
+                "PULSE_STREAM_LOG": "1", "PYTHONIOENCODING": "utf-8", "PYTHONUNBUFFERED": "1"}
 
     def _pulse(self, args: list[str]) -> subprocess.CompletedProcess:
         return subprocess.run([sys.executable, "-m", "pulse", *args], cwd=self.root, env=self._env(),
@@ -259,12 +370,17 @@ class Console:
         t, other = None, []
         for raw in p.stdout:
             line = raw.rstrip()
-            m = TICK_LINE.match(line)
-            if m:
+            m, c = TICK_LINE.match(line), CHECKING_LINE.match(line)
+            if c:                                   # an hour starts: its lines stream in until the tick line
+                t = c.group(1)
+                self._add("checking", f"Checking {t[11:16]}", t=t)
+            elif m:
                 t = m.group(1)
                 self._add("check", line, t=t)
             elif line.startswith("      - "):
                 self._add("step", line.strip()[2:], t=t)
+            elif line.startswith("      ~ "):     # progress of a running agent, not part of the tick log
+                self._add("note", line.strip()[2:], t=t)
             elif line.strip():
                 other.append(line)
         if p.wait() != 0:
