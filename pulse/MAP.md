@@ -61,7 +61,7 @@ graph_changes.jsonl (re-applied on every load = graph survives restarts), inbox/
 - loop: `.venv/Scripts/python.exe -m pulse tick [--at TS | --next] | replay --start TS --end TS | watch [--interval-s S]
   [--start TS] | recheck | status | spend | reset [--all]`; watch = the always-on loop (a failing check is logged and
   retried with back-off, one watcher per state dir, stops at the end of the data); the UI top bar shows it live
-  (app.js `loopState`). Briefing = status counts, the agent's short summary, the metrics table and
+  (app.js `loopState`). Briefing = status counts, the metrics table and
   an Issues card; a row's detail = the problem in 1-2 sentences (`gist`) + one conclusion line (`kpiConclusion`,
   overview interpretations[].cause = first_cause.node)
 - demo window: `replay --start "2026-11-17 12:00" --end "2026-11-19 03:00"` (payment fault DE/android 11-17 15:00,

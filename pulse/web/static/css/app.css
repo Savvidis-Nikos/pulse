@@ -598,6 +598,11 @@ select {
   .brief-side { position: static; max-height: none; }
   .status .status-item.hide-narrow { display: none; }
 }
+@media (min-width: 821px) and (max-width: 1180px) {
+  /* metric graph: the reading column stays to the right of the graph in a half-screen window */
+  #graph-shell { grid-template-columns: minmax(0, 1.65fr) minmax(300px, 1fr); }
+  #graph-shell .legend-cols { grid-template-columns: minmax(0, 1fr); }
+}
 @media (max-width: 900px) {
   .ledger .col-expected { display: none; }   /* the table fits down to the stacked layout below */
 }

@@ -314,11 +314,6 @@ function renderBriefing() {
   }
   const items = new Map((b?.items || []).map(i => [i.kpi, i]));
   const changes = changesAt(t);
-  const rewritten = (t.log || []).some(l => /^brief by orchestrator agent \((live|replay)/.test(l));
-  // Under the headline: the first plain paragraph of the brief only. Per-metric lines live in the table.
-  const strip = s => s.trim().replace(/[.\s]+$/, "");
-  const intro = (b?.text || "").split("\n").map(l => l.trim())
-    .find(l => l && !/^[-•*]\s+/.test(l) && !/^On track:/.test(l) && !(b?.headline && strip(l) === strip(b.headline)));
   const counts = ["alert", "data_issue", "watch", "ok"].map(s => [s, t.kpis.filter(k => k.severity === s).length]).filter(([, n]) => n);
   const incs = incidents();
   // a bare clock time only for today's events; older ones carry their date
@@ -368,9 +363,7 @@ function renderBriefing() {
           <span>${longTime(b?.ts || t.ts)}</span>
           <button class="refresh-btn" type="button" id="refresh-btn" ${S.refreshing ? `disabled aria-busy="true"` : ""} title="Load the next hour of simulated marketplace data and run the check on it">${icon("refresh-cw")}<span>${S.refreshing ? "Loading new data…" : "Refresh data"}</span></button>
           ${S.refreshMsg ? `<span class="refresh-msg">${esc(S.refreshMsg)}</span>` : ""}
-          ${rewritten ? `<span class="change-tag">Rewritten by the briefing agent</span>` : ""}
         </div>
-        ${intro ? `<p class="brief-text"${rewritten ? " data-new" : ""}>${esc(plain(intro))}</p>` : ""}
         <p class="brief-counts">${counts.map(([s, n]) => `<span class="sev" data-sev="${s}"><i></i>${n} ${COUNT_WORD[s](n)}</span>`).join("")}</p>
         ${followUp.length ? `<p class="follow-up"><b>Watching closely:</b> ${followUp.join(", ")}</p>` : ""}
       </div>
