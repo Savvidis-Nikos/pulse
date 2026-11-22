@@ -13,6 +13,9 @@ A static dataset (no live.json) is never rewritten.
 The event console (pulse/web/console.py) runs a separate live market in data/live/ with its own state .pulse_live/:
 GET /api/console is its status and log, POST /api/console {action: source|start|inject|run} drives it. While the UI
 shows the live market, every endpoint reads .pulse_live/ and Refresh runs the market one hour.
+The CEO's choices (pulse/choices.py, choices.json at the repo root, shared by the recorded run and the live market):
+GET /api/overview includes them; POST /api/choices {action: pin|untrack|restore, metric} saves one and runs
+`python -m pulse recheck` on the state on screen, so the row appears or leaves without new data.
 """
 from __future__ import annotations
 
@@ -28,6 +31,7 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
+from pulse import choices as CH
 from pulse.web.console import Console
 
 STATIC = Path(__file__).resolve().parent / "static"
@@ -108,9 +112,31 @@ def with_frames(interp: dict, state: Path) -> dict:
     return interp
 
 
+def _metric_nodes(snap: dict) -> dict[str, str]:
+    """Real metrics drawn in a graph snapshot (not releases, segments or data-quality nodes): id -> label."""
+    return {n["id"]: n.get("label") or n["id"] for n in snap.get("nodes") or []
+            if isinstance(n, dict) and n.get("kind") in ("kpi", "metric") and CH.METRIC_ID.match(str(n.get("id", "")))}
+
+
+def metric_labels(state: Path) -> dict[str, str]:
+    """Every metric drawn in this state's graph snapshots: id -> label."""
+    out: dict[str, str] = {}
+    for f in (state / "snapshots").glob("*.json"):
+        d = _read_json(f)
+        if isinstance(d, dict):
+            out.update(_metric_nodes(d))
+    return out
+
+
+def choices_view(labels: dict[str, str]) -> dict:
+    """The CEO's choices for the UI, with a name for every metric in them (kpis.yaml label, else its graph label)."""
+    ch, names = CH.load(), {**labels, **CH.kpi_labels()}
+    return {**ch, "labels": {m: names.get(m) for m in ch["pinned"] + ch["untracked"]}}
+
+
 def overview(state: Path) -> dict:
     """Everything the briefing page needs in one call, plus an index of investigations."""
-    snaps = []
+    snaps, labels = [], {}
     sdir = state / "snapshots"
     if sdir.exists():
         for f in sorted(sdir.glob("*.json"), key=lambda p: p.stat().st_mtime, reverse=True):
@@ -118,6 +144,7 @@ def overview(state: Path) -> dict:
             if isinstance(d, dict):
                 snaps.append({"snapshot_id": d.get("snapshot_id", f.stem), "kpi": d.get("kpi"),
                               "center": d.get("center"), "ts": d.get("ts"), "nodes": len(d.get("nodes", []))})
+                labels.update(_metric_nodes(d))
     interps = []
     idir = state / "interpretations"
     if idir.exists():
@@ -133,6 +160,8 @@ def overview(state: Path) -> dict:
                             "summary": d.get("summary"), "confidence": d.get("confidence"),
                             "steps": len(d.get("trace") or [])})
     mt = [p.stat().st_mtime for p in state.rglob("*") if p.is_file()] if state.exists() else []
+    if CH.path().exists():
+        mt.append(CH.path().stat().st_mtime)   # a saved choice re-renders the page too
     return {
         "state_dir": str(state),
         "found": state.exists(),
@@ -146,6 +175,7 @@ def overview(state: Path) -> dict:
         "interpretations": interps,
         "cap_usd": float(os.environ.get("PULSE_TOTAL_CAP_USD", "12.0")),
         "legend": getattr(_encoding(), "LEGEND", None),
+        "choices": choices_view(labels),
     }
 
 
@@ -194,6 +224,39 @@ def refresh(state: Path) -> tuple[dict, int]:
         _refreshing.release()
 
 
+def choose(state: Path, body: dict, lock: threading.Lock) -> tuple[dict, int]:
+    """Pin, untrack or restore one metric, then re-check the last hour of `state` (`python -m pulse recheck`: no new
+    data, no LLM call) so the briefing shows the change at once. `lock` guards that state: a running check is waited
+    for (up to a minute, else the next check applies the choice). The other state applies it on its next check."""
+    action, metric = body.get("action"), body.get("metric")
+    if action not in CH.ACTIONS:
+        return {"error": "action must be pin, untrack or restore"}, 400
+    if not isinstance(metric, str) or not CH.METRIC_ID.match(metric):
+        return {"error": "Only metrics can be pinned or untracked"}, 400
+    ch, base, labels = CH.load(), CH.kpi_labels(), metric_labels(state)
+    rows = {k.get("name") for k in (_read_json(state / "state.json") or {}).get("kpis") or [] if isinstance(k, dict)}
+    if action == "pin" and metric not in base and metric not in labels:
+        return {"error": "Only metrics drawn on a graph can be pinned"}, 400
+    if action == "untrack" and metric not in rows | set(base) | set(ch["pinned"]):
+        return {"error": "This metric is not on the briefing"}, 400
+    if action == "restore" and metric not in ch["untracked"]:
+        return {"error": "This metric is not untracked"}, 400
+    CH.apply(action, metric)
+    if not (state / "state.json").exists():
+        return {"message": "Saved", "choices": choices_view(labels)}, 200
+    if not lock.acquire(timeout=60):
+        return {"message": "Saved. It shows on the next check", "choices": choices_view(labels)}, 202
+    try:
+        r = _run(["pulse", "recheck"], {**os.environ, "PULSE_STATE": str(state), "PYTHONIOENCODING": "utf-8"})
+    except subprocess.TimeoutExpired:
+        return {"error": "Saved, but the check took too long"}, 504
+    finally:
+        lock.release()
+    if r.returncode != 0:
+        return {"error": f"Saved, but the check failed: {_last_error(r, 'no output')}"}, 500
+    return {"message": "Saved", "choices": choices_view(labels)}, 200
+
+
 class Handler(SimpleHTTPRequestHandler):
     state_dir: Path = Path(".pulse")
     allow_refresh: bool = True
@@ -235,7 +298,8 @@ class Handler(SimpleHTTPRequestHandler):
         parts = [p for p in path.split("/") if p][1:]
         st = self._state()
         if parts == ["overview"]:
-            return self._json({**overview(st), "source": self.console.source if self.console else "recorded"})
+            return self._json({**overview(st), "source": self.console.source if self.console else "recorded",
+                               **({} if self.allow_refresh else {"choices": None})})
         if parts == ["console"]:
             return self._json(self.console.status() if self.console else {"enabled": False})
         if len(parts) == 2 and SAFE_ID.match(parts[1]):
@@ -263,6 +327,13 @@ class Handler(SimpleHTTPRequestHandler):
             if self.console and self.console.source == "live":
                 return self._json(*self.console.run_sync(1))
             return self._json(*refresh(self.state_dir))
+        if path == "/api/choices":
+            if not self.allow_refresh:
+                return self._json({"error": "Pinning is off for the demo fixtures"}, 403)
+            st = self._state()
+            live = self.console is not None and st == self.console.state
+            # the lock of whatever writes that state: the console's job lock for the live market, else Refresh's
+            return self._json(*choose(st, self._body(), self.console._busy if live else _refreshing))
         if path == "/api/console":
             if not self.console:
                 return self._json({"error": "The event console is off for the demo fixtures"}, 403)

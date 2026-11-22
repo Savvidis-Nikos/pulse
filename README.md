@@ -26,11 +26,12 @@ copy .env.example .env      # optional: add ANTHROPIC_API_KEY for live runs
 # monitoring loop (mock LLM by default)
 .\.venv\Scripts\python.exe -m pulse replay --start "2026-11-17 12:00" --end "2026-11-19 03:00"   # demo window
 .\.venv\Scripts\python.exe -m pulse tick --next
+.\.venv\Scripts\python.exe -m pulse recheck    # apply pinned / untracked metrics to the last checked hour
 .\.venv\Scripts\python.exe -m pulse status
 .\.venv\Scripts\python.exe -m pulse reset
 
 # checks
-.\.venv\Scripts\python.exe -m pytest tests/pulse -q    # 53 tests, incl. a check that this README matches the code
+.\.venv\Scripts\python.exe -m pytest tests/pulse -q    # 58 tests, incl. a check that this README matches the code
 .\.venv\Scripts\python.exe -m pulse.evaluate           # scorecard against the simulator's ground truth
 ```
 

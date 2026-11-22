@@ -6,6 +6,8 @@ Lifecycle
                                                  grew >= 1.5x (and >= 3 points) since it was last reported
   ok / watch                                  -> recovery streak += 1; RESOLVED after `resolve_after` ticks
   data_issue                                  -> held (no judgement on untrustworthy data)
+  metric untracked by the CEO                 -> closed as "no longer tracked" (close_untracked; not a resolution,
+                                                 so nothing is written to case memory)
 Segment incidents (update_segments): same lifecycle keyed by kpi + segment + direction, INC-<kpi>-<value>-<onset>.
 An alerting cell that an active incident already explains (the KPI total in the same direction, or an incident whose
 segment - its own or the one its interpretation localised - contains the cell) is ATTACHED to it (noted once, never
@@ -117,6 +119,15 @@ class IncidentBook:
             for inc in self.active(st.name, segment=None):
                 self._recover(inc, st, ts, events)
         return events
+
+    def close_untracked(self, tracked: set[str], now) -> list[Incident]:
+        """Close the open incidents of metrics no longer in the headline set (`tracked`)."""
+        ts = f"{pd.Timestamp(now):%Y-%m-%d %H:%M}"
+        closed = [i for i in self.active() if i.kpi not in tracked]
+        for inc in closed:
+            inc.state, inc.resolved_at, inc.closed_reason = "resolved", ts, "no longer tracked"
+            inc.history.append(f"{ts} closed: {inc.kpi} is no longer tracked")
+        return closed
 
     def update_segments(self, cells: list, now, localized: dict[str, dict] | None = None) -> list[IncidentEvent]:
         """Apply this tick's checked segment cells (monitor.Evaluation with .segment); unchecked cells are not judged.

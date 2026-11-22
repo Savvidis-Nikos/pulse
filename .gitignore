@@ -12,6 +12,9 @@ __pycache__/
 .pulse/
 .pulse_live/
 
+# the CEO's pinned / untracked metrics (pulse/choices.py): kept across runs and resets, never committed
+/choices.json
+
 # learned graph base read by the argus library (added metrics, aliases, learned edges).
 # Pulse was built and scored with these 4 files present: keep them, ignore anything else argus writes here.
 .argus/*

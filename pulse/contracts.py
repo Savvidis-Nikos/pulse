@@ -154,6 +154,7 @@ class Incident(BaseModel):
     history: list[str] = Field(default_factory=list)
     recalled: list[str] = Field(default_factory=list)   # similar past incidents from memory (hypotheses, not evidence)
     segment: Optional[dict] = None          # {"country": "NL"}: a segment incident (the KPI total is not alerting)
+    closed_reason: Optional[str] = None     # closed without resolving: "no longer tracked" (the CEO untracked the metric)
 
 
 # ---------------------------------------------------------------- interpretation
