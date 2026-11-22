@@ -1,4 +1,5 @@
-// Calls to the Pulse server. Nothing here computes analytics; refresh asks the server to run the next check.
+// Calls to the Pulse server. Nothing here computes analytics; refresh asks the server to run the next check,
+// choose saves the CEO's pin / untrack / restore of a metric.
 
 async function get(path, opts = {}) {
   const r = await fetch(path, { cache: "no-store", ...opts });
@@ -19,4 +20,5 @@ export const api = {
   refresh: () => get("/api/refresh", { method: "POST" }),
   console: () => get("/api/console"),
   consoleAct: body => get("/api/console", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }),
+  choose: (action, metric) => get("/api/choices", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action, metric }) }),
 };

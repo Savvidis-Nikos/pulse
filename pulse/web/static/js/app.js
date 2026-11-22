@@ -153,6 +153,9 @@ const ACTIVITY = [
     return added.length ? `The graph agent added ${added.join(", ")} to the metric graph from ${f}${causes ? `, with ${causes} cause link${causes === 1 ? "" : "s"}` : ""}.`
       : `The graph agent read ${f} but added no new metric.`;
   }],
+  [/^(\S+) pinned: now monitored like the headline metrics$/, k => `${metricName(k)} was pinned to the briefing and is now monitored like the headline metrics.`],
+  [/^(\S+) restored: monitored again as a headline metric$/, k => `${metricName(k)} is back on the briefing.`],
+  [/^(\S+) untracked: watched in the background only(, .* closed as no longer tracked)?$/, (k, closed) => `${metricName(k)} was untracked: it is watched in the background only${closed ? " and its open issue was closed" : ""}.`],
   [/^LLM budget above 80% of cap/, () => "The agent budget is above 80% of its cap, so routine re-checks were skipped."],
   [/^(\d+) investigations wanted, running the top (\d+)/, (n, m) => `${n} issues needed investigating: the top ${m} were investigated, the rest wait for the next check.`],
 ];
@@ -168,6 +171,27 @@ const longTime = iso => {
   const d = new Date(iso);
   return Number.isNaN(d.getTime()) ? iso : d.toLocaleString("en-GB", { weekday: "long", day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" });
 };
+// a metric's name, also for metrics that have no row (untracked ones)
+const metricName = id => cap(plain(kpiOf(id)?.label || S.ov?.choices?.labels?.[id] || prettyId(id)));
+
+// The CEO's choices (pulse/choices.py): untrack a row, restore it, pin a metric from a graph.
+const CHOICE = { busy: null, msg: "" };
+async function choose(action, metric) {
+  if (CHOICE.busy) return;
+  CHOICE.busy = metric; CHOICE.msg = "";
+  if (S.view === "briefing") renderBriefing();
+  try {
+    const r = await api.choose(action, metric);
+    if (r.message && r.message !== "Saved") CHOICE.msg = `${r.message}.`;
+    if (action === "untrack") S.open.delete(metric);
+  } catch (e) {
+    CHOICE.msg = `Could not save: ${e.message}`;
+  }
+  CHOICE.busy = null;
+  await refresh();
+  if (S.view === "briefing") renderBriefing();
+}
+
 const COUNT_WORD = { alert: n => n === 1 ? "needs attention" : "need attention", data_issue: () => "with incomplete data", watch: () => "being watched", ok: () => "normal" };
 
 async function refreshData() {
@@ -190,7 +214,7 @@ function kpiConclusion(k) {
   const inc = incidents().find(i => i.id === k.incident_id) || incidents().find(i => i.kpi === k.name);
   if (!inc) return "";
   const it = interpIndex(inc.id), done = inc.state === "resolved";
-  const label = done ? `Last issue, resolved ${fmtTime(inc.resolved_at || inc.last_seen)}` :
+  const label = done ? `Last issue, ${inc.closed_reason ? "closed" : "resolved"} ${fmtTime(inc.resolved_at || inc.last_seen)}` :
     it?.partial ? "Being investigated now" : it ? `Conclusion${it.confidence ? `, ${CONFIDENCE[it.confidence].toLowerCase()}` : ""}` : "Not investigated yet";
   const head = it?.headline || inc.headline.split(" - ").pop();
   return `<div class="kpi-conclusion">
@@ -211,6 +235,8 @@ const noteText = note => {
 
 function kpiDetail(k, item) {
   const text = plain(item?.detail || noteText(k.note));
+  const untrack = S.ov.choices ? `<button class="link-btn untrack-btn" type="button" data-untrack="${esc(k.name)}" ${CHOICE.busy ? "disabled" : ""}
+    title="Move it to the background: no alerts of its own, still used in investigations">${CHOICE.busy === k.name ? "Untracking…" : "Untrack"}</button>` : "";
   const last = (k.series || []).at(-1), facts = [];
   if (last?.lo != null && last?.hi != null) {
     const hi = k.unit === "ratio" ? Math.min(last.hi, 1) : last.hi;
@@ -219,7 +245,7 @@ function kpiDetail(k, item) {
   if (k.onset_ts && k.severity !== "ok") facts.push(`Outside its normal range since ${fmtTime(k.onset_ts)}`);
   if (k.completeness != null) facts.push(k.completeness >= 0.995 ? "All data for the hour arrived" : `${Math.round(k.completeness * 100)}% of the hour's data arrived`);
   return `<div class="kpi-more">
-    <div>${text ? `<p class="kpi-why">${esc(text)}</p>` : ""}<p class="kpi-facts">${facts.map(esc).join(`<span aria-hidden="true"> · </span>`)}</p></div>
+    <div>${text ? `<p class="kpi-why">${esc(text)}</p>` : ""}<p class="kpi-facts">${facts.map(esc).join(`<span aria-hidden="true"> · </span>`)}</p>${untrack}</div>
     ${kpiConclusion(k)}
   </div>`;
 }
@@ -241,7 +267,7 @@ function renderBriefing() {
   // a bare clock time only for today's events; older ones carry their date
   const at = ts => String(ts || "").slice(0, 10) === String(t.ts).slice(0, 10) ? fmtClock(ts) : fmtTime(ts);
   const issueRows = incs.map(i => {
-    const when = i.state === "resolved" ? `Started ${at(i.onset_ts || i.opened_at)}, resolved ${at(i.resolved_at || i.last_seen)}` :
+    const when = i.state === "resolved" ? `Started ${at(i.onset_ts || i.opened_at)}, ${i.closed_reason ? "closed" : "resolved"} ${at(i.resolved_at || i.last_seen)}${i.closed_reason ? ", no longer tracked" : ""}` :
       `Open since ${at(i.onset_ts || i.opened_at)}`;
     const live = interpIndex(i.id)?.partial;
     // "monitor headline - interpreter conclusion": lead with the conclusion
@@ -253,6 +279,7 @@ function renderBriefing() {
       </span></a></li>`;
   }).join("");
   const kpis = t.kpis.slice().sort((a, b2) => sevRank(a.severity) - sevRank(b2.severity));
+  const pinned = new Set(S.ov.choices?.pinned || []);
   const rows = kpis.map(k => {
     // colour only what the monitor flagged: an in-band wobble stays neutral even if it points down
     const tn = k.severity === "alert" || k.severity === "watch" ? tone(k.deviation_pct, k.polarity, true) : "flat";
@@ -260,7 +287,7 @@ function renderBriefing() {
     const open = S.open.has(k.name);
     const comp = k.completeness != null && k.completeness < 0.95 ? ` <span class="faint">(${Math.round(k.completeness * 100)}% of data)</span>` : "";
     return `<tr class="kpi-row${open ? " open" : ""}" data-kpi="${esc(k.name)}">
-      <td><div class="kpi-label">${esc(k.label)}</div>${sentence ? `<div class="kpi-sentence">${esc(sentence)}</div>` : ""}</td>
+      <td><div class="kpi-label">${esc(cap(plain(k.label)))}${pinned.has(k.name) ? ` <span class="pin-tag">Pinned</span>` : ""}</div>${sentence ? `<div class="kpi-sentence">${esc(sentence)}</div>` : ""}</td>
       <td><span class="kpi-value num">${fmtValue(k.value, k.unit)}</span></td>
       <td class="col-expected"><span class="kpi-expected num">${fmtValue(k.expected, k.unit)}</span></td>
       <td><span class="delta num" data-tone="${tn}">${fmtPct(k.deviation_pct)}${k.onset_ts && k.severity !== "ok" ? `<span class="delta-since">since ${fmtClock(k.onset_ts)}</span>` : ""}</span></td>
@@ -271,6 +298,8 @@ function renderBriefing() {
     <tr class="kpi-detail" ${open ? "" : "hidden"}><td colspan="7">${kpiDetail(k, items.get(k.name))}</td></tr>`;
   }).join("");
   const followUp = (b?.follow_up || []).map(x => esc(plain(kpiLabel(x))));
+  const background = (S.ov.choices?.untracked || []).map(m => `<span class="bg-metric">${esc(metricName(m))}
+    <button class="link-btn" type="button" data-restore="${esc(m)}" ${CHOICE.busy ? "disabled" : ""}>${CHOICE.busy === m ? "Restoring…" : "Restore"}</button></span>`);
   root.innerHTML = `
     <div class="brief">
       <div class="brief-main">
@@ -301,8 +330,12 @@ function renderBriefing() {
         <thead><tr><th>Metric</th><th>Now</th><th class="col-expected">Normal</th><th>Change</th><th class="col-spark">Last 48 hours</th><th>Status</th><th class="col-toggle"></th></tr></thead>
         <tbody>${rows}</tbody>
       </table>
+      ${background.length ? `<p class="background-line"><span class="faint">Background metrics</span>${background.join("")}</p>` : ""}
+      ${CHOICE.msg ? `<p class="refresh-msg choice-msg">${esc(CHOICE.msg)}</p>` : ""}
     </section>`;
   $("#refresh-btn", root).addEventListener("click", refreshData);
+  root.querySelectorAll("[data-untrack]").forEach(b => b.addEventListener("click", () => choose("untrack", b.dataset.untrack)));
+  root.querySelectorAll("[data-restore]").forEach(b => b.addEventListener("click", () => choose("restore", b.dataset.restore)));
   root.querySelectorAll("tr.kpi-row").forEach(tr => tr.addEventListener("click", e => {
     if (e.target.closest("a")) return;
     const name = tr.dataset.kpi, open = !S.open.has(name);
@@ -789,9 +822,51 @@ function renderChanges() {
   }).join("");
 }
 
+// ---------- pin a metric from a graph ----------
+// Clicking a metric on a graph (Investigations or Metric graph page) shows one bar in the graph's corner: pin it to
+// the briefing, or restore it when it was untracked. Releases, segments and data-quality nodes get no bar.
+function enablePinning() {
+  const isMetric = n => n && ["kpi", "metric"].includes(n.kind) && /^[a-z][a-z0-9_]*$/.test(n.id);
+  const bar = (panel, html) => {
+    let el = panel.querySelector(".pin-bar");
+    if (!html) return el?.remove();
+    if (!el) { el = document.createElement("div"); el.className = "pin-bar"; panel.appendChild(el); }
+    el.innerHTML = html;
+    return el;
+  };
+  const show = (panel, id) => {
+    const node = [S.graph.snap, S.inv.snap].flatMap(s => s?.nodes || []).find(n => n.id === id);
+    if (!S.ov?.choices || !isMetric(node)) return bar(panel, "");
+    const name = esc(cap(node.label || metricName(id)));
+    if ((S.ov.tick?.kpis || []).some(k => k.name === id)) return bar(panel, `<span><b>${name}</b> is on the briefing</span>`);
+    const action = S.ov.choices.untracked.includes(id) ? "restore" : "pin";
+    const el = bar(panel, `<span><b>${name}</b></span><button class="btn btn-primary" type="button">${action === "pin" ? "Pin to the briefing" : "Restore to the briefing"}</button>`);
+    el.querySelector("button").addEventListener("click", async e => {
+      e.currentTarget.disabled = true;
+      e.currentTarget.textContent = action === "pin" ? "Pinning…" : "Restoring…";
+      try {
+        const r = await api.choose(action, id);
+        bar(panel, `<span><b>${name}</b> ${r.message && r.message !== "Saved" ? esc(lc1(r.message)) : "is on the briefing"}</span><a href="#/briefing">Open the briefing</a>`);
+        refresh();
+      } catch (err) {
+        bar(panel, `<span>Could not pin ${name}: ${esc(err.message)}</span>`);
+      }
+    });
+  };
+  const pick = e => {
+    const panel = e.target.closest?.(".orrery-panel");
+    if (!panel || e.target.closest(".pin-bar")) return;
+    const g = e.target.closest("g.n[data-id]");
+    if (g) show(panel, g.dataset.id); else if (e.type === "click" && e.target.closest("svg")) bar(panel, "");
+  };
+  document.addEventListener("click", pick);
+  document.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") pick(e); });
+}
+
 // ---------- start ----------
 const r = parseHash();
 S.view = r.view; S.param = r.param;
 renderView(true);
+enablePinning();
 refresh();
 setInterval(refresh, 3000);
