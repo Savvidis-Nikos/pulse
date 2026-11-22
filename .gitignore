@@ -10,6 +10,7 @@ data/
 
 # runtime state of a Pulse run (python -m pulse reset)
 .pulse/
+.pulse_live/
 
 # learned graph base read by the argus library (added metrics, aliases, learned edges).
 # Pulse was built and scored with these 4 files present: keep them, ignore anything else argus writes here.

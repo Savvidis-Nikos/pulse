@@ -30,7 +30,7 @@ copy .env.example .env      # optional: add ANTHROPIC_API_KEY for live runs
 .\.venv\Scripts\python.exe -m pulse reset
 
 # checks
-.\.venv\Scripts\python.exe -m pytest tests/pulse -q    # 50 tests, incl. a check that this README matches the code
+.\.venv\Scripts\python.exe -m pytest tests/pulse -q    # 53 tests, incl. a check that this README matches the code
 .\.venv\Scripts\python.exe -m pulse.evaluate           # scorecard against the simulator's ground truth
 ```
 
@@ -51,3 +51,14 @@ dataset that the demo window and the scorecard use.
 
 The UI's **Refresh data** button checks the next hour of data. In live mode, once Pulse has seen every hour, it first
 asks the simulator for a new one (about 30 s), so each click brings fresh data. A static dataset is never rewritten.
+
+## Event console
+The Investigations page has an event console for live demos. **Live market** runs a separate simulated market, with
+its data in `data/live/` and Pulse's state in `.pulse_live/`, so the recorded run and `data/eye/` are never touched.
+- **Start live market**: a quiet history from 1 Nov up to Sunday 15 Nov, 09:00 (about 30 s).
+- **Inject**: a problem, a planned change or a data problem, live from the next market hour.
+- **+1 h / +3 h / +6 h**: the market runs, then Pulse checks each new hour and investigates what moved (about 15 s for
+  3 hours). Every step appears in the console, with a link to each finished investigation.
+
+**Recorded run** switches the whole UI back to the state the server was started with. While the live market is shown,
+the briefing's **Refresh data** button runs the market one hour.

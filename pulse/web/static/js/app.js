@@ -14,6 +14,7 @@ const S = {
   open: new Set(), refreshing: false, refreshMsg: "",
   inv: { incidentId: null, interp: null, snap: null, frame: 0, playing: false, timer: null, orrery: null, livePoll: null, key: "" },
   graph: { snapshotId: null, depth: Infinity, selected: null, orrery: null, snap: null },
+  con: { data: null, timer: null, key: "", error: "", scenario: "payment_failure" },
 };
 try { S.legendCollapsed = localStorage.getItem("pulse-legend") === "collapsed"; } catch (e) { /* storage blocked */ }
 
@@ -33,6 +34,7 @@ async function refresh() {
     S.ov = ov; S.version = ov.version;
     renderStatus();
     if (changed) renderView(false);
+    if (S.view === "investigation") await loadConsole();
   } catch (e) {
     S.error = e;
     renderStatus();
@@ -95,6 +97,12 @@ const plain = s => String(s ?? "")
   .replace(/\b(PO|PSP|AOV|CTR|GMV|ROAS|OOS|SKUs?)\b/g, a => ACRONYM[a])
   .replace(/\bKPIs\b/g, "metrics").replace(/\bKPI\b/g, "metric");
 const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+const MONTH = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const tidy = s => plain(s).replace(/path data >= ?100% complete/g, "data on the path is complete")
+  .replace(/>= ?100% complete/g, "complete").replace(/\bBAD\b/g, "bad")
+  .replace(/\b(localised|timing|cause metric): /g, "").replace(/ -> /g, " → ")
+  .replace(/\b(\d\d)-(\d\d) (\d\d:\d\d)\b/g, (m, mo, d, t) => `${+d} ${MONTH[+mo - 1]} ${t}`);
+const plainLabels = snap => { (snap?.nodes || []).forEach(n => { if (n.label) n.label = plain(n.label); }); return snap; };
 const lc1 = s => s.charAt(0).toLowerCase() + s.slice(1);
 
 // The loop's log is written for engineers ("conversion_rate -13.3% vs expected (z -2.5) -> watch");
@@ -109,7 +117,7 @@ const issueText = id => {
   return `the ${lc1(segText(inc?.kpi || (m ? m[1] : id)))} issue`;
 };
 const move = (key, pct) => `${segText(key)} is ${Math.round(Math.abs(+pct))}% ${+pct < 0 ? "below" : "above"} normal`;
-const expectedBy = s => plain(s.replace(/^expected: /, "").replace(/ \(.*\)$/, ""));   // the event's name, not its numbers
+const expectedBy = s => plain(s.replace(/^(expected|planned): /, "").split(/ \(| is limited/)[0]);   // the event's name, not its numbers
 const briefReasons = w => w.split(", ").map(part => {
   const m = /^(\S+) (opened|escalated|resolved|data issue|innocent change \((.*)\))$/.exec(part);
   if (m) {
@@ -132,7 +140,7 @@ const ACTIVITY = [
   [RegExp(`^(\\S+) in band -> ${INC} recovering \\((\\d+)/(\\d+)\\)$`), (k, id, a, b) => `${segText(k)} is back in its normal range: ${a} of ${b} quiet hours needed to close the issue.`],
   [RegExp(`^(\\S+) data incomplete -> ${INC} held, no judgement this hour$`), k => `${segText(k)}: data incomplete this hour, the issue is left as it is.`],
   [/^(\S+): (.*) -> data_issue, no alert while the data is incomplete$/, (k, t) => `Data for ${lc1(segText(k))} is incomplete: ${plain(t.replace(": ", ", "))}. No alert until it is complete.`],
-  [RegExp(`^${STATUS} -> watch( - downgraded from alert)?(?: \\((.*)\\))?$`), (k, p, dg, w) => `${move(k, p)}. Watching${w ? `, expected during the ${expectedBy(w)}` : ""}.`],
+  [RegExp(`^${STATUS} -> watch( - downgraded from alert)?(?: \\((.*)\\))?$`), (k, p, dg, w) => `${move(k, p)}. Watching${!w ? "" : /not dismissed/.test(w) ? `: the ${expectedBy(w)} does not explain all of it` : `, expected during the ${expectedBy(w)}`}.`],
   [/^(\S+) back to ok$/, k => `${segText(k)} is back to normal.`],
   [RegExp(`^${INC}: (.*) -> asking the graph interpreter$`), (id, r) => `Asked the investigator agent to look into ${issueText(id)} (${plain(r)}).`],
   [RegExp(`^interpreter on ${INC} \\(([^,]+), [\\d.]+s, \\w+\\): "(.*)" - (\\w+), path .*$`), (id, r, h, c) => `The investigator agent finished: ${plain(h)} (${(CONFIDENCE[c] || c).toLowerCase()}).`],
@@ -316,10 +324,14 @@ function stopPlay() {
 }
 
 async function renderInvestigation(navigated) {
-  const root = $("#view-investigation");
+  const view = $("#view-investigation");
+  if (!$("#inv-main")) view.innerHTML = `<div id="console-slot"></div><div id="inv-main"></div>`;
+  if (S.con.data) renderConsole(); else loadConsole();
+  const root = $("#inv-main");
   const incs = incidents();
   if (!incs.length) {
-    root.innerHTML = `<div class="empty">No investigations yet. When a headline metric moves the wrong way, the interpreter walks the graph behind it and its path appears here.</div>`;
+    S.inv.incidentId = null;
+    root.innerHTML = `<div class="empty">No investigations yet.</div>`;
     return;
   }
   let id = S.param && incs.some(i => i.id === S.param) ? S.param : (S.inv.incidentId && incs.some(i => i.id === S.inv.incidentId) ? S.inv.incidentId : (incs.find(hasInvestigation) || incs[0]).id);
@@ -338,7 +350,6 @@ async function renderInvestigation(navigated) {
       <div id="inv-shell" class="inv-body">
         <div class="orrery-panel">
           <div id="orrery-host"></div>
-          <div class="orrery-caption" id="orrery-caption"></div>
           <div class="orrery-tools">
             <button class="icon-btn" type="button" data-zoom="in" aria-label="Zoom in">${icon("zoom-in")}</button>
             <button class="icon-btn" type="button" data-zoom="out" aria-label="Zoom out">${icon("zoom-out")}</button>
@@ -355,7 +366,6 @@ async function renderInvestigation(navigated) {
       const o = S.inv.orrery; if (!o) return;
       b.dataset.zoom === "in" ? o.zoomIn() : b.dataset.zoom === "out" ? o.zoomOut() : o.fit();
     }));
-    mountLegend($("#legend-slot"));
   } else {
     $(".inv-tabs").innerHTML = tabs;
     root.querySelectorAll(".inv-tab").forEach(b => b.addEventListener("click", () => { location.hash = `#/investigation/${encodeURIComponent(b.dataset.id)}`; }));
@@ -372,14 +382,14 @@ async function loadInvestigation(inc) {
   if (!interp) {
     $("#orrery-host").innerHTML = "";
     $("#scrubber").innerHTML = "";
-    $("#orrery-caption").innerHTML = "";
-    reading.innerHTML = `<div class="empty">${esc(inc.headline || kpiLabel(inc.kpi))}<br><br>The interpreter has not investigated this issue yet. It runs when an issue opens or gets worse.</div>`;
+    $("#legend-slot").innerHTML = "";
+    reading.innerHTML = `<div class="empty">${esc(tidy(inc.headline || kpiLabel(inc.kpi)))}<br>Not investigated yet.</div>`;
     S.inv.orrery = createOrrery($("#orrery-host"), { onSelect: jumpToNode });
     return;
   }
   const snapId = interp.snapshot_id || inc.snapshot_id;
   let snap = S.inv.snap && S.inv.snap.snapshot_id === snapId ? S.inv.snap : null;
-  if (!snap && snapId) { try { snap = await api.snapshot(snapId); } catch (e) { snap = null; } }
+  if (!snap && snapId) { try { snap = plainLabels(await api.snapshot(snapId)); } catch (e) { snap = null; } }
   const key = `${interp.interpretation_id}|${(interp.trace || []).length}|${interp.partial}`;
   if (key === S.inv.key) return;   // nothing new
   const wasAtEnd = !S.inv.interp || S.inv.frame >= (S.inv.orrery?.frames?.length || 1) - 1;
@@ -390,9 +400,10 @@ async function loadInvestigation(inc) {
     const frames = S.inv.orrery.setData(snap, interp, { partial: interp.partial });
     if (firstLoad || (interp.partial && wasAtEnd) || (!interp.partial && wasAtEnd)) S.inv.frame = frames.length - 1;
     S.inv.frame = Math.min(S.inv.frame, frames.length - 1);
-    $("#orrery-caption").innerHTML = `<b>${esc(prettyId(snap.center))}</b> at ${fmtClock(snap.ts)}, ${snap.nodes.length} metrics within ${Math.max(...Object.keys(snap.layout?.orbits || { 1: 0 }).map(Number))} links. Hover a metric for its numbers.`;
+    mountLegend($("#legend-slot"), legendTokens(snap, interp));
   } else {
-    $("#orrery-host").innerHTML = `<div class="empty" style="margin:24px">The graph snapshot for this investigation is not available yet.</div>`;
+    $("#orrery-host").innerHTML = `<div class="empty" style="margin:24px">Graph not available.</div>`;
+    $("#legend-slot").innerHTML = "";
   }
   renderScrubber();
   renderReading();
@@ -402,13 +413,39 @@ async function loadInvestigation(inc) {
   if (interp.partial) S.inv.livePoll = setTimeout(() => { if (S.view === "investigation" && S.inv.incidentId === inc.id) loadInvestigation(inc); }, 1500);
 }
 
-function mountLegend(slot) {
-  slot.innerHTML = legendHTML(S.legendCollapsed, S.ov?.legend);
+function mountLegend(slot, present = null) {
+  if (!slot) return;
+  slot.innerHTML = legendHTML(S.legendCollapsed, S.ov?.legend, present);
   slot.querySelector("[data-legend-toggle]").addEventListener("click", () => {
     S.legendCollapsed = !S.legendCollapsed;
     try { localStorage.setItem("pulse-legend", S.legendCollapsed ? "collapsed" : "open"); } catch (e) { /* storage blocked */ }
-    mountLegend(slot);
+    mountLegend(slot, present);
   });
+}
+
+// Legend tokens the current graph actually draws (null when the server sent no styles: show the full legend).
+function legendTokens(snap, interp) {
+  const nodes = snap?.nodes || [];
+  if (!nodes.some(n => n.style)) return null;
+  const t = new Set();
+  for (const n of nodes) {
+    const st = n.style || {};
+    if (st.fill) t.add(st.fill);
+    if (st.shape === "sun") t.add("kpi");
+    if (st.shape === "diamond") t.add("diamond");
+    if (st.faded && st.fill !== "stale") t.add("faded");
+    if (st.badge) t.add("unusual");
+    (st.rings || []).forEach(r => t.add(r));
+  }
+  for (const e of snap?.edges || []) if (e.style?.line) t.add(e.style.line);
+  if (interp) {
+    if (interp.first_cause) t.add("first_cause");
+    if ((interp.path || []).length > 1) t.add("path");
+    if (interp.symptoms?.length) t.add("symptom");
+    if (interp.unusual?.length) t.add("unusual");
+    if (interp.ruled_out?.length) t.add("faded");
+  }
+  return t;
 }
 
 function stepLabel(step) {
@@ -469,8 +506,7 @@ function setFrame(i) {
   const cap = $("#step-caption");
   if (cap) {
     const s = steps[i - 1];
-    cap.innerHTML = i === 0 ? `<span class="faint">Before the first step</span>The interpreter starts from ${esc(prettyId(S.inv.interp?.kpi))} and the metrics linked to it.`
-      : `<span class="faint">Step ${i} of ${steps.length}. ${esc(stepLabel(s))}</span>${esc(s?.finding || "")}`;
+    cap.textContent = i === 0 ? `Start: ${labelOf(S.inv.interp?.kpi)}` : tidy(s?.finding || stepLabel(s));
   }
 }
 
@@ -483,7 +519,8 @@ function jumpToNode(nodeId) {
 // Prefer the snapshot's human label for a node id; fall back to a cleaned-up id.
 function labelOf(id) {
   const n = (S.inv.snap?.nodes || []).find(x => x.id === id) || (S.graph.snap?.nodes || []).find(x => x.id === id);
-  return n?.label ? prettyId(n.label) : prettyId(id);
+  if (/(^|:)data_issue$/.test(id)) return "Data quality";
+  return plain(n?.label ? prettyId(n.label) : prettyId(id));
 }
 
 function nodeRef(id) {
@@ -492,54 +529,130 @@ function nodeRef(id) {
 
 function findingList(list) {
   if (!list || !list.length) return "";
-  return `<ul>${list.map(f => `<li>${nodeRef(f.node)} <span class="serif">${esc(f.why || "")}</span></li>`).join("")}</ul>`;
+  return `<ul>${list.map(f => `<li>${nodeRef(f.node)} <span class="serif">${esc(tidy(f.why || ""))}</span></li>`).join("")}</ul>`;
 }
 
 function renderReading() {
   const it = S.inv.interp, el = $("#reading");
   if (!it) return;
-  const facts = [];
-  if (it.partial) {   // no conclusions until the interpreter has finished: show only what it has found so far
-    const steps = it.trace || [];
-    el.innerHTML = `<div class="live-banner"><i class="live-dot"></i>The interpreter is investigating now. ${steps.length} ${steps.length === 1 ? "step" : "steps"} so far.</div>
-      <h2 class="conclusion-headline">Following the graph behind ${esc(labelOf(it.kpi))}</h2>
-      <p class="conclusion-summary muted">Each step below is a query the interpreter chose. The conclusion appears when it decides the evidence is sufficient.</p>
-      <div><h3 class="section-title">Steps so far</h3>
-      <ol class="trace-list">${steps.map((s, i) => `<li><button class="trace-item" type="button" data-i="${i + 1}">
-        <span class="trace-n">${i + 1}</span>
-        <span><span class="trace-action">${esc(stepLabel(s))}</span>
-          <span class="trace-finding" style="display:block">${esc(s.finding || "")}</span></span></button></li>`).join("")}</ol></div>`;
-    el.querySelectorAll(".trace-item").forEach(b => b.addEventListener("click", () => { stopPlay(); setFrame(Number(b.dataset.i)); }));
-    return;
-  }
-  if (it.first_cause) facts.push(["First cause", `${nodeRef(it.first_cause.node)}<div class="serif">${esc(it.first_cause.why || "")}</div>`]);
-  if (it.symptoms?.length) facts.push(["Knock-on effects", findingList(it.symptoms)]);
-  if (it.unusual?.length) facts.push(["Unusual along the way", findingList(it.unusual)]);
-  if (it.ruled_out?.length) facts.push(["Ruled out", findingList(it.ruled_out)]);
-  if (it.missing_data?.length) facts.push(["Missing or late data", findingList(it.missing_data)]);
-  if (it.new_connections?.length) facts.push(["New links found", `<ul>${it.new_connections.map(e => `<li>${nodeRef(e.source)} to ${nodeRef(e.target)} <span class="serif">${e.status === "ambiguous" ? "kept as a weak link" : "checked against the data and added"}${e.strength != null ? ` (strength ${e.strength.toFixed(2)})` : ""}</span></li>`).join("")}</ul>`]);
-  if (it.uncertainty) facts.push(["Still uncertain", `<span class="serif">${esc(it.uncertainty)}</span>`]);
-  if (it.watch_next?.length) facts.push(["Keep watching", it.watch_next.map(nodeRef).join(", ")]);
-  const recalled = incidents().find(i => i.id === S.inv.incidentId)?.recalled || [];
-  if (recalled.length) facts.push(["Seen before", `<ul>${recalled.map(r => `<li class="serif">${esc(r)}</li>`).join("")}</ul><div class="muted">From Pulse's incident memory. A past case is a lead to check, not evidence.</div>`]);
   const steps = it.trace || [];
-  el.innerHTML = `
-    ${it.partial ? `<div class="live-banner"><i class="live-dot"></i>The interpreter is investigating now. ${steps.length} ${steps.length === 1 ? "step" : "steps"} so far.</div>` : ""}
-    <div class="verdict">${it.partial ? "" : `<span class="chip" data-conf="${it.confidence}">${CONFIDENCE[it.confidence] || it.confidence}</span>`}
-      <span>Investigated ${fmtTime(it.ts)} by the interpreter${it.llm_mode && it.llm_mode !== "live" ? `, ${it.llm_mode === "mock" ? "scripted offline run" : "replayed run"}` : ""}${it.cost_usd ? `, $${it.cost_usd.toFixed(2)}` : ""}</span></div>
-    <h2 class="conclusion-headline">${esc(it.headline || (it.partial ? "Following the graph…" : ""))}</h2>
-    ${it.summary ? `<p class="conclusion-summary">${esc(it.summary)}</p>` : ""}
-    ${facts.length ? `<dl class="facts">${facts.map(([dt, dd]) => `<div class="fact"><dt>${dt}</dt><dd>${dd}</dd></div>`).join("")}</dl>` : ""}
-    ${steps.length ? `<div>
-      <h3 class="section-title">How the interpreter got there</h3>
-      <ol class="trace-list">${steps.map((s, i) => `<li><button class="trace-item" type="button" data-i="${i + 1}">
-        <span class="trace-n">${i + 1}</span>
-        <span><span class="trace-action">${esc(stepLabel(s))}</span>
-          <span class="trace-finding" style="display:block">${esc(s.finding || "")}</span>
-          ${Object.keys(s.numbers || {}).length ? `<span class="trace-numbers">${Object.entries(s.numbers).slice(0, 6).map(([k, v]) => `<span>${esc(prettyId(k))} ${esc(numText(v))}</span>`).join("")}</span>` : ""}
-        </span></button></li>`).join("")}</ol></div>` : ""}`;
+  const stepList = steps.length ? `<div><h3 class="section-title">Steps</h3>
+    <ol class="trace-list">${steps.map((s, i) => `<li><button class="trace-item" type="button" data-i="${i + 1}" aria-label="Step ${i + 1}: ${esc(stepLabel(s))}">
+      <span class="trace-n">${i + 1}</span><span class="trace-finding">${esc(tidy(s.finding || stepLabel(s)))}</span></button></li>`).join("")}</ol></div>` : "";
+  if (it.partial) {   // no conclusions until the interpreter has finished: only what it has found so far
+    el.innerHTML = `<div class="live-banner"><i class="live-dot"></i>Investigating now, ${steps.length} ${steps.length === 1 ? "step" : "steps"} so far</div>
+      <h2 class="conclusion-headline">${esc(labelOf(it.kpi))}</h2>${stepList}`;
+  } else {
+    const facts = [];
+    if (it.first_cause) facts.push(["First cause", `${nodeRef(it.first_cause.node)}<div class="serif">${esc(tidy(it.first_cause.why || ""))}</div>`]);
+    if (it.symptoms?.length) facts.push(["Knock-on effects", findingList(it.symptoms)]);
+    if (it.unusual?.length) facts.push(["Also unusual", findingList(it.unusual)]);
+    if (it.ruled_out?.length) facts.push(["Ruled out", findingList(it.ruled_out)]);
+    if (it.missing_data?.length) facts.push(["Missing data", findingList(it.missing_data)]);
+    if (it.new_connections?.length) facts.push(["New links", `<ul>${it.new_connections.map(e => `<li>${nodeRef(e.source)} to ${nodeRef(e.target)} <span class="serif">${e.status === "ambiguous" ? "weak link" : "added"}</span></li>`).join("")}</ul>`]);
+    if (it.uncertainty) facts.push(["Still uncertain", `<span class="serif">${esc(tidy(it.uncertainty))}</span>`]);
+    if (it.watch_next?.length) facts.push(["Keep watching", it.watch_next.map(nodeRef).join(", ")]);
+    const recalled = incidents().find(i => i.id === S.inv.incidentId)?.recalled || [];
+    if (recalled.length) facts.push(["Seen before", `<ul>${recalled.map(r => `<li class="serif">${esc(tidy(r))}</li>`).join("")}</ul>`]);
+    el.innerHTML = `
+      <div class="verdict"><span class="chip" data-conf="${it.confidence}">${CONFIDENCE[it.confidence] || it.confidence}</span>
+        <span>${fmtTime(it.ts)}${it.cost_usd ? ` · $${it.cost_usd.toFixed(2)}` : ""}</span></div>
+      <h2 class="conclusion-headline">${esc(tidy(it.headline || ""))}</h2>
+      ${it.summary ? `<p class="conclusion-summary">${esc(tidy(it.summary))}</p>` : ""}
+      ${facts.length ? `<dl class="facts">${facts.map(([dt, dd]) => `<div class="fact"><dt>${dt}</dt><dd>${dd}</dd></div>`).join("")}</dl>` : ""}
+      ${stepList}`;
+  }
   el.querySelectorAll(".trace-item").forEach(b => b.addEventListener("click", () => { stopPlay(); setFrame(Number(b.dataset.i)); }));
   el.querySelectorAll(".node-ref").forEach(b => b.addEventListener("click", () => { S.inv.orrery?.focusNode(b.dataset.node); jumpToNode(b.dataset.node); }));
+}
+
+// ---------- event console (top of the investigations page) ----------
+// A live simulated market (server: pulse/web/console.py): inject a scenario, run hours, watch Pulse react.
+const CON_GROUP = { fault: "Problems", innocent: "Planned changes", data: "Data problems" };
+const CON_TAG = { market: "Market", inject: "Injected", check: "Pulse", step: "Pulse", error: "Error" };
+const CON_QUIET = /^(nothing material changed|all \d+ KPIs ok) /;
+const clockText = ts => {
+  const d = new Date(String(ts).replace(" ", "T"));
+  return Number.isNaN(d.getTime()) ? ts : d.toLocaleString("en-GB", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+};
+
+function consoleRow(e) {
+  if (e.kind === "step" && CON_QUIET.test(e.text)) return "";
+  let tag = CON_TAG[e.kind] || "", text = e.text;
+  if (e.kind === "check") {
+    const m = /^\[[^\]]+\] tick\s+\d+ \| (.*?) \| (.*)$/.exec(e.text);
+    text = !m ? plain(e.text) : m[1] === "all ok" ? "All headline metrics normal" : tidy(m[2] || m[1]);
+  } else if (e.kind === "step") {
+    if (/^(interpreter|brief by orchestrator|orchestrator agent|Graph Handler)/.test(e.text)) tag = "Agent";
+    text = activity(e.text);
+  }
+  const inc = /^interpreter on (INC-[^\s:]+)/.exec(e.text)?.[1];
+  const open = inc ? ` <a class="con-open" href="#/investigation/${encodeURIComponent(inc)}">Open</a>` : "";
+  return `<li class="con-row" data-tag="${tag}"><time>${e.t ? esc(e.t.slice(11, 16)) : ""}</time><span class="con-tag">${tag}</span><span>${esc(text)}${open}</span></li>`;
+}
+
+function renderConsole() {
+  const slot = $("#console-slot"), c = S.con.data;
+  if (!slot) return;
+  if (!c?.enabled) { slot.innerHTML = ""; S.con.key = ""; return; }
+  const live = c.source === "live", sess = live ? c.session : null, busy = c.busy;
+  const key = JSON.stringify([c.source, busy, c.job, sess?.clock, c.log.at(-1)?.n, S.con.error, (S.ov?.incidents || []).length]);
+  if (key === S.con.key && $("#console")) return;
+  S.con.key = key;
+  const dis = busy ? "disabled" : "";
+  const options = ["fault", "innocent", "data"].map(k => `<optgroup label="${CON_GROUP[k]}">${c.catalog.filter(x => x.kind === k)
+    .map(x => `<option value="${x.id}" ${x.id === S.con.scenario ? "selected" : ""}>${esc(x.title)}</option>`).join("")}</optgroup>`).join("");
+  const controls = !live ? "" : !c.session
+    ? `<div class="con-controls"><button class="btn btn-primary" type="button" data-con="start" ${dis}>Start live market</button></div>`
+    : `<div class="con-controls">
+        <select id="con-scenario" aria-label="Scenario" ${dis}>${options}</select>
+        <button class="btn btn-primary" type="button" data-con="inject" ${dis}>Inject</button>
+        <div class="segmented" role="group" aria-label="Run the market">${[1, 3, 6].map(h => `<button type="button" data-con="run" data-hours="${h}" ${dis}>+${h} h</button>`).join("")}</div>
+        <button class="btn" type="button" data-con="restart" ${dis}>Restart</button>
+      </div>`;
+  const status = busy ? `<span class="con-status"><i class="live-dot"></i>${esc(c.job)}</span>`
+    : sess ? `<span class="con-status">Market at <b>${esc(clockText(sess.last_hour))}</b></span>` : "";
+  const rows = sess ? c.log.map(consoleRow).join("") : "";
+  slot.innerHTML = `<section class="console" id="console" aria-label="Event console">
+    <div class="con-head"><h2 class="section-title">Event console</h2>
+      <div class="segmented" role="group" aria-label="Data shown">
+        <button type="button" data-source="recorded" aria-pressed="${!live}">Recorded run</button>
+        <button type="button" data-source="live" aria-pressed="${live}">Live market</button></div>
+      ${status}</div>
+    ${controls}
+    ${S.con.error ? `<p class="con-error">${esc(S.con.error)}</p>` : ""}
+    ${rows ? `<ol class="con-log" id="con-log">${rows}</ol>` : ""}
+  </section>`;
+  slot.querySelectorAll("[data-source]").forEach(b => b.addEventListener("click", () => {
+    if (b.getAttribute("aria-pressed") !== "true") consoleAct({ action: "source", source: b.dataset.source });
+  }));
+  slot.querySelectorAll("[data-con]").forEach(b => b.addEventListener("click", () => {
+    const a = b.dataset.con;
+    if (a === "inject") consoleAct({ action: "inject", id: $("#con-scenario").value });
+    else if (a === "run") consoleAct({ action: "run", hours: Number(b.dataset.hours) });
+    else if (a === "start" || confirm("Restart the live market from a quiet history?")) consoleAct({ action: "start" });
+  }));
+  $("#con-scenario")?.addEventListener("change", e => { S.con.scenario = e.target.value; });
+  const log = $("#con-log");
+  if (log) log.scrollTop = log.scrollHeight;
+}
+
+async function loadConsole() {
+  try { S.con.data = await api.console(); } catch (e) { return; }
+  renderConsole();
+  clearTimeout(S.con.timer);
+  if (S.con.data.busy) S.con.timer = setTimeout(refresh, 1200);   // follow a running job closely
+}
+
+async function consoleAct(body) {
+  try {
+    S.con.data = await api.consoleAct(body);
+    S.con.error = "";
+  } catch (e) {
+    S.con.error = e.message;
+  }
+  renderConsole();
+  await refresh();
 }
 
 document.addEventListener("keydown", e => {
@@ -590,8 +703,8 @@ async function renderGraph(navigated) {
     root.querySelectorAll("[data-gzoom]").forEach(b => b.addEventListener("click", () => {
       const o = S.graph.orrery; b.dataset.gzoom === "in" ? o.zoomIn() : b.dataset.gzoom === "out" ? o.zoomOut() : o.fit();
     }));
-    mountLegend($("#graph-legend"));
-    try { S.graph.snap = await api.snapshot(id); } catch (e) { S.graph.snap = null; }
+    try { S.graph.snap = plainLabels(await api.snapshot(id)); } catch (e) { S.graph.snap = null; }
+    mountLegend($("#graph-legend"), legendTokens(S.graph.snap, null));
     if (S.graph.snap) {
       S.graph.orrery.setData(S.graph.snap, null);
       S.graph.orrery.setMaxDepth(S.graph.depth);

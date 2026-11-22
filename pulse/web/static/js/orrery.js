@@ -494,16 +494,25 @@ export function createOrrery(host, { onSelect } = {}) {
   };
 }
 
-// ---------- legend (always visible, explains every encoding used above) ----------
+// ---------- legend: only the encodings the current graph uses ----------
 const SWATCH = {};   // token -> swatch svg, filled in by legendHTML
+const DEFAULT_LEGEND = [
+  ["Nodes", "kpi", "Metric under investigation"], ["Nodes", "harm", "Worse than normal"], ["Nodes", "gain", "Better than normal"],
+  ["Nodes", "shift", "Changed"], ["Nodes", "ok", "Normal"], ["Nodes", "missing", "Missing data"], ["Nodes", "stale", "Stale data"],
+  ["Nodes", "faded", "Ruled out"], ["Nodes", "diamond", "Added by the graph agent"], ["Nodes", "formula_incomplete", "Incomplete formula"],
+  ["Nodes", "first_cause", "First cause"], ["Nodes", "path", "On the path to the cause"], ["Nodes", "symptom", "Knock-on effect"],
+  ["Nodes", "unusual", "Unusual"], ["Links", "formula", "Part of its formula"], ["Links", "cause", "Known cause"],
+  ["Links", "learned", "Cause learned from data"], ["Links", "ambiguous", "Uncertain cause"], ["Links", "proposed", "Proposed link"],
+].map(([group, token, label]) => ({ group, token, label }));
 
-export function legendHTML(collapsed = false, legend = null) {
+// present: Set of tokens drawn in the current graph (null = show every entry)
+export function legendHTML(collapsed = false, legend = null, present = null) {
   const nodeSw = (cls, shape = "circle", extra = "") => {
     const body = shape === "diamond" ? `<path class="n-body" d="M0,-8 L8,0 L0,8 L-8,0 Z"/>` : `<circle class="n-body" r="6.5"/>`;
     return `<svg width="22" height="20" viewBox="-11 -10 22 20"><g class="n ${cls}">${body}${extra}</g></svg>`;
   };
   const sun = `<svg width="22" height="20" viewBox="-11 -10 22 20"><circle r="9" fill="var(--brass)" opacity=".18"/><circle r="6" fill="var(--brass)"/></svg>`;
-  const edgeSw = (cls, marker = "") => `<svg width="34" height="12" viewBox="0 0 34 12"><path class="e ${cls}" d="M2,6 L30,6" ${marker}/>${marker ? "" : ""}</svg>`;
+  const edgeSw = cls => `<svg width="34" height="12" viewBox="0 0 34 12"><path class="e ${cls}" d="M2,6 L30,6"/></svg>`;
   const arrow = cls => `<svg width="34" height="12" viewBox="0 0 34 12"><path class="e ${cls}" d="M2,6 L26,6"/><path d="M25,2 L32,6 L25,10 z" class="${cls === "e-formula" ? "arrow" : cls === "e-learned" ? "arrow-learned" : cls === "e-proposed" || cls === "e-path" ? "arrow-brass" : "arrow-cause"}"/></svg>`;
   const row = (sw, label) => `<div class="legend-row">${sw}<span>${label}</span></div>`;
   Object.assign(SWATCH, {
@@ -518,47 +527,13 @@ export function legendHTML(collapsed = false, legend = null) {
     formula: arrow("e-formula"), cause: arrow("e-cause"), learned: arrow("e-learned"),
     ambiguous: edgeSw("e-ambiguous"), proposed: arrow("e-proposed"),
   });
-  if (Array.isArray(legend) && legend.length) {
-    const group = g => legend.filter(x => x.group === g && SWATCH[x.token]).map(x => row(SWATCH[x.token], esc(x.label))).join("");
-    return `<div class="legend" data-collapsed="${collapsed}">
-      <div class="legend-head"><b>How to read this graph</b>
-        <button class="legend-toggle" type="button" data-legend-toggle aria-expanded="${!collapsed}">${collapsed ? "Show legend" : "Hide legend"}</button></div>
-      <div class="legend-cols">
-        <div><div class="legend-group">Metrics</div><div class="legend-list">${group("Nodes")}</div>
-          <div class="legend-row faint">Bigger and brighter means more of the change starts at that metric. Rings around the sun count links away from it.</div></div>
-        <div><div class="legend-group">Links</div>${group("Links")}
-          ${row(edgeSw("e-path"), "Path from the metric to its first cause")}</div>
-      </div></div>`;
-  }
+  const shown = (Array.isArray(legend) && legend.length ? legend : DEFAULT_LEGEND)
+    .filter(x => SWATCH[x.token] && (!present || present.has(x.token)));
+  const nodes = shown.filter(x => x.group === "Nodes").map(x => row(SWATCH[x.token], esc(x.label))).join("");
+  let links = shown.filter(x => x.group === "Links").map(x => row(SWATCH[x.token], esc(x.label))).join("");
+  if (!present || present.has("path")) links += row(edgeSw("e-path"), "Path to the first cause");
   return `<div class="legend" data-collapsed="${collapsed}">
-    <div class="legend-head"><b>How to read this graph</b>
-      <button class="legend-toggle" type="button" data-legend-toggle aria-expanded="${!collapsed}">${collapsed ? "Show legend" : "Hide legend"}</button></div>
-    <div class="legend-cols">
-      <div>
-        <div class="legend-group">Metrics</div>
-        ${row(sun, "The metric being explained (the sun)")}
-        ${row(nodeSw("n-harm"), "Moving the wrong way for the business")}
-        ${row(nodeSw("n-gain"), "Moving the right way")}
-        ${row(nodeSw("n-ok"), "Within its normal range")}
-        ${row(nodeSw("n-missing"), "Data missing")}
-        ${row(nodeSw("n-stale"), "Data out of date")}
-        ${row(nodeSw("n-ok", "circle", `<circle class="n-formula-ring" r="9.5"/>`), "Formula does not fully add up")}
-        ${row(nodeSw("n-ok", "diamond"), "Added by the graph handler")}
-        ${row(nodeSw("n-harm r-first", "circle", `<circle class="n-path-ring" r="8.5"/><circle class="n-first-ring" r="11"/>`), "First cause found by the interpreter")}
-        ${row(nodeSw("n-ok r-path", "circle", `<circle class="n-path-ring" r="8.5"/>`), "On the investigation path")}
-        ${row(nodeSw("n-ok r-ruled"), "Checked and ruled out")}
-        <div class="legend-row faint">Bigger circles are closer to the business outcome.</div>
-      </div>
-      <div>
-        <div class="legend-group">Links</div>
-        ${row(arrow("e-formula"), "Part of a formula (arrow points to the result)")}
-        ${row(arrow("e-cause"), "Possible cause, from business knowledge")}
-        ${row(arrow("e-learned"), "Cause confirmed in the data")}
-        ${row(edgeSw("e-ambiguous"), "Weak or ambiguous link")}
-        ${row(arrow("e-proposed"), "New link found during this investigation")}
-        ${row(edgeSw("e-path"), "Path from the metric to its first cause")}
-        <div class="legend-group">Orbits</div>
-        <div class="legend-row">Each ring is one more link away from the sun.</div>
-      </div>
-    </div></div>`;
+    <div class="legend-head"><b>Legend</b>
+      <button class="legend-toggle" type="button" data-legend-toggle aria-expanded="${!collapsed}">${collapsed ? "Show" : "Hide"}</button></div>
+    <div class="legend-cols"><div class="legend-list">${nodes}</div><div class="legend-list legend-links">${links}</div></div></div>`;
 }

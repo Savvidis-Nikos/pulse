@@ -17,4 +17,6 @@ export const api = {
   snapshot: id => get(`/api/snapshot/${encodeURIComponent(id)}`),
   interpretation: id => get(`/api/interpretation/${encodeURIComponent(id)}`),
   refresh: () => get("/api/refresh", { method: "POST" }),
+  console: () => get("/api/console"),
+  consoleAct: body => get("/api/console", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }),
 };

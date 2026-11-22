@@ -10,6 +10,9 @@ The one write is POST /api/refresh: it runs `python -m pulse tick --next` (re-re
 When the live simulator owns data/eye (data/eye/live.json) and Pulse has already checked its last hour, the refresh
 first asks the simulator for one more hour (`python -m marketplace.live tick`), so every click brings new data.
 A static dataset (no live.json) is never rewritten.
+The event console (pulse/web/console.py) runs a separate live market in data/live/ with its own state .pulse_live/:
+GET /api/console is its status and log, POST /api/console {action: source|start|inject|run} drives it. While the UI
+shows the live market, every endpoint reads .pulse_live/ and Refresh runs the market one hour.
 """
 from __future__ import annotations
 
@@ -24,6 +27,8 @@ from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlparse
+
+from pulse.web.console import Console
 
 STATIC = Path(__file__).resolve().parent / "static"
 ROOT = Path(__file__).resolve().parents[2]
@@ -192,6 +197,18 @@ def refresh(state: Path) -> tuple[dict, int]:
 class Handler(SimpleHTTPRequestHandler):
     state_dir: Path = Path(".pulse")
     allow_refresh: bool = True
+    console: Console | None = None
+
+    def _state(self) -> Path:
+        return self.console.state_dir(self.state_dir) if self.console else self.state_dir
+
+    def _body(self) -> dict:
+        try:
+            n = int(self.headers.get("Content-Length") or 0)
+            d = json.loads(self.rfile.read(n) or b"{}") if n else {}
+            return d if isinstance(d, dict) else {}
+        except Exception:
+            return {}
 
     def log_message(self, format, *args):  # keep the console quiet; 4xx/5xx still print
         if len(args) > 1 and str(args[1])[:1] in ("4", "5"):
@@ -216,9 +233,11 @@ class Handler(SimpleHTTPRequestHandler):
                 self.path = "/index.html"
             return super().do_GET()
         parts = [p for p in path.split("/") if p][1:]
-        st = self.state_dir
+        st = self._state()
         if parts == ["overview"]:
-            return self._json(overview(st))
+            return self._json({**overview(st), "source": self.console.source if self.console else "recorded"})
+        if parts == ["console"]:
+            return self._json(self.console.status() if self.console else {"enabled": False})
         if len(parts) == 2 and SAFE_ID.match(parts[1]):
             kind, ident = parts
             if kind == "snapshot":
@@ -237,16 +256,24 @@ class Handler(SimpleHTTPRequestHandler):
         return self._json({"error": f"Unknown endpoint {path}"}, 404)
 
     def do_POST(self):
-        if unquote(urlparse(self.path).path) == "/api/refresh":
+        path = unquote(urlparse(self.path).path)
+        if path == "/api/refresh":
             if not self.allow_refresh:
                 return self._json({"error": "Refresh is off for the demo fixtures"}, 403)
+            if self.console and self.console.source == "live":
+                return self._json(*self.console.run_sync(1))
             return self._json(*refresh(self.state_dir))
+        if path == "/api/console":
+            if not self.console:
+                return self._json({"error": "The event console is off for the demo fixtures"}, 403)
+            return self._json(*self.console.act(self._body()))
         return self._json({"error": "Unknown endpoint"}, 404)
 
 
 def serve(state_dir: Path, host: str = "127.0.0.1", port: int = 8765, allow_refresh: bool = True) -> None:
     Handler.state_dir = Path(state_dir)
     Handler.allow_refresh = allow_refresh
+    Handler.console = Console(ROOT) if allow_refresh else None
     httpd = ThreadingHTTPServer((host, port), partial(Handler, directory=str(STATIC)))
     print(f"Pulse UI on http://{host}:{port}  (state: {Handler.state_dir})")
     try:
