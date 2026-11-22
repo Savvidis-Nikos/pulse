@@ -22,6 +22,3 @@ __pycache__/
 !.argus/aliases.json
 !.argus/learned_identities.json
 !.argus/learned_causes.json
-
-# browser automation scratch
-.playwright-mcp/
