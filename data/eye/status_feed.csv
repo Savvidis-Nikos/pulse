@@ -1,0 +1,11 @@
+ts,source,channel,component,region,severity,state,title
+2026-11-06 14:00,external,status.cloudcdn.example,edge network,us-east,minor,investigating,CloudCDN: elevated latency in us-east
+2026-11-06 16:00,external,status.cloudcdn.example,edge network,us-east,minor,resolved,CloudCDN: latency back to normal
+2026-11-10 09:00,internal,#ads-quality,sponsored_ads,PL,minor,investigating,Advertisers report many clicks from Poland without sales
+2026-11-10 19:25,external,status.payflow.example,card authorisation,NL,major,investigating,PayFlow: degraded card authorisations in the Netherlands
+2026-11-10 21:15,external,status.payflow.example,card authorisation,NL,major,resolved,PayFlow: card authorisations recovered
+2026-11-13 12:30,internal,#ads-delivery,sponsored_ads,*,minor,investigating,Home advertisers complain budgets were exhausted before noon
+2026-11-14 11:30,internal,#seller-support,catalog-ingest,*,minor,investigating,Seller Urbanfit reports offers missing from the marketplace
+2026-11-15 20:20,internal,#inc-checkout,checkout,*,major,investigating,Checkout slow for some customers
+2026-11-17 16:10,internal,#inc-payments,payments,DE,major,investigating,Android payment failures in Germany
+2026-11-18 02:20,internal,#inc-payments,payments,DE,major,resolved,"Android payments SDK rolled back, failures gone"

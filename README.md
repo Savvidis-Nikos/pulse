@@ -69,8 +69,9 @@ $env:PULSE_LLM = "replay"; .\.venv\Scripts\python.exe -m pulse watch --interval-
 .\.venv\Scripts\python.exe -m marketplace.live inject payment_failure
 .\.venv\Scripts\python.exe -m marketplace.live list                 # all scenarios
 ```
-`marketplace.run` and `marketplace.live` rewrite `data/eye/`. Run `marketplace.run` again to restore the full 3-week
-dataset that the demo window and the scorecard use.
+The 3-week dataset in `data/eye/` is committed, so the demo window, the scorecard and the tests run right after
+setup. `marketplace.run` and `marketplace.live` rewrite `data/eye/`; run `marketplace.run` again (seeded, ~30 s) to
+restore the committed dataset.
 
 The UI's **Refresh data** button checks the next hour of data. In live mode, once Pulse has seen every hour, it first
 asks the simulator for a new one (about 30 s), so each click brings fresh data. A static dataset is never rewritten.

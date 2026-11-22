@@ -1,0 +1,1 @@
+{"label": "DEMO DATA (simulated customers)", "sample": 0.01, "note": "each session row stands for 1/sample real sessions; orders.csv misses rows while orders_db is late"}

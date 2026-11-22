@@ -1,0 +1,311 @@
+{
+  "label": "DEMO DATA (simulated marketplace)",
+  "seed": 7,
+  "scenarios": [
+    {
+      "id": "foryou_unavailable",
+      "kind": "fault",
+      "metric": "cart_rate",
+      "segment": {},
+      "start": "2026-11-12 10:00",
+      "end": "2026-11-12 22:00",
+      "cause": "For You model v12 shipped without the inventory filter: it ranks by click-through, unavailable items float up, feed clicks rise while add-to-cart and orders fall",
+      "first_cause_event": "For You model v12 (inventory filter off)"
+    },
+    {
+      "id": "ads_pacing",
+      "kind": "fault",
+      "metric": "ad_cost",
+      "segment": {
+        "category": "home"
+      },
+      "start": "2026-11-13 06:00",
+      "end": "2026-11-14 00:00",
+      "cause": "ads-pacer 3.1 ignores the delivery schedule for home advertisers: it bids at the maximum from 06:00, daily budgets are gone by late morning, sponsored traffic disappears for the evening peak",
+      "first_cause_event": "ads-pacer 3.1 (home advertisers)"
+    },
+    {
+      "id": "margin_squeeze",
+      "kind": "fault",
+      "metric": "contribution_margin",
+      "segment": {
+        "country": "NL"
+      },
+      "start": "2026-11-16 09:00",
+      "end": "2026-11-17 06:00",
+      "cause": "local metric up, business down: paid social buys traffic at high cost and the For You discount-affinity boost pushes discounted products; orders rise, contribution margin falls",
+      "first_cause_event": [
+        "NL paid social push",
+        "For You: discount-affinity boost (NL)"
+      ],
+      "drivers": [
+        "ad_cost",
+        "discount_share"
+      ],
+      "trap": "orders"
+    },
+    {
+      "id": "payment_failure",
+      "kind": "fault",
+      "metric": "payment_success_rate",
+      "segment": {
+        "country": "DE",
+        "platform": "android"
+      },
+      "start": "2026-11-17 14:00",
+      "end": "2026-11-18 02:00",
+      "cause": "payments-sdk android 7.4.0 breaks the DE local payment method",
+      "first_cause_event": "payments-sdk android 7.4.0"
+    },
+    {
+      "id": "fr_campaign",
+      "kind": "innocent",
+      "metric": "conversion_rate",
+      "segment": {
+        "country": "FR"
+      },
+      "start": "2026-11-18 18:00",
+      "end": "2026-11-20 00:00",
+      "cause": "planned FR Black Week teaser (email + push, no paid media): +60% low-intent traffic, conversion rate dilutes, orders up",
+      "first_cause_event": "FR Black Week teaser campaign"
+    },
+    {
+      "id": "search_relevance",
+      "kind": "fault",
+      "metric": "search_ctr",
+      "segment": {
+        "country": "DE"
+      },
+      "start": "2026-11-19 09:00",
+      "end": "2026-11-19 21:00",
+      "cause": "search-ranker 2.3 returns irrelevant / empty results for German queries",
+      "first_cause_event": "search-ranker 2.3 (de locale)"
+    },
+    {
+      "id": "stockout",
+      "kind": "fault",
+      "metric": "in_stock_rate",
+      "segment": {
+        "category": "electronics"
+      },
+      "start": "2026-11-20 06:00",
+      "end": "2026-11-22 00:00",
+      "cause": "supplier delivery delayed: just-in-time electronics run out after the missed 06:00 delivery, demand stable",
+      "first_cause_event": "Delivery delayed: Voltix wholesale PO #4471"
+    },
+    {
+      "id": "late_orders_data",
+      "kind": "data",
+      "metric": "orders",
+      "segment": {},
+      "start": "2026-11-21 21:00",
+      "end": "2026-11-22 00:00",
+      "cause": "orders_db ingestion lag: only ~40% of order rows arrived for the last hours",
+      "first_cause_event": null
+    },
+    {
+      "id": "search_maintenance",
+      "kind": "innocent",
+      "metric": "search_ctr",
+      "segment": {},
+      "start": "2026-11-08 02:00",
+      "end": "2026-11-08 04:00",
+      "cause": "planned search index rebuild at night: partial results, zero-result rate up, announced in the calendar",
+      "first_cause_event": "Search index rebuild (planned maintenance)"
+    },
+    {
+      "id": "click_fraud",
+      "kind": "fault",
+      "metric": "sponsored_share",
+      "segment": {
+        "country": "PL",
+        "platform": "web"
+      },
+      "start": "2026-11-09 13:00",
+      "end": "2026-11-10 01:00",
+      "cause": "bot network clicks sponsored ads (home, electronics) on PL web: sessions, ad clicks and ad revenue up, no carts, advertisers billed for invalid clicks; IVT detector flags only part of it",
+      "first_cause_event": null,
+      "evidence": [
+        "ivt_sessions",
+        "ads_advertisers.invalid_clicks"
+      ]
+    },
+    {
+      "id": "psp_outage",
+      "kind": "fault",
+      "metric": "payment_success_rate",
+      "segment": {
+        "country": "NL"
+      },
+      "start": "2026-11-10 19:00",
+      "end": "2026-11-10 21:00",
+      "cause": "external payment provider degrades card authorisations in NL (all platforms); status page posted 25 min later; a NL web checkout release at the same time is a decoy",
+      "first_cause_event": null,
+      "evidence": [
+        "status_feed: PayFlow"
+      ]
+    },
+    {
+      "id": "holiday_fr",
+      "kind": "innocent",
+      "metric": "sessions",
+      "segment": {
+        "country": "FR"
+      },
+      "start": "2026-11-11 00:00",
+      "end": "2026-11-12 00:00",
+      "cause": "public holiday (calendar): more daytime shopping",
+      "first_cause_event": null,
+      "evidence": [
+        "calendar"
+      ]
+    },
+    {
+      "id": "holiday_pl",
+      "kind": "innocent",
+      "metric": "sessions",
+      "segment": {
+        "country": "PL"
+      },
+      "start": "2026-11-11 00:00",
+      "end": "2026-11-12 00:00",
+      "cause": "public holiday (calendar): more daytime shopping",
+      "first_cause_event": null,
+      "evidence": [
+        "calendar"
+      ]
+    },
+    {
+      "id": "seller_outage",
+      "kind": "fault",
+      "metric": "cart_rate",
+      "segment": {
+        "category": "fashion"
+      },
+      "start": "2026-11-14 09:00",
+      "end": "2026-11-14 15:00",
+      "cause": "top fashion seller Urbanfit's catalog feed fails: offers go stale and are hidden, fashion availability and cart rate drop; seller silence, no change event (banner swap is a decoy)",
+      "first_cause_event": null,
+      "evidence": [
+        "sellers.feed_status",
+        "service_health: catalog-ingest"
+      ]
+    },
+    {
+      "id": "football_de",
+      "kind": "innocent",
+      "metric": "sessions",
+      "segment": {
+        "country": "DE"
+      },
+      "start": "2026-11-14 21:00",
+      "end": "2026-11-14 23:00",
+      "cause": "national team match on TV (calendar): DE evening traffic -20%",
+      "first_cause_event": null,
+      "evidence": [
+        "calendar"
+      ]
+    },
+    {
+      "id": "checkout_capacity",
+      "kind": "fault",
+      "metric": "payment_attempt_rate",
+      "segment": {},
+      "start": "2026-11-15 19:00",
+      "end": "2026-11-15 22:10",
+      "cause": "config change cut the checkout DB connection pool 200 -> 60: at the Sunday evening peak checkout p99 latency explodes and customers abandon before paying",
+      "first_cause_event": "checkout-db connection pool 200 -> 60 (config)",
+      "evidence": [
+        "service_health: checkout"
+      ]
+    },
+    {
+      "id": "grocery_feed_drift",
+      "kind": "fault",
+      "metric": "feed_click_rate",
+      "segment": {
+        "category": "grocery"
+      },
+      "start": "2026-11-14 03:00",
+      "end": "2026-11-22 00:00",
+      "cause": "feature pipeline for grocery recommendations silently stopped after the airflow upgrade: features go stale, For You CTR drifts down ~4.5 %/day while predicted CTR stays (calibration gap)",
+      "first_cause_event": "data-platform: airflow 2.9 upgrade",
+      "pattern": "drift",
+      "evidence": [
+        "feed_exposure.feature_freshness_h",
+        "feed_exposure.predicted_ctr"
+      ]
+    },
+    {
+      "id": "frozen_inventory",
+      "kind": "data",
+      "metric": "in_stock_skus",
+      "segment": {},
+      "start": "2026-11-18 00:00",
+      "end": "2026-11-18 08:00",
+      "cause": "inventory pipeline re-sends the same snapshot: values stop moving, completeness says 100 %, only last_update / lag in pipeline_health reveals it",
+      "first_cause_event": null,
+      "pattern": "variance_collapse"
+    },
+    {
+      "id": "price_increase",
+      "kind": "fault",
+      "metric": "cart_rate",
+      "segment": {
+        "category": "home"
+      },
+      "start": "2026-11-10 08:00",
+      "end": "2026-11-10 18:00",
+      "cause": "pricing team raises prices 25% on every other of the 400 best-selling home SKUs: add-to-cart falls on exactly those SKUs (counterfactual: unchanged SKUs normal); review-widget release is a decoy",
+      "first_cause_event": "home price update: +25% on 200 best sellers",
+      "evidence": [
+        "product_sales.price_change"
+      ]
+    },
+    {
+      "id": "catalog_launch",
+      "kind": "innocent",
+      "metric": "listed_skus",
+      "segment": {
+        "category": "fashion"
+      },
+      "start": "2026-11-19 06:00",
+      "end": "2026-11-19 18:00",
+      "cause": "product team lists 1,500 new fashion SKUs (planned launch): catalog size jumps, nothing breaks",
+      "first_cause_event": "Autumn collection: 1,500 new fashion SKUs listed"
+    },
+    {
+      "id": "competitor_promo",
+      "kind": "fault",
+      "metric": "cart_rate",
+      "segment": {
+        "country": "DE",
+        "category": "electronics"
+      },
+      "start": "2026-11-15 08:00",
+      "end": "2026-11-15 17:00",
+      "cause": "competitor MegaMart runs a -20% electronics promotion in DE: our price index jumps, customers compare and buy there; no internal change (a PL fashion promo by a small player at the same time is a decoy)",
+      "first_cause_event": "MegaMart electronics promo (DE)",
+      "evidence": [
+        "market.price_index",
+        "external_events"
+      ]
+    },
+    {
+      "id": "safari_checkout",
+      "kind": "fault",
+      "metric": "payment_attempt_rate",
+      "segment": {
+        "platform": "web",
+        "browser": "Safari"
+      },
+      "start": "2026-11-21 09:00",
+      "end": "2026-11-21 15:00",
+      "cause": "web checkout redesign breaks the pay button on Safari only: web payment attempts drop, concentrated in Safari (segment isolation by browser); an Android app release at the same time is a decoy",
+      "first_cause_event": "web checkout redesign (one-page checkout)",
+      "evidence": [
+        "audience.browser"
+      ]
+    }
+  ]
+}

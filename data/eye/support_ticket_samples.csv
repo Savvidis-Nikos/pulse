@@ -1,0 +1,2526 @@
+ts,country,topic,subject
+2026-11-01 01:38:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-01 02:33:00,PL,item_unavailable,Produkt niedostępny
+2026-11-01 02:38:00,FR,payment_problem,Le paiement a échoué
+2026-11-01 02:44:00,FR,return_refund,Retour et remboursement
+2026-11-01 02:52:00,FR,payment_problem,Le paiement a échoué
+2026-11-01 03:07:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-01 03:23:00,NL,return_refund,Retour en terugbetaling
+2026-11-01 05:18:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-01 05:45:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-01 05:54:00,FR,account_login,Impossible de me connecter
+2026-11-01 05:59:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 06:48:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-01 07:06:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-01 07:46:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 08:00:00,NL,website_slow_or_error,Website is erg traag
+2026-11-01 08:00:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-01 08:08:00,NL,website_slow_or_error,Website is erg traag
+2026-11-01 08:11:00,DE,account_login,Kann mich nicht anmelden
+2026-11-01 08:38:00,FR,account_login,Impossible de me connecter
+2026-11-01 09:32:00,FR,return_refund,Retour et remboursement
+2026-11-01 10:39:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-01 11:21:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-01 11:26:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-01 11:40:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 11:48:00,FR,return_refund,Retour et remboursement
+2026-11-01 12:02:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 12:09:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 12:11:00,DE,cant_find_product,Suche findet nichts
+2026-11-01 12:19:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-01 12:34:00,NL,payment_problem,Betaling mislukt
+2026-11-01 12:42:00,PL,website_slow_or_error,Strona bardzo wolno działa
+2026-11-01 12:51:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-01 12:56:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-01 13:07:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-01 13:17:00,DE,cant_find_product,Suche findet nichts
+2026-11-01 13:25:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-01 13:41:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 14:01:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 14:30:00,NL,item_unavailable,Artikel niet beschikbaar
+2026-11-01 14:33:00,FR,return_refund,Retour et remboursement
+2026-11-01 14:37:00,FR,payment_problem,Le paiement a échoué
+2026-11-01 14:38:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-01 14:39:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-01 14:39:00,FR,return_refund,Retour et remboursement
+2026-11-01 14:45:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-01 14:52:00,FR,payment_problem,Le paiement a échoué
+2026-11-01 15:15:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 15:22:00,PL,return_refund,Zwrot i refundacja
+2026-11-01 15:26:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-01 15:48:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-01 16:20:00,NL,payment_problem,Betaling mislukt
+2026-11-01 17:29:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-01 18:07:00,FR,return_refund,Retour et remboursement
+2026-11-01 18:09:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-01 18:17:00,FR,return_refund,Retour et remboursement
+2026-11-01 18:38:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-01 18:48:00,DE,cant_find_product,Suche findet nichts
+2026-11-01 18:55:00,DE,cant_find_product,Suche findet nichts
+2026-11-01 18:58:00,DE,cant_find_product,Suche findet nichts
+2026-11-01 19:10:00,FR,payment_problem,Le paiement a échoué
+2026-11-01 19:51:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-01 20:01:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-01 20:03:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-01 20:13:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 20:19:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 20:29:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-01 20:49:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 20:51:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-01 20:56:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-01 20:56:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-01 20:57:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-01 21:04:00,NL,return_refund,Retour en terugbetaling
+2026-11-01 21:06:00,FR,payment_problem,Le paiement a échoué
+2026-11-01 21:47:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-01 21:49:00,DE,cant_find_product,Suche findet nichts
+2026-11-01 21:53:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-01 22:05:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-01 22:06:00,FR,return_refund,Retour et remboursement
+2026-11-01 22:09:00,FR,return_refund,Retour et remboursement
+2026-11-01 22:10:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-01 22:21:00,FR,payment_problem,Le paiement a échoué
+2026-11-01 22:31:00,FR,return_refund,Retour et remboursement
+2026-11-01 22:44:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 22:47:00,DE,cant_find_product,Suche findet nichts
+2026-11-01 22:47:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 23:05:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-01 23:09:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 23:10:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 23:11:00,FR,payment_problem,Le paiement a échoué
+2026-11-01 23:23:00,FR,return_refund,Retour et remboursement
+2026-11-01 23:25:00,DE,cant_find_product,Suche findet nichts
+2026-11-01 23:36:00,FR,return_refund,Retour et remboursement
+2026-11-01 23:47:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-01 23:59:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-02 00:07:00,FR,return_refund,Retour et remboursement
+2026-11-02 00:36:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-02 00:41:00,DE,cant_find_product,Suche findet nichts
+2026-11-02 00:52:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-02 00:57:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-02 00:57:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-02 01:38:00,NL,item_unavailable,Artikel niet beschikbaar
+2026-11-02 01:54:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-02 02:10:00,DE,cant_find_product,Suche findet nichts
+2026-11-02 03:09:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-02 04:06:00,FR,account_login,Impossible de me connecter
+2026-11-02 05:18:00,DE,cant_find_product,Suche findet nichts
+2026-11-02 05:38:00,FR,website_slow_or_error,Le site est très lent
+2026-11-02 06:56:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-02 08:29:00,FR,item_unavailable,Article indisponible
+2026-11-02 08:49:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-02 09:18:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-02 09:28:00,NL,payment_problem,Betaling mislukt
+2026-11-02 09:41:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-02 09:43:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-02 09:51:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-02 09:55:00,FR,return_refund,Retour et remboursement
+2026-11-02 10:10:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-02 10:39:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-02 10:43:00,NL,return_refund,Retour en terugbetaling
+2026-11-02 11:06:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-02 11:21:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-02 11:34:00,*,seller_listing,Question about my listings
+2026-11-02 12:01:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-02 12:15:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-02 12:28:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-02 12:40:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-02 12:46:00,NL,payment_problem,Betaling mislukt
+2026-11-02 12:49:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-02 13:23:00,FR,item_unavailable,Article indisponible
+2026-11-02 14:07:00,DE,cant_find_product,Suche findet nichts
+2026-11-02 14:19:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-02 14:30:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-02 14:34:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-02 14:43:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-02 14:45:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-02 14:48:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-02 14:59:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-02 15:07:00,DE,cant_find_product,Suche findet nichts
+2026-11-02 15:28:00,FR,payment_problem,Le paiement a échoué
+2026-11-02 15:43:00,FR,return_refund,Retour et remboursement
+2026-11-02 15:48:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-02 16:13:00,NL,payment_problem,Betaling mislukt
+2026-11-02 17:01:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-02 17:05:00,FR,return_refund,Retour et remboursement
+2026-11-02 17:06:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-02 17:10:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-02 17:11:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-02 17:44:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-02 17:46:00,NL,payment_problem,Betaling mislukt
+2026-11-02 18:05:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-02 18:36:00,DE,cant_find_product,Suche findet nichts
+2026-11-02 19:04:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-02 19:11:00,DE,account_login,Kann mich nicht anmelden
+2026-11-02 19:14:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-02 19:20:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-02 19:30:00,DE,cant_find_product,Suche findet nichts
+2026-11-02 19:35:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-02 20:11:00,FR,payment_problem,Le paiement a échoué
+2026-11-02 20:13:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-02 20:17:00,DE,account_login,Kann mich nicht anmelden
+2026-11-02 20:23:00,DE,cant_find_product,Suche findet nichts
+2026-11-02 20:30:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-02 20:42:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-02 20:45:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-02 20:46:00,FR,payment_problem,Le paiement a échoué
+2026-11-02 20:48:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-02 20:50:00,DE,cant_find_product,Suche findet nichts
+2026-11-02 21:02:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-02 21:05:00,FR,return_refund,Retour et remboursement
+2026-11-02 21:06:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-02 21:17:00,NL,payment_problem,Betaling mislukt
+2026-11-02 21:25:00,FR,return_refund,Retour et remboursement
+2026-11-02 21:27:00,FR,return_refund,Retour et remboursement
+2026-11-02 21:31:00,NL,website_slow_or_error,Website is erg traag
+2026-11-02 21:33:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-02 21:33:00,FR,return_refund,Retour et remboursement
+2026-11-02 21:37:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-02 21:50:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-02 21:53:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-02 21:54:00,DE,account_login,Kann mich nicht anmelden
+2026-11-02 21:58:00,FR,return_refund,Retour et remboursement
+2026-11-02 22:03:00,FR,payment_problem,Le paiement a échoué
+2026-11-02 22:08:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-02 22:08:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-02 22:22:00,DE,cant_find_product,Suche findet nichts
+2026-11-02 22:22:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-02 22:23:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-02 22:24:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-02 22:34:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-02 22:37:00,DE,account_login,Kann mich nicht anmelden
+2026-11-02 22:37:00,FR,return_refund,Retour et remboursement
+2026-11-02 22:46:00,NL,payment_problem,Betaling mislukt
+2026-11-02 22:54:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-02 23:06:00,FR,account_login,Impossible de me connecter
+2026-11-02 23:13:00,FR,payment_problem,Le paiement a échoué
+2026-11-02 23:34:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-02 23:34:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-02 23:43:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-02 23:49:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-02 23:54:00,DE,cant_find_product,Suche findet nichts
+2026-11-02 23:55:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-03 00:00:00,DE,cant_find_product,Suche findet nichts
+2026-11-03 00:05:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-03 00:29:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-03 00:33:00,FR,return_refund,Retour et remboursement
+2026-11-03 00:37:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 00:55:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-03 00:58:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-03 01:35:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-03 01:54:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-03 02:42:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-03 02:43:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-03 04:30:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-03 04:35:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-03 04:41:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-03 05:14:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-03 05:14:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-03 05:15:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 05:25:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-03 05:53:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-03 06:09:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-03 07:14:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-03 08:00:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-03 08:12:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-03 08:28:00,DE,cant_find_product,Suche findet nichts
+2026-11-03 08:49:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-03 08:55:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-03 09:18:00,FR,return_refund,Retour et remboursement
+2026-11-03 09:44:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 09:45:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-03 10:05:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-03 10:06:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-03 10:27:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-03 10:28:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-03 10:29:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-03 10:40:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-03 10:42:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-03 11:00:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-03 11:25:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-03 11:45:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-03 11:48:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-03 11:48:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-03 12:14:00,DE,cant_find_product,Suche findet nichts
+2026-11-03 12:17:00,FR,account_login,Impossible de me connecter
+2026-11-03 12:22:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-03 12:26:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-03 12:45:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 12:53:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 13:33:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 13:35:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-03 13:55:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 14:07:00,FR,return_refund,Retour et remboursement
+2026-11-03 14:08:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-03 14:32:00,PL,account_login,Nie mogę się zalogować
+2026-11-03 14:33:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 14:43:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-03 14:45:00,FR,payment_problem,Le paiement a échoué
+2026-11-03 14:50:00,NL,account_login,Kan niet inloggen
+2026-11-03 14:56:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-03 15:16:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-03 15:20:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 15:23:00,DE,account_login,Kann mich nicht anmelden
+2026-11-03 15:24:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 15:25:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 17:06:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-03 17:52:00,FR,payment_problem,Le paiement a échoué
+2026-11-03 18:10:00,FR,return_refund,Retour et remboursement
+2026-11-03 18:11:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-03 18:26:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-03 18:27:00,FR,return_refund,Retour et remboursement
+2026-11-03 18:46:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-03 18:56:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-03 19:13:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-03 19:20:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 19:26:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-03 19:47:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-03 19:52:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-03 20:26:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-03 20:33:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 20:34:00,FR,return_refund,Retour et remboursement
+2026-11-03 20:44:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-03 20:52:00,NL,return_refund,Retour en terugbetaling
+2026-11-03 20:54:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 21:13:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-03 21:22:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 21:30:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 21:35:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-03 21:36:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 21:50:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-03 21:55:00,NL,payment_problem,Betaling mislukt
+2026-11-03 22:13:00,FR,payment_problem,Le paiement a échoué
+2026-11-03 22:17:00,DE,cant_find_product,Suche findet nichts
+2026-11-03 22:19:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-03 22:20:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 22:24:00,FR,return_refund,Retour et remboursement
+2026-11-03 22:25:00,FR,payment_problem,Le paiement a échoué
+2026-11-03 22:28:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-03 22:31:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-03 22:34:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-03 22:35:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-03 22:45:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-03 22:45:00,DE,account_login,Kann mich nicht anmelden
+2026-11-03 22:54:00,NL,website_slow_or_error,Website is erg traag
+2026-11-03 23:01:00,DE,cant_find_product,Suche findet nichts
+2026-11-03 23:17:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-03 23:24:00,FR,payment_problem,Le paiement a échoué
+2026-11-03 23:27:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-03 23:30:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-03 23:32:00,FR,payment_problem,Le paiement a échoué
+2026-11-03 23:41:00,FR,return_refund,Retour et remboursement
+2026-11-03 23:43:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-03 23:51:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-04 00:08:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-04 00:08:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-04 00:18:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-04 00:24:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-04 00:36:00,FR,return_refund,Retour et remboursement
+2026-11-04 00:46:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-04 00:53:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-04 00:56:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-04 00:59:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-04 01:22:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-04 01:32:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-04 01:32:00,*,seller_listing,Question about my listings
+2026-11-04 01:33:00,DE,cant_find_product,Suche findet nichts
+2026-11-04 02:11:00,DE,account_login,Kann mich nicht anmelden
+2026-11-04 03:06:00,FR,return_refund,Retour et remboursement
+2026-11-04 03:25:00,DE,cant_find_product,Suche findet nichts
+2026-11-04 03:45:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-04 04:21:00,NL,return_refund,Retour en terugbetaling
+2026-11-04 04:31:00,NL,payment_problem,Betaling mislukt
+2026-11-04 06:24:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-04 06:28:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-04 06:59:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-04 07:02:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-04 07:13:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-04 08:11:00,PL,return_refund,Zwrot i refundacja
+2026-11-04 08:29:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-04 08:34:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-04 08:53:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-04 08:54:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-04 09:01:00,DE,cant_find_product,Suche findet nichts
+2026-11-04 10:13:00,DE,cant_find_product,Suche findet nichts
+2026-11-04 10:14:00,PL,return_refund,Zwrot i refundacja
+2026-11-04 10:22:00,FR,payment_problem,Le paiement a échoué
+2026-11-04 10:38:00,FR,return_refund,Retour et remboursement
+2026-11-04 10:42:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-04 10:50:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-04 10:53:00,PL,return_refund,Zwrot i refundacja
+2026-11-04 10:59:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-04 11:33:00,PL,return_refund,Zwrot i refundacja
+2026-11-04 12:24:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-04 12:48:00,FR,account_login,Impossible de me connecter
+2026-11-04 13:24:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-04 13:40:00,PL,account_login,Nie mogę się zalogować
+2026-11-04 13:53:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-04 13:55:00,DE,cant_find_product,Suche findet nichts
+2026-11-04 14:01:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-04 14:17:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-04 14:20:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-04 14:47:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-04 14:49:00,NL,payment_problem,Betaling mislukt
+2026-11-04 15:00:00,PL,account_login,Nie mogę się zalogować
+2026-11-04 15:15:00,NL,website_slow_or_error,Website is erg traag
+2026-11-04 15:22:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-04 15:27:00,FR,website_slow_or_error,Le site est très lent
+2026-11-04 15:58:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-04 16:30:00,FR,return_refund,Retour et remboursement
+2026-11-04 17:02:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-04 17:42:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-04 17:43:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-04 18:11:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-04 18:13:00,FR,return_refund,Retour et remboursement
+2026-11-04 18:13:00,FR,return_refund,Retour et remboursement
+2026-11-04 18:41:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-04 19:00:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-04 19:05:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-04 19:16:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-04 19:38:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-04 19:41:00,NL,return_refund,Retour en terugbetaling
+2026-11-04 19:45:00,FR,account_login,Impossible de me connecter
+2026-11-04 20:07:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-04 20:26:00,FR,return_refund,Retour et remboursement
+2026-11-04 20:26:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-04 20:34:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-04 20:44:00,DE,cant_find_product,Suche findet nichts
+2026-11-04 20:45:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-04 20:47:00,FR,payment_problem,Le paiement a échoué
+2026-11-04 20:50:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-04 20:58:00,FR,payment_problem,Le paiement a échoué
+2026-11-04 21:00:00,NL,account_login,Kan niet inloggen
+2026-11-04 21:01:00,DE,cant_find_product,Suche findet nichts
+2026-11-04 21:04:00,PL,return_refund,Zwrot i refundacja
+2026-11-04 21:19:00,FR,return_refund,Retour et remboursement
+2026-11-04 21:26:00,PL,return_refund,Zwrot i refundacja
+2026-11-04 21:33:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-04 21:37:00,PL,account_login,Nie mogę się zalogować
+2026-11-04 21:39:00,FR,payment_problem,Le paiement a échoué
+2026-11-04 21:40:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-04 21:53:00,DE,cant_find_product,Suche findet nichts
+2026-11-04 21:55:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-04 21:58:00,FR,payment_problem,Le paiement a échoué
+2026-11-04 22:10:00,NL,payment_problem,Betaling mislukt
+2026-11-04 22:15:00,PL,return_refund,Zwrot i refundacja
+2026-11-04 22:27:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-04 22:33:00,FR,account_login,Impossible de me connecter
+2026-11-04 22:34:00,FR,payment_problem,Le paiement a échoué
+2026-11-04 22:37:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-04 22:39:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-04 22:45:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-04 23:02:00,DE,cant_find_product,Suche findet nichts
+2026-11-04 23:13:00,NL,return_refund,Retour en terugbetaling
+2026-11-04 23:28:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-04 23:31:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-04 23:50:00,DE,cant_find_product,Suche findet nichts
+2026-11-04 23:52:00,FR,website_slow_or_error,Le site est très lent
+2026-11-04 23:58:00,NL,return_refund,Retour en terugbetaling
+2026-11-05 00:01:00,PL,website_slow_or_error,Strona bardzo wolno działa
+2026-11-05 00:15:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 00:18:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 00:31:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-05 01:00:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-05 01:32:00,NL,payment_problem,Betaling mislukt
+2026-11-05 01:34:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 01:58:00,FR,return_refund,Retour et remboursement
+2026-11-05 02:02:00,PL,return_refund,Zwrot i refundacja
+2026-11-05 02:07:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 02:27:00,FR,item_unavailable,Article indisponible
+2026-11-05 04:13:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 04:31:00,*,seller_listing,Question about my listings
+2026-11-05 04:52:00,FR,payment_problem,Le paiement a échoué
+2026-11-05 05:59:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-05 06:21:00,NL,payment_problem,Betaling mislukt
+2026-11-05 06:46:00,*,seller_listing,Question about my listings
+2026-11-05 06:49:00,DE,cant_find_product,Suche findet nichts
+2026-11-05 08:35:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 08:51:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-05 09:04:00,FR,website_slow_or_error,Le site est très lent
+2026-11-05 09:32:00,FR,payment_problem,Le paiement a échoué
+2026-11-05 09:40:00,FR,return_refund,Retour et remboursement
+2026-11-05 09:40:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-05 10:05:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 11:25:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-05 11:26:00,NL,payment_problem,Betaling mislukt
+2026-11-05 11:28:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 12:07:00,DE,cant_find_product,Suche findet nichts
+2026-11-05 12:21:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 12:28:00,FR,payment_problem,Le paiement a échoué
+2026-11-05 12:31:00,FR,return_refund,Retour et remboursement
+2026-11-05 12:57:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 13:04:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 13:06:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 13:21:00,FR,payment_problem,Le paiement a échoué
+2026-11-05 13:29:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 13:33:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 13:36:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 13:41:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-05 13:54:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 14:12:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 14:13:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 14:13:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 14:36:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 14:38:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 14:52:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 14:54:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 15:03:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 15:03:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 15:15:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 15:31:00,DE,cant_find_product,Suche findet nichts
+2026-11-05 15:35:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 15:44:00,FR,return_refund,Retour et remboursement
+2026-11-05 16:06:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 16:11:00,DE,cant_find_product,Suche findet nichts
+2026-11-05 16:11:00,FR,item_unavailable,Article indisponible
+2026-11-05 16:13:00,DE,cant_find_product,Suche findet nichts
+2026-11-05 16:15:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-05 16:36:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 16:41:00,FR,payment_problem,Le paiement a échoué
+2026-11-05 16:50:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-05 16:53:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-05 17:16:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-05 17:19:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-05 17:43:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-05 17:57:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-05 18:21:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-05 18:29:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 18:49:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 18:59:00,FR,item_unavailable,Article indisponible
+2026-11-05 19:19:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-05 19:23:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 19:29:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 19:48:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-05 19:51:00,PL,website_slow_or_error,Strona bardzo wolno działa
+2026-11-05 19:53:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-05 20:07:00,FR,account_login,Impossible de me connecter
+2026-11-05 20:11:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-05 20:19:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 20:24:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-05 20:35:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-05 20:38:00,FR,return_refund,Retour et remboursement
+2026-11-05 20:39:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 20:48:00,NL,payment_problem,Betaling mislukt
+2026-11-05 20:49:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-05 21:00:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 21:00:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 21:02:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 21:09:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 21:23:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 21:31:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 21:32:00,FR,return_refund,Retour et remboursement
+2026-11-05 21:37:00,FR,return_refund,Retour et remboursement
+2026-11-05 21:40:00,FR,website_slow_or_error,Le site est très lent
+2026-11-05 21:49:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-05 21:54:00,FR,website_slow_or_error,Le site est très lent
+2026-11-05 22:02:00,DE,cant_find_product,Suche findet nichts
+2026-11-05 22:04:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 22:04:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-05 22:06:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-05 22:13:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 22:22:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-05 22:43:00,FR,return_refund,Retour et remboursement
+2026-11-05 22:57:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 23:00:00,PL,return_refund,Zwrot i refundacja
+2026-11-05 23:10:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-05 23:20:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 23:21:00,NL,payment_problem,Betaling mislukt
+2026-11-05 23:23:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-05 23:26:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-05 23:34:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-05 23:35:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-05 23:52:00,FR,return_refund,Retour et remboursement
+2026-11-06 00:23:00,NL,return_refund,Retour en terugbetaling
+2026-11-06 00:30:00,FR,item_unavailable,Article indisponible
+2026-11-06 01:01:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-06 01:06:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-06 01:17:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-06 02:09:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-06 04:00:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-06 04:15:00,FR,website_slow_or_error,Le site est très lent
+2026-11-06 05:21:00,FR,return_refund,Retour et remboursement
+2026-11-06 05:54:00,FR,website_slow_or_error,Le site est très lent
+2026-11-06 06:45:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-06 07:06:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-06 07:09:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-06 07:20:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-06 08:57:00,FR,payment_problem,Le paiement a échoué
+2026-11-06 09:10:00,NL,return_refund,Retour en terugbetaling
+2026-11-06 09:14:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-06 09:15:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-06 09:19:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-06 09:21:00,FR,return_refund,Retour et remboursement
+2026-11-06 09:31:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-06 09:53:00,*,seller_listing,Question about my listings
+2026-11-06 10:12:00,FR,return_refund,Retour et remboursement
+2026-11-06 10:23:00,FR,return_refund,Retour et remboursement
+2026-11-06 10:29:00,FR,return_refund,Retour et remboursement
+2026-11-06 10:35:00,PL,return_refund,Zwrot i refundacja
+2026-11-06 10:38:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-06 10:59:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-06 11:02:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-06 11:08:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-06 11:19:00,NL,return_refund,Retour en terugbetaling
+2026-11-06 11:32:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-06 11:33:00,FR,return_refund,Retour et remboursement
+2026-11-06 11:48:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-06 11:56:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-06 12:05:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-06 12:06:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-06 12:14:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-06 12:26:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-06 12:35:00,FR,website_slow_or_error,Le site est très lent
+2026-11-06 12:43:00,PL,return_refund,Zwrot i refundacja
+2026-11-06 12:51:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-06 13:03:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-06 13:16:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-06 13:23:00,FR,payment_problem,Le paiement a échoué
+2026-11-06 13:28:00,NL,return_refund,Retour en terugbetaling
+2026-11-06 13:32:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-06 13:33:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-06 13:36:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-06 13:36:00,FR,return_refund,Retour et remboursement
+2026-11-06 13:43:00,NL,return_refund,Retour en terugbetaling
+2026-11-06 13:44:00,FR,payment_problem,Le paiement a échoué
+2026-11-06 13:45:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-06 13:49:00,FR,return_refund,Retour et remboursement
+2026-11-06 13:55:00,FR,payment_problem,Le paiement a échoué
+2026-11-06 13:56:00,FR,payment_problem,Le paiement a échoué
+2026-11-06 13:56:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-06 14:49:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-06 14:54:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-06 14:55:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-06 14:55:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-06 15:03:00,NL,return_refund,Retour en terugbetaling
+2026-11-06 15:16:00,DE,cant_find_product,Suche findet nichts
+2026-11-06 15:32:00,DE,cant_find_product,Suche findet nichts
+2026-11-06 15:38:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-06 15:40:00,FR,return_refund,Retour et remboursement
+2026-11-06 16:35:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-06 16:41:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-06 18:00:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-06 18:28:00,NL,return_refund,Retour en terugbetaling
+2026-11-06 18:43:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-06 19:06:00,FR,return_refund,Retour et remboursement
+2026-11-06 19:15:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-06 19:18:00,NL,return_refund,Retour en terugbetaling
+2026-11-06 19:35:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-06 19:46:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-06 19:47:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-06 20:00:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-06 20:12:00,FR,payment_problem,Le paiement a échoué
+2026-11-06 20:12:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-06 20:31:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-06 20:40:00,DE,cant_find_product,Suche findet nichts
+2026-11-06 20:42:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-06 20:51:00,DE,cant_find_product,Suche findet nichts
+2026-11-06 20:55:00,PL,website_slow_or_error,Strona bardzo wolno działa
+2026-11-06 20:59:00,DE,cant_find_product,Suche findet nichts
+2026-11-06 21:03:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-06 21:06:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-06 21:20:00,NL,item_unavailable,Artikel niet beschikbaar
+2026-11-06 21:23:00,DE,cant_find_product,Suche findet nichts
+2026-11-06 21:29:00,FR,payment_problem,Le paiement a échoué
+2026-11-06 21:34:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-06 21:47:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-06 21:56:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-06 21:58:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-06 22:01:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-06 22:03:00,PL,return_refund,Zwrot i refundacja
+2026-11-06 22:16:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-06 22:16:00,DE,account_login,Kann mich nicht anmelden
+2026-11-06 22:33:00,FR,return_refund,Retour et remboursement
+2026-11-06 22:46:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-06 22:51:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-06 22:51:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-06 22:51:00,PL,return_refund,Zwrot i refundacja
+2026-11-06 22:57:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-06 22:57:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-06 23:00:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-06 23:04:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-06 23:12:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-06 23:17:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-06 23:18:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-06 23:18:00,FR,return_refund,Retour et remboursement
+2026-11-06 23:27:00,FR,return_refund,Retour et remboursement
+2026-11-06 23:35:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-06 23:35:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-06 23:36:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-06 23:45:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-06 23:50:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-06 23:52:00,FR,payment_problem,Le paiement a échoué
+2026-11-06 23:56:00,DE,cant_find_product,Suche findet nichts
+2026-11-07 00:02:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 00:13:00,FR,return_refund,Retour et remboursement
+2026-11-07 00:26:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-07 00:49:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-07 00:54:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-07 00:56:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-07 01:26:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-07 01:44:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 02:08:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-07 02:25:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-07 02:47:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-07 03:44:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 04:12:00,FR,payment_problem,Le paiement a échoué
+2026-11-07 04:18:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 05:19:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-07 06:07:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-07 06:25:00,PL,return_refund,Zwrot i refundacja
+2026-11-07 07:13:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 07:31:00,DE,cant_find_product,Suche findet nichts
+2026-11-07 07:50:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 08:14:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-07 08:19:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 08:25:00,FR,return_refund,Retour et remboursement
+2026-11-07 09:15:00,DE,cant_find_product,Suche findet nichts
+2026-11-07 09:20:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-07 09:42:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 09:55:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-07 10:09:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 10:13:00,NL,account_login,Kan niet inloggen
+2026-11-07 10:29:00,NL,return_refund,Retour en terugbetaling
+2026-11-07 10:33:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-07 11:03:00,FR,return_refund,Retour et remboursement
+2026-11-07 11:04:00,FR,payment_problem,Le paiement a échoué
+2026-11-07 11:27:00,PL,return_refund,Zwrot i refundacja
+2026-11-07 11:58:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-07 12:00:00,FR,website_slow_or_error,Le site est très lent
+2026-11-07 12:10:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 12:30:00,NL,item_unavailable,Artikel niet beschikbaar
+2026-11-07 12:59:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 13:07:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-07 13:10:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-07 13:35:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 13:40:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 13:43:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 13:50:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-07 13:58:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-07 14:11:00,PL,return_refund,Zwrot i refundacja
+2026-11-07 14:12:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-07 14:33:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 14:42:00,DE,cant_find_product,Suche findet nichts
+2026-11-07 14:46:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 14:49:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-07 14:50:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-07 14:51:00,FR,payment_problem,Le paiement a échoué
+2026-11-07 14:51:00,FR,return_refund,Retour et remboursement
+2026-11-07 15:07:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-07 15:11:00,FR,return_refund,Retour et remboursement
+2026-11-07 15:14:00,NL,payment_problem,Betaling mislukt
+2026-11-07 15:19:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-07 15:21:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-07 15:30:00,FR,item_unavailable,Article indisponible
+2026-11-07 15:42:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-07 16:05:00,FR,payment_problem,Le paiement a échoué
+2026-11-07 16:06:00,DE,cant_find_product,Suche findet nichts
+2026-11-07 16:07:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 16:17:00,DE,cant_find_product,Suche findet nichts
+2026-11-07 16:18:00,FR,return_refund,Retour et remboursement
+2026-11-07 16:22:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 16:22:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 16:37:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-07 16:55:00,DE,account_login,Kann mich nicht anmelden
+2026-11-07 17:06:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-07 17:23:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-07 17:30:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-07 17:40:00,FR,payment_problem,Le paiement a échoué
+2026-11-07 17:45:00,PL,return_refund,Zwrot i refundacja
+2026-11-07 17:48:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-07 17:50:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 18:00:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-07 18:11:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-07 19:04:00,FR,payment_problem,Le paiement a échoué
+2026-11-07 19:07:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-07 19:32:00,NL,return_refund,Retour en terugbetaling
+2026-11-07 19:35:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 19:37:00,FR,return_refund,Retour et remboursement
+2026-11-07 19:41:00,DE,account_login,Kann mich nicht anmelden
+2026-11-07 19:43:00,FR,return_refund,Retour et remboursement
+2026-11-07 19:53:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-07 19:54:00,DE,account_login,Kann mich nicht anmelden
+2026-11-07 20:08:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-07 20:13:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 20:19:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 20:32:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 21:06:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 21:08:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-07 21:10:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 21:15:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 21:15:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 21:22:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 21:22:00,FR,return_refund,Retour et remboursement
+2026-11-07 21:24:00,PL,return_refund,Zwrot i refundacja
+2026-11-07 21:32:00,FR,payment_problem,Le paiement a échoué
+2026-11-07 21:33:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-07 21:33:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-07 21:39:00,FR,payment_problem,Le paiement a échoué
+2026-11-07 21:41:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 21:44:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-07 21:51:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-07 21:54:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-07 22:01:00,NL,return_refund,Retour en terugbetaling
+2026-11-07 22:03:00,FR,return_refund,Retour et remboursement
+2026-11-07 22:16:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-07 22:17:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-07 22:17:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 22:17:00,DE,account_login,Kann mich nicht anmelden
+2026-11-07 22:20:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 22:23:00,FR,return_refund,Retour et remboursement
+2026-11-07 22:33:00,DE,cant_find_product,Suche findet nichts
+2026-11-07 22:35:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-07 22:36:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-07 22:41:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-07 22:42:00,*,seller_listing,Question about my listings
+2026-11-07 22:47:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-07 22:56:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-07 22:59:00,DE,cant_find_product,Suche findet nichts
+2026-11-07 23:06:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-07 23:12:00,NL,return_refund,Retour en terugbetaling
+2026-11-07 23:14:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-07 23:15:00,FR,return_refund,Retour et remboursement
+2026-11-07 23:16:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 23:22:00,NL,return_refund,Retour en terugbetaling
+2026-11-07 23:26:00,FR,return_refund,Retour et remboursement
+2026-11-07 23:30:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-07 23:31:00,NL,payment_problem,Betaling mislukt
+2026-11-07 23:43:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-07 23:43:00,NL,payment_problem,Betaling mislukt
+2026-11-07 23:44:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-07 23:50:00,NL,website_slow_or_error,Website is erg traag
+2026-11-07 23:57:00,DE,account_login,Kann mich nicht anmelden
+2026-11-07 23:58:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-07 23:58:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-08 00:00:00,DE,cant_find_product,Suche findet nichts
+2026-11-08 00:01:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-08 00:16:00,DE,cant_find_product,Suche findet nichts
+2026-11-08 00:19:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-08 00:23:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-08 00:31:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-08 00:47:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-08 00:49:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-08 01:04:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-08 02:36:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-08 02:53:00,FR,payment_problem,Le paiement a échoué
+2026-11-08 02:54:00,NL,payment_problem,Betaling mislukt
+2026-11-08 03:05:00,PL,account_login,Nie mogę się zalogować
+2026-11-08 04:06:00,PL,return_refund,Zwrot i refundacja
+2026-11-08 04:28:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-08 04:37:00,DE,cant_find_product,Suche findet nichts
+2026-11-08 04:50:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-08 06:23:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-08 06:24:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-08 07:05:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-08 07:16:00,DE,account_login,Kann mich nicht anmelden
+2026-11-08 07:40:00,PL,website_slow_or_error,Strona bardzo wolno działa
+2026-11-08 07:45:00,NL,return_refund,Retour en terugbetaling
+2026-11-08 07:58:00,FR,account_login,Impossible de me connecter
+2026-11-08 08:04:00,FR,return_refund,Retour et remboursement
+2026-11-08 08:09:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-08 09:01:00,PL,return_refund,Zwrot i refundacja
+2026-11-08 09:57:00,NL,payment_problem,Betaling mislukt
+2026-11-08 10:18:00,DE,account_login,Kann mich nicht anmelden
+2026-11-08 10:28:00,NL,return_refund,Retour en terugbetaling
+2026-11-08 10:33:00,FR,payment_problem,Le paiement a échoué
+2026-11-08 10:33:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-08 10:35:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-08 10:45:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-08 11:04:00,FR,payment_problem,Le paiement a échoué
+2026-11-08 11:04:00,PL,return_refund,Zwrot i refundacja
+2026-11-08 11:13:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-08 11:18:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-08 11:41:00,NL,return_refund,Retour en terugbetaling
+2026-11-08 11:54:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-08 12:32:00,NL,return_refund,Retour en terugbetaling
+2026-11-08 12:52:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-08 13:04:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-08 13:07:00,FR,return_refund,Retour et remboursement
+2026-11-08 13:09:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-08 13:13:00,FR,item_unavailable,Article indisponible
+2026-11-08 13:20:00,FR,payment_problem,Le paiement a échoué
+2026-11-08 13:36:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-08 13:46:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-08 13:46:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-08 13:50:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-08 13:52:00,DE,cant_find_product,Suche findet nichts
+2026-11-08 13:58:00,NL,return_refund,Retour en terugbetaling
+2026-11-08 14:00:00,PL,return_refund,Zwrot i refundacja
+2026-11-08 14:39:00,DE,cant_find_product,Suche findet nichts
+2026-11-08 14:49:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-08 14:51:00,FR,return_refund,Retour et remboursement
+2026-11-08 14:51:00,NL,return_refund,Retour en terugbetaling
+2026-11-08 14:59:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-08 15:19:00,DE,cant_find_product,Suche findet nichts
+2026-11-08 15:21:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-08 15:28:00,FR,item_unavailable,Article indisponible
+2026-11-08 15:48:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-08 15:49:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-08 15:55:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-08 16:02:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-08 16:14:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-08 16:27:00,FR,payment_problem,Le paiement a échoué
+2026-11-08 16:28:00,FR,payment_problem,Le paiement a échoué
+2026-11-08 16:52:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-08 17:20:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-08 17:50:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-08 17:51:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-08 18:05:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-08 18:08:00,FR,payment_problem,Le paiement a échoué
+2026-11-08 18:22:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-08 18:41:00,NL,payment_problem,Betaling mislukt
+2026-11-08 18:45:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-08 18:46:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-08 18:48:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-08 19:29:00,NL,return_refund,Retour en terugbetaling
+2026-11-08 20:06:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-08 20:15:00,FR,return_refund,Retour et remboursement
+2026-11-08 20:16:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-08 20:26:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-08 20:29:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-08 20:42:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-08 20:43:00,DE,cant_find_product,Suche findet nichts
+2026-11-08 20:45:00,NL,payment_problem,Betaling mislukt
+2026-11-08 20:50:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-08 20:51:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-08 20:57:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-08 20:57:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-08 21:03:00,DE,cant_find_product,Suche findet nichts
+2026-11-08 21:11:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-08 21:16:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-08 21:20:00,PL,website_slow_or_error,Strona bardzo wolno działa
+2026-11-08 21:24:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-08 21:32:00,DE,cant_find_product,Suche findet nichts
+2026-11-08 21:43:00,FR,payment_problem,Le paiement a échoué
+2026-11-08 21:57:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-08 22:03:00,FR,return_refund,Retour et remboursement
+2026-11-08 22:03:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-08 22:05:00,FR,item_unavailable,Article indisponible
+2026-11-08 22:13:00,PL,return_refund,Zwrot i refundacja
+2026-11-08 22:16:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-08 22:26:00,FR,return_refund,Retour et remboursement
+2026-11-08 22:28:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-08 22:39:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-08 22:48:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-08 22:51:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-08 22:55:00,PL,return_refund,Zwrot i refundacja
+2026-11-08 23:00:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-08 23:00:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-08 23:04:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-08 23:28:00,FR,website_slow_or_error,Le site est très lent
+2026-11-08 23:33:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-08 23:38:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-08 23:43:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-08 23:45:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-09 00:08:00,FR,website_slow_or_error,Le site est très lent
+2026-11-09 00:09:00,NL,payment_problem,Betaling mislukt
+2026-11-09 00:12:00,FR,return_refund,Retour et remboursement
+2026-11-09 00:16:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-09 00:28:00,PL,return_refund,Zwrot i refundacja
+2026-11-09 00:31:00,DE,cant_find_product,Suche findet nichts
+2026-11-09 00:46:00,FR,return_refund,Retour et remboursement
+2026-11-09 00:54:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-09 02:07:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 02:11:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-09 02:31:00,PL,account_login,Nie mogę się zalogować
+2026-11-09 02:54:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 03:06:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-09 03:54:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-09 04:09:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-09 05:05:00,PL,return_refund,Zwrot i refundacja
+2026-11-09 05:45:00,NL,payment_problem,Betaling mislukt
+2026-11-09 06:23:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 06:42:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-09 07:42:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-09 08:32:00,*,seller_listing,Question about my listings
+2026-11-09 09:50:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-09 09:56:00,FR,return_refund,Retour et remboursement
+2026-11-09 10:05:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-09 10:26:00,NL,return_refund,Retour en terugbetaling
+2026-11-09 10:34:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-09 10:39:00,FR,return_refund,Retour et remboursement
+2026-11-09 10:53:00,DE,cant_find_product,Suche findet nichts
+2026-11-09 11:00:00,FR,return_refund,Retour et remboursement
+2026-11-09 11:45:00,DE,account_login,Kann mich nicht anmelden
+2026-11-09 11:49:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-09 12:13:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-09 12:29:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-09 12:35:00,FR,payment_problem,Le paiement a échoué
+2026-11-09 12:51:00,NL,return_refund,Retour en terugbetaling
+2026-11-09 12:56:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-09 13:04:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-09 13:22:00,DE,account_login,Kann mich nicht anmelden
+2026-11-09 13:27:00,PL,return_refund,Zwrot i refundacja
+2026-11-09 13:39:00,FR,website_slow_or_error,Le site est très lent
+2026-11-09 13:41:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-09 13:53:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-09 13:57:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 14:05:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-09 14:09:00,DE,account_login,Kann mich nicht anmelden
+2026-11-09 14:12:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 14:18:00,PL,return_refund,Zwrot i refundacja
+2026-11-09 14:29:00,FR,website_slow_or_error,Le site est très lent
+2026-11-09 14:33:00,DE,cant_find_product,Suche findet nichts
+2026-11-09 14:35:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-09 14:46:00,DE,cant_find_product,Suche findet nichts
+2026-11-09 14:55:00,*,advertiser_billing,Many clicks from Poland but no sales - invalid traffic?
+2026-11-09 15:18:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-09 15:30:00,FR,website_slow_or_error,Le site est très lent
+2026-11-09 15:32:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-09 15:40:00,FR,return_refund,Retour et remboursement
+2026-11-09 15:47:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-09 15:50:00,FR,return_refund,Retour et remboursement
+2026-11-09 15:59:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-09 16:02:00,FR,payment_problem,Le paiement a échoué
+2026-11-09 16:16:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-09 16:33:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-09 16:34:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-09 16:58:00,FR,item_unavailable,Article indisponible
+2026-11-09 17:08:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-09 17:19:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-09 17:28:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-09 18:33:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-09 18:45:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 19:01:00,*,advertiser_billing,Many clicks from Poland but no sales - invalid traffic?
+2026-11-09 19:02:00,FR,return_refund,Retour et remboursement
+2026-11-09 19:12:00,PL,return_refund,Zwrot i refundacja
+2026-11-09 19:15:00,FR,item_unavailable,Article indisponible
+2026-11-09 19:29:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 19:30:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-09 19:30:00,*,advertiser_billing,Many clicks from Poland but no sales - invalid traffic?
+2026-11-09 19:36:00,NL,payment_problem,Betaling mislukt
+2026-11-09 19:41:00,FR,return_refund,Retour et remboursement
+2026-11-09 19:49:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-09 20:05:00,FR,return_refund,Retour et remboursement
+2026-11-09 20:06:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-09 20:12:00,DE,cant_find_product,Suche findet nichts
+2026-11-09 20:14:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-09 20:14:00,FR,payment_problem,Le paiement a échoué
+2026-11-09 20:24:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-09 20:26:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-09 20:42:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-09 20:44:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-09 20:51:00,NL,return_refund,Retour en terugbetaling
+2026-11-09 20:53:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 20:53:00,FR,payment_problem,Le paiement a échoué
+2026-11-09 20:56:00,DE,cant_find_product,Suche findet nichts
+2026-11-09 20:56:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 21:00:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-09 21:02:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-09 21:02:00,PL,website_slow_or_error,Strona bardzo wolno działa
+2026-11-09 21:04:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-09 21:06:00,*,advertiser_billing,Many clicks from Poland but no sales - invalid traffic?
+2026-11-09 21:07:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-09 21:25:00,NL,return_refund,Retour en terugbetaling
+2026-11-09 21:30:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-09 21:41:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 21:42:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-09 21:45:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-09 21:50:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 21:57:00,FR,item_unavailable,Article indisponible
+2026-11-09 21:59:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-09 22:04:00,FR,return_refund,Retour et remboursement
+2026-11-09 22:06:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-09 22:10:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 22:10:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-09 22:18:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 22:22:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-09 22:23:00,NL,return_refund,Retour en terugbetaling
+2026-11-09 22:25:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-09 22:31:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-09 22:42:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-09 22:42:00,NL,return_refund,Retour en terugbetaling
+2026-11-09 22:43:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-09 22:43:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-09 22:45:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 23:12:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-09 23:14:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 23:17:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-09 23:17:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-09 23:22:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-09 23:29:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 23:29:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-09 23:37:00,PL,return_refund,Zwrot i refundacja
+2026-11-09 23:43:00,FR,payment_problem,Le paiement a échoué
+2026-11-09 23:47:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-09 23:49:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-09 23:50:00,FR,website_slow_or_error,Le site est très lent
+2026-11-09 23:50:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-10 00:20:00,FR,payment_problem,Le paiement a échoué
+2026-11-10 00:22:00,FR,return_refund,Retour et remboursement
+2026-11-10 00:44:00,FR,payment_problem,Le paiement a échoué
+2026-11-10 01:31:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-10 01:37:00,FR,return_refund,Retour et remboursement
+2026-11-10 02:12:00,FR,return_refund,Retour et remboursement
+2026-11-10 03:15:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-10 04:31:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-10 04:52:00,DE,cant_find_product,Suche findet nichts
+2026-11-10 05:37:00,FR,return_refund,Retour et remboursement
+2026-11-10 05:38:00,FR,payment_problem,Le paiement a échoué
+2026-11-10 05:46:00,DE,account_login,Kann mich nicht anmelden
+2026-11-10 06:08:00,NL,return_refund,Retour en terugbetaling
+2026-11-10 06:30:00,DE,account_login,Kann mich nicht anmelden
+2026-11-10 08:39:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-10 08:40:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-10 08:43:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-10 08:52:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-10 08:56:00,PL,return_refund,Zwrot i refundacja
+2026-11-10 08:58:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-10 09:05:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-10 09:14:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-10 09:25:00,PL,website_slow_or_error,Strona bardzo wolno działa
+2026-11-10 10:28:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-10 11:27:00,DE,cant_find_product,Suche findet nichts
+2026-11-10 11:34:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-10 11:49:00,FR,return_refund,Retour et remboursement
+2026-11-10 11:58:00,FR,payment_problem,Le paiement a échoué
+2026-11-10 12:02:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-10 12:03:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-10 12:30:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-10 12:31:00,PL,return_refund,Zwrot i refundacja
+2026-11-10 12:38:00,NL,return_refund,Retour en terugbetaling
+2026-11-10 12:46:00,NL,return_refund,Retour en terugbetaling
+2026-11-10 13:27:00,PL,return_refund,Zwrot i refundacja
+2026-11-10 14:00:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-10 14:07:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-10 14:17:00,DE,cant_find_product,Suche findet nichts
+2026-11-10 14:24:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-10 14:33:00,FR,website_slow_or_error,Le site est très lent
+2026-11-10 15:01:00,DE,account_login,Kann mich nicht anmelden
+2026-11-10 15:09:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-10 15:35:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-10 15:35:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-10 15:55:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-10 16:27:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-10 16:31:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-10 16:35:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-10 16:50:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-10 16:52:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-10 17:00:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-10 17:40:00,NL,return_refund,Retour en terugbetaling
+2026-11-10 18:10:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-10 18:53:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-10 19:20:00,PL,return_refund,Zwrot i refundacja
+2026-11-10 19:22:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-10 19:45:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-10 19:59:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-10 20:09:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-10 20:10:00,NL,payment_problem,Betaling mislukt
+2026-11-10 20:30:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-10 20:36:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-10 20:42:00,NL,payment_problem,Betaling mislukt
+2026-11-10 20:43:00,FR,website_slow_or_error,Le site est très lent
+2026-11-10 20:46:00,FR,return_refund,Retour et remboursement
+2026-11-10 21:04:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-10 21:19:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-10 21:21:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-10 21:24:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-10 21:25:00,NL,payment_problem,Mijn creditcard wordt steeds geweigerd bij het afrekenen
+2026-11-10 21:32:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-10 21:39:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-10 21:43:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-10 21:47:00,DE,account_login,Kann mich nicht anmelden
+2026-11-10 21:56:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-10 22:03:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-10 22:06:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-10 22:06:00,PL,account_login,Nie mogę się zalogować
+2026-11-10 22:07:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-10 22:10:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-10 22:13:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-10 22:15:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-10 22:23:00,DE,cant_find_product,Suche findet nichts
+2026-11-10 22:23:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-10 22:25:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-10 22:28:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-10 22:29:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-10 22:30:00,FR,return_refund,Retour et remboursement
+2026-11-10 22:38:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-10 22:44:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-10 22:45:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-10 22:45:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-10 22:45:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-10 22:46:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-10 22:51:00,FR,return_refund,Retour et remboursement
+2026-11-10 22:56:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-10 23:08:00,DE,cant_find_product,Suche findet nichts
+2026-11-10 23:12:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-10 23:14:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-10 23:22:00,PL,return_refund,Zwrot i refundacja
+2026-11-10 23:27:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-10 23:28:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-10 23:33:00,DE,cant_find_product,Suche findet nichts
+2026-11-10 23:56:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 00:15:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-11 00:24:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-11 00:27:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-11 01:09:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 01:53:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 03:14:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-11 04:21:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-11 05:12:00,DE,cant_find_product,Suche findet nichts
+2026-11-11 05:40:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 07:27:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 07:32:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 07:40:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 07:42:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 08:16:00,PL,return_refund,Zwrot i refundacja
+2026-11-11 08:19:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 08:30:00,NL,item_unavailable,Artikel niet beschikbaar
+2026-11-11 08:42:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-11 08:53:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-11 09:27:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 09:40:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 09:59:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-11 10:56:00,FR,payment_problem,Le paiement a échoué
+2026-11-11 10:58:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-11 11:12:00,FR,payment_problem,Le paiement a échoué
+2026-11-11 12:18:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 12:19:00,FR,return_refund,Retour et remboursement
+2026-11-11 12:26:00,DE,cant_find_product,Suche findet nichts
+2026-11-11 12:56:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 12:59:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-11 13:19:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 13:22:00,FR,return_refund,Retour et remboursement
+2026-11-11 13:22:00,PL,account_login,Nie mogę się zalogować
+2026-11-11 13:24:00,PL,website_slow_or_error,Strona bardzo wolno działa
+2026-11-11 13:39:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-11 13:56:00,FR,payment_problem,Le paiement a échoué
+2026-11-11 13:56:00,NL,payment_problem,Betaling mislukt
+2026-11-11 14:00:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-11 14:00:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-11 14:33:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-11 14:44:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-11 14:57:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-11 14:58:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-11 14:58:00,FR,return_refund,Retour et remboursement
+2026-11-11 15:11:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-11 15:17:00,FR,return_refund,Retour et remboursement
+2026-11-11 15:29:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-11 15:29:00,PL,return_refund,Zwrot i refundacja
+2026-11-11 15:56:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-11 16:34:00,PL,item_unavailable,Produkt niedostępny
+2026-11-11 16:45:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-11 16:59:00,NL,return_refund,Retour en terugbetaling
+2026-11-11 17:22:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 17:30:00,PL,return_refund,Zwrot i refundacja
+2026-11-11 17:53:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-11 18:06:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 18:10:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-11 18:19:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-11 18:20:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-11 18:21:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 18:32:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-11 18:32:00,FR,payment_problem,Le paiement a échoué
+2026-11-11 18:45:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 19:01:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-11 19:01:00,FR,return_refund,Retour et remboursement
+2026-11-11 19:05:00,DE,cant_find_product,Suche findet nichts
+2026-11-11 19:12:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 19:17:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-11 19:34:00,FR,return_refund,Retour et remboursement
+2026-11-11 19:35:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 19:37:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-11 19:44:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-11 20:06:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 20:07:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 20:11:00,FR,return_refund,Retour et remboursement
+2026-11-11 20:24:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 20:28:00,NL,payment_problem,Betaling mislukt
+2026-11-11 20:32:00,PL,item_unavailable,Produkt niedostępny
+2026-11-11 20:46:00,FR,return_refund,Retour et remboursement
+2026-11-11 20:48:00,FR,return_refund,Retour et remboursement
+2026-11-11 20:53:00,DE,cant_find_product,Suche findet nichts
+2026-11-11 20:56:00,DE,cant_find_product,Suche findet nichts
+2026-11-11 21:01:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-11 21:05:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-11 21:05:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 21:11:00,PL,return_refund,Zwrot i refundacja
+2026-11-11 21:16:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 21:16:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-11 21:19:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 21:24:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-11 21:26:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 21:35:00,FR,return_refund,Retour et remboursement
+2026-11-11 21:37:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 21:49:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 21:53:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-11 21:56:00,NL,return_refund,Retour en terugbetaling
+2026-11-11 21:57:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 22:05:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-11 22:19:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 22:26:00,NL,website_slow_or_error,Website is erg traag
+2026-11-11 22:29:00,FR,return_refund,Retour et remboursement
+2026-11-11 22:31:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 22:33:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-11 22:38:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-11 22:38:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-11 22:49:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 22:55:00,FR,return_refund,Retour et remboursement
+2026-11-11 23:10:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 23:10:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 23:11:00,FR,payment_problem,Le paiement a échoué
+2026-11-11 23:17:00,PL,return_refund,Zwrot i refundacja
+2026-11-11 23:22:00,FR,payment_problem,Le paiement a échoué
+2026-11-11 23:28:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-11 23:40:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 23:40:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-11 23:46:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-11 23:51:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-11 23:51:00,FR,return_refund,Retour et remboursement
+2026-11-11 23:55:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 00:06:00,FR,return_refund,Retour et remboursement
+2026-11-12 00:11:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-12 00:18:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-12 00:41:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 00:50:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-12 00:57:00,NL,return_refund,Retour en terugbetaling
+2026-11-12 01:04:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-12 01:26:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 01:32:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 01:40:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 01:43:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 02:58:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 03:13:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-12 03:28:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-12 03:49:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 04:01:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 04:31:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-12 04:39:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-12 05:09:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-12 05:27:00,PL,website_slow_or_error,Strona bardzo wolno działa
+2026-11-12 05:43:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-12 06:09:00,NL,account_login,Kan niet inloggen
+2026-11-12 06:11:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-12 06:16:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 06:38:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-12 07:19:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 08:41:00,FR,payment_problem,Le paiement a échoué
+2026-11-12 08:46:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-12 08:51:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 08:53:00,FR,payment_problem,Le paiement a échoué
+2026-11-12 09:28:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-12 09:37:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 09:43:00,FR,payment_problem,Le paiement a échoué
+2026-11-12 09:44:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-12 09:51:00,DE,cant_find_product,Suche findet nichts
+2026-11-12 09:57:00,*,seller_listing,Question about my listings
+2026-11-12 10:11:00,FR,payment_problem,Le paiement a échoué
+2026-11-12 10:18:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 10:43:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-12 11:05:00,FR,return_refund,Retour et remboursement
+2026-11-12 11:28:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 11:35:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 11:42:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 11:45:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-12 12:09:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-12 12:23:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 12:31:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-12 12:32:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-12 12:34:00,DE,cant_find_product,Suche findet nichts
+2026-11-12 12:39:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-12 12:42:00,PL,item_unavailable,Produkt niedostępny
+2026-11-12 12:43:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-12 12:44:00,FR,account_login,Impossible de me connecter
+2026-11-12 12:47:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-12 12:52:00,FR,item_unavailable,Article indisponible
+2026-11-12 12:57:00,FR,return_refund,Retour et remboursement
+2026-11-12 13:00:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-12 13:01:00,FR,return_refund,Retour et remboursement
+2026-11-12 13:04:00,FR,payment_problem,Le paiement a échoué
+2026-11-12 13:07:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 13:09:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 13:13:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-12 13:34:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-12 13:45:00,FR,item_unavailable,Article indisponible
+2026-11-12 14:07:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 14:09:00,FR,payment_problem,Le paiement a échoué
+2026-11-12 14:11:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-12 14:12:00,FR,account_login,Impossible de me connecter
+2026-11-12 14:13:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 14:16:00,FR,item_unavailable,Article indisponible
+2026-11-12 14:18:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-12 14:26:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-12 14:49:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-12 14:57:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-12 14:59:00,FR,item_unavailable,Article indisponible
+2026-11-12 15:12:00,PL,item_unavailable,Produkt niedostępny
+2026-11-12 15:29:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-12 16:10:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-12 16:15:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-12 16:19:00,PL,return_refund,Zwrot i refundacja
+2026-11-12 16:21:00,DE,cant_find_product,Suche findet nichts
+2026-11-12 16:22:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-12 16:24:00,NL,item_unavailable,Artikel niet beschikbaar
+2026-11-12 16:48:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 16:58:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-12 17:01:00,DE,cant_find_product,Suche findet nichts
+2026-11-12 17:06:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 17:18:00,FR,payment_problem,Le paiement a échoué
+2026-11-12 17:21:00,FR,account_login,Impossible de me connecter
+2026-11-12 17:36:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 18:17:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-12 18:18:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-12 18:19:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 18:21:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-12 18:57:00,DE,cant_find_product,Suche findet nichts
+2026-11-12 18:57:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-12 18:57:00,NL,item_unavailable,Artikel niet beschikbaar
+2026-11-12 19:03:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-12 19:05:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-12 19:21:00,FR,return_refund,Retour et remboursement
+2026-11-12 19:27:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-12 19:32:00,FR,payment_problem,Le paiement a échoué
+2026-11-12 19:34:00,DE,cant_find_product,Suche findet nichts
+2026-11-12 19:44:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-12 19:44:00,FR,return_refund,Retour et remboursement
+2026-11-12 19:45:00,NL,item_unavailable,Artikel niet beschikbaar
+2026-11-12 19:47:00,DE,cant_find_product,Suche findet nichts
+2026-11-12 19:59:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-12 20:00:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-12 20:05:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-12 20:05:00,NL,return_refund,Retour en terugbetaling
+2026-11-12 20:07:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-12 20:11:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-12 20:13:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 20:16:00,FR,return_refund,Retour et remboursement
+2026-11-12 20:17:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 20:25:00,NL,item_unavailable,Artikel niet beschikbaar
+2026-11-12 20:34:00,FR,payment_problem,Le paiement a échoué
+2026-11-12 20:42:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-12 20:44:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-12 20:51:00,FR,return_refund,Retour et remboursement
+2026-11-12 20:53:00,NL,return_refund,Retour en terugbetaling
+2026-11-12 20:58:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 20:59:00,DE,account_login,Kann mich nicht anmelden
+2026-11-12 21:01:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 21:09:00,NL,return_refund,Retour en terugbetaling
+2026-11-12 21:16:00,FR,payment_problem,Le paiement a échoué
+2026-11-12 21:19:00,NL,return_refund,Retour en terugbetaling
+2026-11-12 21:21:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 21:26:00,FR,payment_problem,Le paiement a échoué
+2026-11-12 21:36:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-12 21:41:00,FR,item_unavailable,Article indisponible
+2026-11-12 21:45:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-12 21:50:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-12 21:52:00,NL,item_unavailable,Artikel niet beschikbaar
+2026-11-12 21:57:00,NL,item_unavailable,Artikel niet beschikbaar
+2026-11-12 21:59:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-12 22:00:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-12 22:04:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-12 22:06:00,NL,return_refund,Retour en terugbetaling
+2026-11-12 22:09:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 22:12:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-12 22:12:00,NL,return_refund,Retour en terugbetaling
+2026-11-12 22:13:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-12 22:17:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-12 22:18:00,DE,cant_find_product,Suche findet nichts
+2026-11-12 22:27:00,FR,return_refund,Retour et remboursement
+2026-11-12 22:34:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-12 22:42:00,NL,payment_problem,Betaling mislukt
+2026-11-12 22:42:00,PL,return_refund,Zwrot i refundacja
+2026-11-12 22:49:00,FR,payment_problem,Le paiement a échoué
+2026-11-12 22:49:00,FR,item_unavailable,Article indisponible
+2026-11-12 22:52:00,FR,payment_problem,Le paiement a échoué
+2026-11-12 22:53:00,DE,cant_find_product,Suche findet nichts
+2026-11-12 22:54:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-12 22:55:00,PL,item_unavailable,Produkt niedostępny
+2026-11-12 22:57:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-12 22:57:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-12 22:57:00,PL,item_unavailable,Produkt niedostępny
+2026-11-12 22:58:00,FR,payment_problem,Le paiement a échoué
+2026-11-12 23:09:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-12 23:14:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-12 23:28:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 23:32:00,PL,item_unavailable,Produkt niedostępny
+2026-11-12 23:44:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-12 23:50:00,NL,return_refund,Retour en terugbetaling
+2026-11-12 23:51:00,DE,cant_find_product,Suche findet nichts
+2026-11-13 00:10:00,PL,return_refund,Zwrot i refundacja
+2026-11-13 00:16:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 00:23:00,PL,return_refund,Zwrot i refundacja
+2026-11-13 00:25:00,FR,payment_problem,Le paiement a échoué
+2026-11-13 00:38:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-13 00:51:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 01:46:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 02:51:00,NL,return_refund,Retour en terugbetaling
+2026-11-13 03:22:00,PL,return_refund,Zwrot i refundacja
+2026-11-13 03:27:00,PL,return_refund,Zwrot i refundacja
+2026-11-13 04:29:00,FR,return_refund,Retour et remboursement
+2026-11-13 05:11:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-13 05:15:00,DE,cant_find_product,Suche findet nichts
+2026-11-13 05:27:00,FR,item_unavailable,Article indisponible
+2026-11-13 05:58:00,PL,return_refund,Zwrot i refundacja
+2026-11-13 06:11:00,NL,return_refund,Retour en terugbetaling
+2026-11-13 06:41:00,FR,return_refund,Retour et remboursement
+2026-11-13 07:08:00,NL,payment_problem,Betaling mislukt
+2026-11-13 07:33:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 08:07:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-13 08:25:00,PL,return_refund,Zwrot i refundacja
+2026-11-13 08:37:00,PL,website_slow_or_error,Strona bardzo wolno działa
+2026-11-13 08:50:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-13 08:57:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-13 09:38:00,FR,payment_problem,Le paiement a échoué
+2026-11-13 09:42:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 09:44:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-13 10:01:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-13 10:02:00,FR,return_refund,Retour et remboursement
+2026-11-13 10:11:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 10:39:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-13 11:07:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-13 11:14:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-13 11:22:00,FR,return_refund,Retour et remboursement
+2026-11-13 11:37:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 12:10:00,*,advertiser_billing,Our daily ads budget was used up before noon
+2026-11-13 12:13:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-13 12:15:00,DE,cant_find_product,Suche findet nichts
+2026-11-13 12:16:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-13 12:19:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-13 12:33:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-13 12:47:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-13 13:00:00,FR,website_slow_or_error,Le site est très lent
+2026-11-13 13:01:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-13 14:02:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-13 14:05:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 14:10:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-13 14:19:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-13 14:26:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-13 14:37:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 14:40:00,FR,payment_problem,Le paiement a échoué
+2026-11-13 14:40:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-13 14:44:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 14:47:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-13 15:00:00,*,advertiser_billing,Our daily ads budget was used up before noon
+2026-11-13 15:11:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-13 15:31:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 15:44:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-13 16:00:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-13 16:04:00,FR,payment_problem,Le paiement a échoué
+2026-11-13 16:13:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-13 16:13:00,*,advertiser_billing,Our daily ads budget was used up before noon
+2026-11-13 16:32:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-13 16:52:00,DE,cant_find_product,Suche findet nichts
+2026-11-13 17:00:00,*,advertiser_billing,Our daily ads budget was used up before noon
+2026-11-13 17:01:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 17:47:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-13 17:55:00,*,advertiser_billing,Our daily ads budget was used up before noon
+2026-11-13 18:22:00,DE,cant_find_product,Suche findet nichts
+2026-11-13 18:22:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-13 18:28:00,FR,payment_problem,Le paiement a échoué
+2026-11-13 18:32:00,FR,return_refund,Retour et remboursement
+2026-11-13 19:01:00,FR,return_refund,Retour et remboursement
+2026-11-13 19:02:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-13 19:08:00,FR,item_unavailable,Article indisponible
+2026-11-13 19:12:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-13 19:31:00,*,advertiser_billing,Our daily ads budget was used up before noon
+2026-11-13 19:35:00,FR,payment_problem,Le paiement a échoué
+2026-11-13 19:36:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-13 19:44:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 20:16:00,FR,return_refund,Retour et remboursement
+2026-11-13 20:30:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 20:37:00,DE,cant_find_product,Suche findet nichts
+2026-11-13 20:43:00,FR,return_refund,Retour et remboursement
+2026-11-13 20:46:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-13 20:47:00,*,advertiser_billing,Our daily ads budget was used up before noon
+2026-11-13 20:50:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 20:54:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-13 20:56:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-13 21:05:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 21:07:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-13 21:12:00,DE,cant_find_product,Suche findet nichts
+2026-11-13 21:16:00,FR,return_refund,Retour et remboursement
+2026-11-13 21:26:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 21:29:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-13 21:29:00,NL,payment_problem,Betaling mislukt
+2026-11-13 21:32:00,FR,item_unavailable,Article indisponible
+2026-11-13 21:36:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-13 21:48:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-13 21:57:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 21:57:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-13 21:58:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-13 22:01:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-13 22:12:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-13 22:18:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-13 22:21:00,DE,cant_find_product,Suche findet nichts
+2026-11-13 22:23:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 22:32:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-13 22:32:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-13 22:35:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-13 22:42:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-13 22:43:00,DE,cant_find_product,Suche findet nichts
+2026-11-13 22:46:00,FR,payment_problem,Le paiement a échoué
+2026-11-13 22:46:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-13 23:00:00,FR,return_refund,Retour et remboursement
+2026-11-13 23:07:00,*,seller_listing,Question about my listings
+2026-11-13 23:16:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-13 23:39:00,FR,account_login,Impossible de me connecter
+2026-11-13 23:40:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-13 23:46:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-13 23:54:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-14 00:10:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 00:15:00,DE,cant_find_product,Suche findet nichts
+2026-11-14 00:20:00,FR,return_refund,Retour et remboursement
+2026-11-14 00:38:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-14 00:40:00,*,advertiser_billing,Our daily ads budget was used up before noon
+2026-11-14 00:44:00,PL,return_refund,Zwrot i refundacja
+2026-11-14 00:52:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-14 01:14:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 01:24:00,FR,payment_problem,Le paiement a échoué
+2026-11-14 01:41:00,FR,payment_problem,Le paiement a échoué
+2026-11-14 02:21:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 03:10:00,FR,payment_problem,Le paiement a échoué
+2026-11-14 03:27:00,PL,return_refund,Zwrot i refundacja
+2026-11-14 03:40:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 03:56:00,PL,return_refund,Zwrot i refundacja
+2026-11-14 04:10:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-14 04:47:00,FR,payment_problem,Le paiement a échoué
+2026-11-14 04:49:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-14 04:55:00,FR,payment_problem,Le paiement a échoué
+2026-11-14 05:33:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 06:33:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-14 06:44:00,DE,account_login,Kann mich nicht anmelden
+2026-11-14 08:23:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 08:29:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 08:36:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-14 08:40:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-14 08:41:00,FR,payment_problem,Le paiement a échoué
+2026-11-14 08:44:00,NL,account_login,Kan niet inloggen
+2026-11-14 08:46:00,NL,account_login,Kan niet inloggen
+2026-11-14 09:03:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-14 09:06:00,FR,payment_problem,Le paiement a échoué
+2026-11-14 09:15:00,FR,payment_problem,Le paiement a échoué
+2026-11-14 09:32:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 09:32:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-14 09:41:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 09:46:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-14 09:54:00,NL,return_refund,Retour en terugbetaling
+2026-11-14 10:01:00,FR,return_refund,Retour et remboursement
+2026-11-14 10:04:00,NL,return_refund,Retour en terugbetaling
+2026-11-14 10:08:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 10:40:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-14 10:56:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 11:06:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-14 11:18:00,NL,return_refund,Retour en terugbetaling
+2026-11-14 11:18:00,*,seller_listing,"Our offers disappeared from the marketplace, feed upload fails"
+2026-11-14 11:20:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-14 11:20:00,*,seller_listing,"Our offers disappeared from the marketplace, feed upload fails"
+2026-11-14 11:43:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 11:49:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 12:20:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 12:25:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-14 12:39:00,FR,item_unavailable,Article indisponible
+2026-11-14 12:42:00,FR,return_refund,Retour et remboursement
+2026-11-14 12:45:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-14 12:50:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-14 13:08:00,*,seller_listing,"Our offers disappeared from the marketplace, feed upload fails"
+2026-11-14 13:09:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-14 13:14:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-14 13:18:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 13:30:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-14 13:32:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 13:40:00,DE,cant_find_product,Suche findet nichts
+2026-11-14 13:46:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 13:49:00,*,seller_listing,Question about my listings
+2026-11-14 13:59:00,PL,account_login,Nie mogę się zalogować
+2026-11-14 14:10:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-14 14:11:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-14 14:12:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-14 14:37:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 14:38:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 14:38:00,NL,return_refund,Retour en terugbetaling
+2026-11-14 14:43:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-14 14:48:00,DE,cant_find_product,Suche findet nichts
+2026-11-14 14:54:00,*,seller_listing,Question about my listings
+2026-11-14 14:56:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 14:58:00,NL,website_slow_or_error,Website is erg traag
+2026-11-14 16:04:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-14 16:12:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-14 16:20:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-14 16:38:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 16:40:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 16:54:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 17:30:00,NL,return_refund,Retour en terugbetaling
+2026-11-14 17:37:00,PL,account_login,Nie mogę się zalogować
+2026-11-14 17:40:00,NL,return_refund,Retour en terugbetaling
+2026-11-14 18:23:00,FR,payment_problem,Le paiement a échoué
+2026-11-14 18:24:00,FR,return_refund,Retour et remboursement
+2026-11-14 18:48:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-14 19:06:00,DE,cant_find_product,Suche findet nichts
+2026-11-14 19:16:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 19:18:00,FR,payment_problem,Le paiement a échoué
+2026-11-14 19:19:00,FR,return_refund,Retour et remboursement
+2026-11-14 19:23:00,FR,account_login,Impossible de me connecter
+2026-11-14 19:26:00,FR,return_refund,Retour et remboursement
+2026-11-14 19:33:00,FR,website_slow_or_error,Le site est très lent
+2026-11-14 19:42:00,FR,return_refund,Retour et remboursement
+2026-11-14 19:47:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 19:50:00,PL,return_refund,Zwrot i refundacja
+2026-11-14 19:53:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 19:56:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 19:57:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-14 20:12:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 20:13:00,DE,cant_find_product,Suche findet nichts
+2026-11-14 20:18:00,FR,payment_problem,Le paiement a échoué
+2026-11-14 21:01:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-14 21:01:00,PL,return_refund,Zwrot i refundacja
+2026-11-14 21:08:00,FR,return_refund,Retour et remboursement
+2026-11-14 21:11:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 21:11:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 21:17:00,DE,cant_find_product,Suche findet nichts
+2026-11-14 21:17:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-14 21:19:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-14 21:20:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-14 21:33:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 21:53:00,FR,payment_problem,Le paiement a échoué
+2026-11-14 21:53:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-14 21:54:00,DE,cant_find_product,Suche findet nichts
+2026-11-14 21:55:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 21:58:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 22:03:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-14 22:04:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-14 22:06:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-14 22:08:00,FR,return_refund,Retour et remboursement
+2026-11-14 22:10:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-14 22:11:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-14 22:18:00,NL,return_refund,Retour en terugbetaling
+2026-11-14 22:22:00,FR,payment_problem,Le paiement a échoué
+2026-11-14 22:28:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-14 22:30:00,NL,return_refund,Retour en terugbetaling
+2026-11-14 22:31:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 22:38:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-14 22:41:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-14 22:45:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 22:57:00,PL,return_refund,Zwrot i refundacja
+2026-11-14 23:02:00,PL,account_login,Nie mogę się zalogować
+2026-11-14 23:07:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-14 23:12:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-14 23:12:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-14 23:20:00,DE,cant_find_product,Suche findet nichts
+2026-11-14 23:34:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-14 23:45:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-14 23:46:00,FR,return_refund,Retour et remboursement
+2026-11-14 23:50:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-14 23:51:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-14 23:58:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-15 00:02:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-15 00:04:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 00:05:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-15 00:19:00,NL,payment_problem,Betaling mislukt
+2026-11-15 00:36:00,NL,payment_problem,Betaling mislukt
+2026-11-15 00:36:00,NL,return_refund,Retour en terugbetaling
+2026-11-15 00:48:00,FR,return_refund,Retour et remboursement
+2026-11-15 01:17:00,FR,return_refund,Retour et remboursement
+2026-11-15 02:01:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-15 02:49:00,DE,cant_find_product,Suche findet nichts
+2026-11-15 04:16:00,FR,return_refund,Retour et remboursement
+2026-11-15 04:22:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 05:13:00,DE,account_login,Kann mich nicht anmelden
+2026-11-15 05:43:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-15 06:39:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-15 06:47:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-15 06:54:00,PL,return_refund,Zwrot i refundacja
+2026-11-15 07:43:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 07:43:00,FR,payment_problem,Le paiement a échoué
+2026-11-15 07:53:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 07:55:00,NL,return_refund,Retour en terugbetaling
+2026-11-15 08:00:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 08:28:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 08:29:00,FR,return_refund,Retour et remboursement
+2026-11-15 08:57:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 09:12:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 09:35:00,DE,cant_find_product,Suche findet nichts
+2026-11-15 09:56:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-15 10:02:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-15 10:38:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 10:39:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-15 11:01:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-15 11:11:00,NL,account_login,Kan niet inloggen
+2026-11-15 11:36:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-15 11:51:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-15 11:57:00,FR,payment_problem,Le paiement a échoué
+2026-11-15 12:00:00,FR,payment_problem,Le paiement a échoué
+2026-11-15 12:21:00,FR,return_refund,Retour et remboursement
+2026-11-15 13:17:00,DE,cant_find_product,Suche findet nichts
+2026-11-15 13:23:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 13:24:00,FR,payment_problem,Le paiement a échoué
+2026-11-15 13:30:00,NL,return_refund,Retour en terugbetaling
+2026-11-15 13:41:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-15 13:57:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-15 14:02:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-15 14:06:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-15 14:37:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-15 15:04:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-15 15:24:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-15 15:32:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-15 15:45:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 15:46:00,DE,account_login,Kann mich nicht anmelden
+2026-11-15 15:54:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-15 16:20:00,NL,payment_problem,Betaling mislukt
+2026-11-15 16:39:00,FR,payment_problem,Le paiement a échoué
+2026-11-15 17:13:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 17:21:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 17:22:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 17:43:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-15 18:21:00,PL,return_refund,Zwrot i refundacja
+2026-11-15 18:35:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 19:06:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-15 19:10:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-15 19:14:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-15 19:27:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-15 19:39:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-15 19:40:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-15 19:46:00,FR,website_slow_or_error,La page de paiement tourne sans fin
+2026-11-15 19:50:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 19:50:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-15 20:05:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-15 20:06:00,DE,website_slow_or_error,"Kasse hängt, Bestellung geht nicht durch"
+2026-11-15 20:09:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-15 20:10:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-15 20:26:00,PL,return_refund,Zwrot i refundacja
+2026-11-15 20:47:00,PL,website_slow_or_error,Kasa się zawiesza
+2026-11-15 20:56:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 21:00:00,PL,return_refund,Zwrot i refundacja
+2026-11-15 21:01:00,FR,return_refund,Retour et remboursement
+2026-11-15 21:05:00,NL,website_slow_or_error,Afrekenen blijft laden
+2026-11-15 21:12:00,FR,return_refund,Retour et remboursement
+2026-11-15 21:17:00,DE,cant_find_product,Suche findet nichts
+2026-11-15 21:22:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-15 21:23:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 21:34:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-15 21:38:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-15 21:42:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-15 21:42:00,FR,account_login,Impossible de me connecter
+2026-11-15 21:44:00,NL,return_refund,Retour en terugbetaling
+2026-11-15 21:45:00,FR,return_refund,Retour et remboursement
+2026-11-15 21:45:00,FR,return_refund,Retour et remboursement
+2026-11-15 21:46:00,FR,website_slow_or_error,La page de paiement tourne sans fin
+2026-11-15 21:51:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-15 22:01:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-15 22:02:00,DE,website_slow_or_error,"Kasse hängt, Bestellung geht nicht durch"
+2026-11-15 22:03:00,FR,website_slow_or_error,La page de paiement tourne sans fin
+2026-11-15 22:10:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-15 22:13:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-15 22:17:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-15 22:20:00,FR,website_slow_or_error,La page de paiement tourne sans fin
+2026-11-15 22:23:00,FR,website_slow_or_error,La page de paiement tourne sans fin
+2026-11-15 22:23:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-15 22:25:00,NL,website_slow_or_error,Afrekenen blijft laden
+2026-11-15 22:32:00,FR,website_slow_or_error,La page de paiement tourne sans fin
+2026-11-15 22:36:00,NL,website_slow_or_error,Afrekenen blijft laden
+2026-11-15 22:36:00,PL,website_slow_or_error,Kasa się zawiesza
+2026-11-15 22:37:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-15 22:38:00,PL,website_slow_or_error,Kasa się zawiesza
+2026-11-15 22:46:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-15 22:54:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-15 22:58:00,DE,website_slow_or_error,"Kasse hängt, Bestellung geht nicht durch"
+2026-11-15 23:00:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-15 23:04:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-15 23:17:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-15 23:17:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-15 23:17:00,FR,account_login,Impossible de me connecter
+2026-11-15 23:24:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-15 23:33:00,NL,website_slow_or_error,Website is erg traag
+2026-11-15 23:37:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-15 23:40:00,PL,return_refund,Zwrot i refundacja
+2026-11-15 23:53:00,DE,cant_find_product,Suche findet nichts
+2026-11-15 23:54:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-16 00:00:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-16 00:03:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 00:21:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-16 00:26:00,DE,cant_find_product,Suche findet nichts
+2026-11-16 00:28:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-16 00:38:00,FR,return_refund,Retour et remboursement
+2026-11-16 00:45:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-16 00:46:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 00:48:00,FR,return_refund,Retour et remboursement
+2026-11-16 00:54:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-16 00:59:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-16 01:24:00,FR,payment_problem,Le paiement a échoué
+2026-11-16 01:34:00,FR,return_refund,Retour et remboursement
+2026-11-16 02:38:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 02:39:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-16 02:41:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-16 02:57:00,DE,cant_find_product,Suche findet nichts
+2026-11-16 03:21:00,NL,return_refund,Retour en terugbetaling
+2026-11-16 03:35:00,NL,return_refund,Retour en terugbetaling
+2026-11-16 05:50:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 06:10:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 06:15:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 06:26:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-16 07:01:00,FR,return_refund,Retour et remboursement
+2026-11-16 07:29:00,NL,payment_problem,Betaling mislukt
+2026-11-16 07:57:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 08:02:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 08:29:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 08:36:00,FR,return_refund,Retour et remboursement
+2026-11-16 08:42:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-16 09:23:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-16 09:23:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-16 09:35:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-16 09:38:00,NL,website_slow_or_error,Website is erg traag
+2026-11-16 09:49:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 10:05:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 10:19:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 10:29:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 10:30:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 10:59:00,FR,return_refund,Retour et remboursement
+2026-11-16 11:00:00,DE,cant_find_product,Suche findet nichts
+2026-11-16 11:03:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-16 11:33:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 11:37:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-16 11:40:00,NL,return_refund,Retour en terugbetaling
+2026-11-16 12:14:00,FR,return_refund,Retour et remboursement
+2026-11-16 12:22:00,FR,return_refund,Retour et remboursement
+2026-11-16 12:31:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-16 12:35:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-16 12:55:00,DE,cant_find_product,Suche findet nichts
+2026-11-16 13:06:00,DE,account_login,Kann mich nicht anmelden
+2026-11-16 13:15:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 13:22:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-16 13:24:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-16 13:34:00,PL,return_refund,Zwrot i refundacja
+2026-11-16 13:46:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-16 13:46:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-16 13:47:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 13:52:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-16 13:55:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 14:01:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-16 14:11:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-16 14:13:00,DE,cant_find_product,Suche findet nichts
+2026-11-16 14:16:00,PL,return_refund,Zwrot i refundacja
+2026-11-16 14:21:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-16 14:48:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-16 14:59:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-16 15:01:00,FR,return_refund,Retour et remboursement
+2026-11-16 15:02:00,NL,payment_problem,Betaling mislukt
+2026-11-16 15:10:00,NL,payment_problem,Betaling mislukt
+2026-11-16 15:27:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-16 15:49:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-16 16:07:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 16:22:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-16 16:37:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 17:40:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-16 17:56:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-16 18:29:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-16 18:45:00,FR,return_refund,Retour et remboursement
+2026-11-16 18:57:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 19:07:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 19:14:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 19:23:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-16 19:25:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 19:26:00,DE,cant_find_product,Suche findet nichts
+2026-11-16 19:35:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-16 19:47:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-16 19:59:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-16 20:06:00,PL,return_refund,Zwrot i refundacja
+2026-11-16 20:27:00,DE,account_login,Kann mich nicht anmelden
+2026-11-16 20:27:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-16 20:38:00,PL,website_slow_or_error,Strona bardzo wolno działa
+2026-11-16 20:39:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 20:41:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-16 20:43:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-16 21:00:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-16 21:07:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 21:26:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 21:27:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-16 21:29:00,DE,cant_find_product,Suche findet nichts
+2026-11-16 21:34:00,FR,payment_problem,Le paiement a échoué
+2026-11-16 21:43:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 21:57:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 22:16:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-16 22:23:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 22:52:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 22:57:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-16 22:58:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-16 23:11:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-16 23:15:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-16 23:15:00,DE,cant_find_product,Suche findet nichts
+2026-11-16 23:23:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-16 23:27:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 23:29:00,NL,website_slow_or_error,Website is erg traag
+2026-11-16 23:44:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-16 23:46:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-16 23:47:00,FR,payment_problem,Le paiement a échoué
+2026-11-16 23:50:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-16 23:50:00,NL,payment_problem,Betaling mislukt
+2026-11-17 00:05:00,NL,return_refund,Retour en terugbetaling
+2026-11-17 00:42:00,NL,website_slow_or_error,Website is erg traag
+2026-11-17 00:50:00,FR,return_refund,Retour et remboursement
+2026-11-17 01:12:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-17 02:32:00,FR,website_slow_or_error,Le site est très lent
+2026-11-17 03:19:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-17 03:27:00,FR,payment_problem,Le paiement a échoué
+2026-11-17 04:22:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-17 05:41:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-17 05:44:00,*,seller_listing,Question about my listings
+2026-11-17 06:07:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-17 06:14:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-17 06:57:00,FR,account_login,Impossible de me connecter
+2026-11-17 08:04:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-17 08:26:00,NL,website_slow_or_error,Website is erg traag
+2026-11-17 08:31:00,FR,payment_problem,Le paiement a échoué
+2026-11-17 08:38:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-17 09:31:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-17 10:24:00,PL,website_slow_or_error,Strona bardzo wolno działa
+2026-11-17 10:29:00,FR,return_refund,Retour et remboursement
+2026-11-17 10:45:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-17 11:14:00,NL,return_refund,Retour en terugbetaling
+2026-11-17 11:21:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-17 11:38:00,FR,website_slow_or_error,Le site est très lent
+2026-11-17 11:53:00,FR,payment_problem,Le paiement a échoué
+2026-11-17 12:00:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-17 12:39:00,FR,payment_problem,Le paiement a échoué
+2026-11-17 12:46:00,*,seller_listing,Question about my listings
+2026-11-17 13:24:00,FR,payment_problem,Le paiement a échoué
+2026-11-17 13:28:00,FR,payment_problem,Le paiement a échoué
+2026-11-17 13:28:00,FR,website_slow_or_error,Le site est très lent
+2026-11-17 14:04:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-17 14:08:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 14:29:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 14:30:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 14:36:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-17 14:37:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 14:44:00,FR,return_refund,Retour et remboursement
+2026-11-17 14:45:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 14:45:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 14:49:00,PL,website_slow_or_error,Strona bardzo wolno działa
+2026-11-17 14:51:00,FR,payment_problem,Le paiement a échoué
+2026-11-17 15:00:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-17 15:01:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-17 15:03:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 15:18:00,PL,return_refund,Zwrot i refundacja
+2026-11-17 15:30:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-17 16:08:00,FR,payment_problem,Le paiement a échoué
+2026-11-17 16:40:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-17 16:58:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-17 17:41:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 18:04:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 18:16:00,NL,account_login,Kan niet inloggen
+2026-11-17 18:37:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-17 18:50:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-17 19:06:00,PL,return_refund,Zwrot i refundacja
+2026-11-17 19:12:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-17 19:20:00,FR,payment_problem,Le paiement a échoué
+2026-11-17 19:33:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-17 19:35:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-17 19:42:00,NL,return_refund,Retour en terugbetaling
+2026-11-17 20:03:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-17 20:22:00,FR,payment_problem,Le paiement a échoué
+2026-11-17 20:31:00,NL,return_refund,Retour en terugbetaling
+2026-11-17 20:36:00,FR,website_slow_or_error,Le site est très lent
+2026-11-17 20:38:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 20:40:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-17 20:41:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-17 20:42:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-17 20:47:00,DE,cant_find_product,Suche findet nichts
+2026-11-17 20:51:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-17 20:57:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 21:00:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-17 21:02:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 21:02:00,DE,cant_find_product,Suche findet nichts
+2026-11-17 21:08:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-17 21:11:00,PL,return_refund,Zwrot i refundacja
+2026-11-17 21:11:00,PL,return_refund,Zwrot i refundacja
+2026-11-17 21:12:00,FR,website_slow_or_error,Le site est très lent
+2026-11-17 21:16:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 21:16:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 21:27:00,FR,payment_problem,Le paiement a échoué
+2026-11-17 21:38:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-17 21:43:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-17 21:48:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-17 21:49:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-17 21:52:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-17 21:54:00,FR,payment_problem,Le paiement a échoué
+2026-11-17 21:54:00,FR,payment_problem,Le paiement a échoué
+2026-11-17 21:54:00,FR,payment_problem,Le paiement a échoué
+2026-11-17 21:59:00,FR,return_refund,Retour et remboursement
+2026-11-17 22:03:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-17 22:05:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-17 22:07:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-17 22:10:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-17 22:18:00,DE,cant_find_product,Suche findet nichts
+2026-11-17 22:19:00,FR,return_refund,Retour et remboursement
+2026-11-17 22:30:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-17 22:31:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-17 22:32:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 22:33:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-17 22:47:00,DE,cant_find_product,Suche findet nichts
+2026-11-17 22:48:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 22:48:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-17 22:52:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-17 22:57:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-17 23:00:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 23:04:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-17 23:21:00,FR,payment_problem,Le paiement a échoué
+2026-11-17 23:31:00,FR,return_refund,Retour et remboursement
+2026-11-18 00:17:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 00:19:00,FR,return_refund,Retour et remboursement
+2026-11-18 00:32:00,FR,payment_problem,Le paiement a échoué
+2026-11-18 00:35:00,FR,return_refund,Retour et remboursement
+2026-11-18 00:40:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-18 00:50:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 00:53:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-18 00:57:00,NL,payment_problem,Betaling mislukt
+2026-11-18 01:06:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-18 01:26:00,DE,account_login,Kann mich nicht anmelden
+2026-11-18 01:40:00,DE,cant_find_product,Suche findet nichts
+2026-11-18 01:52:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-18 02:15:00,PL,return_refund,Zwrot i refundacja
+2026-11-18 02:26:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-18 02:45:00,NL,return_refund,Retour en terugbetaling
+2026-11-18 02:47:00,DE,payment_problem,Bezahlung per Banküberweisung in der Android-App schlägt immer fehl
+2026-11-18 03:31:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-18 04:05:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-18 05:34:00,PL,return_refund,Zwrot i refundacja
+2026-11-18 05:40:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-18 05:56:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-18 05:58:00,PL,item_unavailable,Produkt niedostępny
+2026-11-18 06:51:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 07:01:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-18 08:00:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-18 08:59:00,PL,return_refund,Zwrot i refundacja
+2026-11-18 09:10:00,NL,account_login,Kan niet inloggen
+2026-11-18 09:19:00,FR,return_refund,Retour et remboursement
+2026-11-18 09:28:00,DE,cant_find_product,Suche findet nichts
+2026-11-18 09:38:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-18 09:43:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-18 09:43:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-18 09:51:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-18 09:53:00,DE,cant_find_product,Suche findet nichts
+2026-11-18 10:04:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 10:47:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 10:55:00,FR,payment_problem,Le paiement a échoué
+2026-11-18 11:26:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-18 11:29:00,DE,account_login,Kann mich nicht anmelden
+2026-11-18 11:38:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-18 11:38:00,NL,website_slow_or_error,Website is erg traag
+2026-11-18 12:07:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-18 12:35:00,FR,return_refund,Retour et remboursement
+2026-11-18 12:48:00,FR,return_refund,Retour et remboursement
+2026-11-18 13:08:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 13:19:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-18 13:20:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-18 13:28:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 13:40:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-18 13:42:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 14:27:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 14:46:00,DE,cant_find_product,Suche findet nichts
+2026-11-18 14:47:00,NL,payment_problem,Betaling mislukt
+2026-11-18 14:50:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-18 14:52:00,FR,return_refund,Retour et remboursement
+2026-11-18 14:52:00,NL,payment_problem,Betaling mislukt
+2026-11-18 14:56:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-18 14:58:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-18 14:59:00,PL,item_unavailable,Produkt niedostępny
+2026-11-18 15:13:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-18 15:21:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-18 15:34:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-18 15:41:00,FR,return_refund,Retour et remboursement
+2026-11-18 16:20:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-18 16:40:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-18 17:07:00,FR,return_refund,Retour et remboursement
+2026-11-18 17:25:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-18 17:29:00,NL,payment_problem,Betaling mislukt
+2026-11-18 17:49:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 18:14:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-18 18:46:00,PL,return_refund,Zwrot i refundacja
+2026-11-18 18:51:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-18 19:10:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-18 19:16:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 19:21:00,DE,cant_find_product,Suche findet nichts
+2026-11-18 19:43:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-18 20:01:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-18 20:19:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-18 20:22:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 20:31:00,DE,account_login,Kann mich nicht anmelden
+2026-11-18 20:39:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-18 20:59:00,FR,item_unavailable,Article indisponible
+2026-11-18 21:00:00,FR,website_slow_or_error,Le site est très lent
+2026-11-18 21:05:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-18 21:05:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-18 21:05:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-18 21:07:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-18 21:08:00,FR,return_refund,Retour et remboursement
+2026-11-18 21:13:00,NL,return_refund,Retour en terugbetaling
+2026-11-18 21:18:00,DE,cant_find_product,Suche findet nichts
+2026-11-18 21:19:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 21:28:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 21:32:00,PL,account_login,Nie mogę się zalogować
+2026-11-18 21:34:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-18 21:48:00,FR,payment_problem,Le paiement a échoué
+2026-11-18 21:53:00,NL,return_refund,Retour en terugbetaling
+2026-11-18 22:01:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-18 22:05:00,FR,return_refund,Retour et remboursement
+2026-11-18 22:12:00,FR,account_login,Impossible de me connecter
+2026-11-18 22:14:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-18 22:14:00,PL,return_refund,Zwrot i refundacja
+2026-11-18 22:20:00,NL,return_refund,Retour en terugbetaling
+2026-11-18 22:22:00,FR,payment_problem,Le paiement a échoué
+2026-11-18 22:34:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-18 22:37:00,FR,item_unavailable,Article indisponible
+2026-11-18 22:37:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-18 22:38:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-18 22:42:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-18 22:45:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-18 22:45:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 22:47:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-18 22:57:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 23:08:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-18 23:10:00,FR,return_refund,Retour et remboursement
+2026-11-18 23:15:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-18 23:17:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-18 23:23:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-18 23:28:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 23:30:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-18 23:33:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-18 23:36:00,FR,return_refund,Retour et remboursement
+2026-11-19 00:11:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-19 00:35:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-19 00:47:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-19 00:51:00,FR,return_refund,Retour et remboursement
+2026-11-19 00:56:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-19 00:58:00,FR,return_refund,Retour et remboursement
+2026-11-19 01:11:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-19 02:33:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-19 02:38:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-19 03:24:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-19 04:54:00,FR,account_login,Impossible de me connecter
+2026-11-19 05:36:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-19 05:38:00,*,seller_listing,Question about my listings
+2026-11-19 06:37:00,FR,website_slow_or_error,Le site est très lent
+2026-11-19 06:43:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-19 07:42:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-19 08:00:00,DE,cant_find_product,Suche findet nichts
+2026-11-19 08:22:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-19 09:21:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-19 09:26:00,DE,cant_find_product,Suche findet nichts
+2026-11-19 09:34:00,DE,cant_find_product,Suchergebnisse passen überhaupt nicht zu meiner Suche
+2026-11-19 09:42:00,DE,cant_find_product,Suchergebnisse passen überhaupt nicht zu meiner Suche
+2026-11-19 09:50:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-19 09:52:00,DE,cant_find_product,Suchergebnisse passen überhaupt nicht zu meiner Suche
+2026-11-19 09:53:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-19 10:02:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-19 10:04:00,PL,return_refund,Zwrot i refundacja
+2026-11-19 10:09:00,FR,payment_problem,Le paiement a échoué
+2026-11-19 10:21:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-19 10:35:00,PL,return_refund,Zwrot i refundacja
+2026-11-19 10:52:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-19 11:04:00,DE,cant_find_product,Suche findet nichts
+2026-11-19 11:10:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-19 11:38:00,NL,return_refund,Retour en terugbetaling
+2026-11-19 11:45:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-19 12:08:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-19 12:14:00,FR,return_refund,Retour et remboursement
+2026-11-19 12:18:00,FR,account_login,Impossible de me connecter
+2026-11-19 12:27:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-19 12:34:00,DE,cant_find_product,Suchergebnisse passen überhaupt nicht zu meiner Suche
+2026-11-19 13:27:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-19 13:32:00,FR,website_slow_or_error,Le site est très lent
+2026-11-19 13:34:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-19 13:34:00,FR,payment_problem,Le paiement a échoué
+2026-11-19 13:36:00,NL,return_refund,Retour en terugbetaling
+2026-11-19 13:43:00,FR,return_refund,Retour et remboursement
+2026-11-19 13:48:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-19 13:50:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-19 14:01:00,FR,return_refund,Retour et remboursement
+2026-11-19 14:03:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-19 14:05:00,DE,cant_find_product,Suchergebnisse passen überhaupt nicht zu meiner Suche
+2026-11-19 14:07:00,FR,return_refund,Retour et remboursement
+2026-11-19 14:44:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-19 15:06:00,FR,payment_problem,Le paiement a échoué
+2026-11-19 15:21:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-19 15:33:00,FR,return_refund,Retour et remboursement
+2026-11-19 15:52:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-19 15:54:00,DE,cant_find_product,Suchergebnisse passen überhaupt nicht zu meiner Suche
+2026-11-19 16:00:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-19 16:36:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-19 17:00:00,DE,cant_find_product,Suche findet nichts
+2026-11-19 17:27:00,NL,payment_problem,Betaling mislukt
+2026-11-19 17:48:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-19 17:51:00,PL,return_refund,Zwrot i refundacja
+2026-11-19 18:07:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-19 18:19:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-19 18:42:00,NL,return_refund,Retour en terugbetaling
+2026-11-19 18:43:00,DE,cant_find_product,Suchergebnisse passen überhaupt nicht zu meiner Suche
+2026-11-19 18:46:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-19 19:10:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-19 19:10:00,NL,website_slow_or_error,Website is erg traag
+2026-11-19 19:18:00,PL,item_unavailable,Produkt niedostępny
+2026-11-19 19:25:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-19 19:39:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-19 19:42:00,FR,website_slow_or_error,Le site est très lent
+2026-11-19 19:48:00,NL,return_refund,Retour en terugbetaling
+2026-11-19 19:49:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-19 19:50:00,FR,payment_problem,Le paiement a échoué
+2026-11-19 19:50:00,NL,payment_problem,Betaling mislukt
+2026-11-19 20:03:00,DE,cant_find_product,Suche findet nichts
+2026-11-19 20:08:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-19 20:09:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-19 20:10:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-19 20:44:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-19 20:52:00,FR,return_refund,Retour et remboursement
+2026-11-19 21:02:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-19 21:07:00,DE,cant_find_product,Suchergebnisse passen überhaupt nicht zu meiner Suche
+2026-11-19 21:36:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-19 21:36:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-19 21:36:00,PL,return_refund,Zwrot i refundacja
+2026-11-19 21:37:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-19 21:37:00,FR,account_login,Impossible de me connecter
+2026-11-19 21:42:00,DE,cant_find_product,Suche findet nichts
+2026-11-19 21:46:00,DE,cant_find_product,Suchergebnisse passen überhaupt nicht zu meiner Suche
+2026-11-19 21:46:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-19 21:48:00,DE,cant_find_product,Suchergebnisse passen überhaupt nicht zu meiner Suche
+2026-11-19 21:52:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-19 21:57:00,DE,cant_find_product,Suchergebnisse passen überhaupt nicht zu meiner Suche
+2026-11-19 22:05:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-19 22:09:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-19 22:14:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-19 22:21:00,DE,cant_find_product,Suche findet nichts
+2026-11-19 22:23:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-19 22:46:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-19 22:48:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-19 22:48:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-19 22:59:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-19 23:05:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-19 23:09:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-19 23:17:00,FR,website_slow_or_error,Le site est très lent
+2026-11-19 23:20:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-19 23:24:00,DE,account_login,Kann mich nicht anmelden
+2026-11-19 23:35:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-19 23:44:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-20 00:03:00,PL,account_login,Nie mogę się zalogować
+2026-11-20 00:39:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-20 00:39:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-20 00:45:00,DE,cant_find_product,Suche findet nichts
+2026-11-20 00:53:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-20 00:55:00,FR,return_refund,Retour et remboursement
+2026-11-20 00:59:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-20 02:40:00,FR,item_unavailable,Article indisponible
+2026-11-20 02:42:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-20 04:55:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-20 05:14:00,NL,payment_problem,Betaling mislukt
+2026-11-20 05:19:00,FR,payment_problem,Le paiement a échoué
+2026-11-20 05:45:00,FR,return_refund,Retour et remboursement
+2026-11-20 07:12:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-20 07:32:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-20 07:47:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-20 08:04:00,DE,account_login,Kann mich nicht anmelden
+2026-11-20 08:18:00,NL,website_slow_or_error,Website is erg traag
+2026-11-20 08:25:00,PL,return_refund,Zwrot i refundacja
+2026-11-20 08:36:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-20 08:36:00,FR,payment_problem,Le paiement a échoué
+2026-11-20 09:16:00,DE,item_unavailable,Elektronikartikel seit Tagen ausverkauft
+2026-11-20 09:31:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-20 09:47:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-20 09:57:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-20 10:03:00,FR,website_slow_or_error,Le site est très lent
+2026-11-20 10:12:00,DE,cant_find_product,Suche findet nichts
+2026-11-20 10:31:00,DE,cant_find_product,Suche findet nichts
+2026-11-20 10:31:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-20 10:39:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-20 11:12:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-20 11:23:00,FR,website_slow_or_error,Le site est très lent
+2026-11-20 11:24:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-20 11:35:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-20 11:37:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-20 11:40:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-20 11:54:00,FR,item_unavailable,Article indisponible
+2026-11-20 11:57:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-20 12:14:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-20 12:39:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-20 12:50:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-20 12:53:00,PL,return_refund,Zwrot i refundacja
+2026-11-20 13:01:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-20 13:17:00,PL,return_refund,Zwrot i refundacja
+2026-11-20 13:28:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-20 13:35:00,PL,item_unavailable,Produkt niedostępny
+2026-11-20 13:45:00,PL,return_refund,Zwrot i refundacja
+2026-11-20 13:50:00,NL,item_unavailable,Artikel niet beschikbaar
+2026-11-20 13:54:00,DE,cant_find_product,Suche findet nichts
+2026-11-20 14:01:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-20 14:21:00,NL,payment_problem,Betaling mislukt
+2026-11-20 14:25:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-20 14:36:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-20 14:56:00,NL,payment_problem,Betaling mislukt
+2026-11-20 15:00:00,DE,item_unavailable,Elektronikartikel seit Tagen ausverkauft
+2026-11-20 15:14:00,NL,item_unavailable,Artikel niet beschikbaar
+2026-11-20 15:16:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-20 15:44:00,FR,return_refund,Retour et remboursement
+2026-11-20 15:57:00,FR,return_refund,Retour et remboursement
+2026-11-20 16:50:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-20 16:54:00,DE,cant_find_product,Suche findet nichts
+2026-11-20 17:06:00,FR,payment_problem,Le paiement a échoué
+2026-11-20 17:15:00,DE,cant_find_product,Suche findet nichts
+2026-11-20 17:51:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-20 18:16:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-20 18:22:00,NL,payment_problem,Betaling mislukt
+2026-11-20 18:27:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-20 18:34:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-20 19:02:00,DE,item_unavailable,Elektronikartikel seit Tagen ausverkauft
+2026-11-20 19:50:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-20 19:55:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-20 20:14:00,FR,return_refund,Retour et remboursement
+2026-11-20 20:27:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-20 20:28:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-20 20:30:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-20 20:43:00,PL,item_unavailable,Produkt niedostępny
+2026-11-20 20:44:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-20 20:45:00,PL,return_refund,Zwrot i refundacja
+2026-11-20 21:00:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-20 21:00:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-20 21:00:00,PL,account_login,Nie mogę się zalogować
+2026-11-20 21:10:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-20 21:13:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-20 21:14:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-20 21:14:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-20 21:19:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-20 21:24:00,DE,item_unavailable,Elektronikartikel seit Tagen ausverkauft
+2026-11-20 21:25:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-20 21:36:00,DE,item_unavailable,Artikel nicht verfügbar
+2026-11-20 21:48:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-20 22:00:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-20 22:03:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-20 22:04:00,FR,payment_problem,Le paiement a échoué
+2026-11-20 22:08:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-20 22:16:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-20 22:25:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-20 22:26:00,DE,cant_find_product,Suche findet nichts
+2026-11-20 22:26:00,FR,item_unavailable,Article indisponible
+2026-11-20 22:38:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-20 22:40:00,DE,item_unavailable,Elektronikartikel seit Tagen ausverkauft
+2026-11-20 22:51:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-20 22:59:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-20 23:00:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-20 23:01:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-20 23:07:00,NL,account_login,Kan niet inloggen
+2026-11-20 23:20:00,DE,cant_find_product,Suche findet nichts
+2026-11-20 23:23:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-20 23:25:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-20 23:25:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-20 23:26:00,FR,return_refund,Retour et remboursement
+2026-11-20 23:28:00,DE,item_unavailable,Elektronikartikel seit Tagen ausverkauft
+2026-11-20 23:31:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-20 23:36:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-20 23:37:00,FR,return_refund,Retour et remboursement
+2026-11-20 23:38:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-20 23:39:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-20 23:42:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-20 23:47:00,FR,website_slow_or_error,Le site est très lent
+2026-11-20 23:59:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-20 23:59:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-21 00:00:00,DE,item_unavailable,Elektronikartikel seit Tagen ausverkauft
+2026-11-21 00:00:00,*,seller_listing,Question about my listings
+2026-11-21 00:05:00,FR,return_refund,Retour et remboursement
+2026-11-21 00:08:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-21 00:17:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-21 00:22:00,NL,payment_problem,Betaling mislukt
+2026-11-21 00:43:00,NL,account_login,Kan niet inloggen
+2026-11-21 00:53:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 01:19:00,*,advertiser_billing,Question about sponsored ads invoice
+2026-11-21 01:20:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 01:20:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-21 02:06:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 03:07:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-21 03:59:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 04:45:00,PL,return_refund,Zwrot i refundacja
+2026-11-21 05:39:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-21 06:19:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-21 06:22:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-21 06:26:00,DE,item_unavailable,Elektronikartikel seit Tagen ausverkauft
+2026-11-21 06:26:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-21 06:27:00,NL,payment_problem,Betaling mislukt
+2026-11-21 06:40:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-21 07:04:00,DE,item_unavailable,Elektronikartikel seit Tagen ausverkauft
+2026-11-21 07:05:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-21 08:27:00,NL,cant_find_product,Zoeken vindt niets
+2026-11-21 08:44:00,NL,return_refund,Retour en terugbetaling
+2026-11-21 09:17:00,DE,item_unavailable,Elektronikartikel seit Tagen ausverkauft
+2026-11-21 09:37:00,DE,cant_find_product,Suche findet nichts
+2026-11-21 10:39:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 10:56:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-21 11:00:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-21 11:01:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-21 11:06:00,NL,return_refund,Retour en terugbetaling
+2026-11-21 11:10:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-21 11:51:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 11:56:00,DE,cant_find_product,Suche findet nichts
+2026-11-21 12:25:00,NL,website_slow_or_error,Website is erg traag
+2026-11-21 12:34:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-21 12:39:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 13:16:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 13:22:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-21 13:28:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-21 13:30:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 13:36:00,NL,payment_problem,Betaling mislukt
+2026-11-21 13:41:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-21 14:02:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-21 14:02:00,FR,item_unavailable,Article indisponible
+2026-11-21 14:17:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-21 14:30:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-21 14:33:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-21 15:01:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-21 15:12:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-21 15:23:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-21 15:39:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-21 15:40:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-21 15:51:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-21 15:51:00,FR,payment_problem,Le paiement a échoué
+2026-11-21 16:03:00,NL,payment_problem,Betaling mislukt
+2026-11-21 16:04:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-21 16:12:00,DE,cant_find_product,Suche findet nichts
+2026-11-21 16:37:00,DE,cant_find_product,Suche findet nichts
+2026-11-21 16:57:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-21 17:05:00,FR,return_refund,Retour et remboursement
+2026-11-21 17:32:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-21 17:45:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-21 17:47:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-21 17:50:00,NL,website_slow_or_error,Website is erg traag
+2026-11-21 18:06:00,DE,cant_find_product,Suche findet nichts
+2026-11-21 18:06:00,NL,order_status_delivery,Waar is mijn bestelling?
+2026-11-21 18:11:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-21 18:20:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-21 18:31:00,PL,return_refund,Zwrot i refundacja
+2026-11-21 19:11:00,PL,item_unavailable,Produkt niedostępny
+2026-11-21 19:12:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 19:31:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 19:41:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-21 19:45:00,NL,return_refund,Retour en terugbetaling
+2026-11-21 19:51:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 19:58:00,FR,item_unavailable,Article indisponible
+2026-11-21 20:11:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-21 20:16:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 20:18:00,PL,account_login,Nie mogę się zalogować
+2026-11-21 20:24:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 20:25:00,FR,return_refund,Retour et remboursement
+2026-11-21 20:29:00,PL,cant_find_product,Wyszukiwarka nic nie znajduje
+2026-11-21 20:34:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-21 20:35:00,*,seller_listing,Question about my listings
+2026-11-21 20:42:00,FR,item_unavailable,Article indisponible
+2026-11-21 20:48:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-21 20:54:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-21 21:14:00,PL,account_login,Nie mogę się zalogować
+2026-11-21 21:16:00,FR,item_unavailable,Article indisponible
+2026-11-21 21:33:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 21:37:00,PL,item_unavailable,Produkt niedostępny
+2026-11-21 21:38:00,PL,website_slow_or_error,Strona bardzo wolno działa
+2026-11-21 21:44:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 21:44:00,FR,payment_problem,Le paiement a échoué
+2026-11-21 21:47:00,DE,payment_problem,Zahlung fehlgeschlagen
+2026-11-21 21:50:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-21 21:58:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-21 22:07:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-21 22:16:00,FR,return_refund,Retour et remboursement
+2026-11-21 22:18:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-21 22:22:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 22:25:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 22:27:00,FR,cant_find_product,La recherche ne trouve rien
+2026-11-21 22:37:00,PL,payment_problem,Płatność nie powiodła się
+2026-11-21 22:37:00,PL,order_status_delivery,Gdzie jest moje zamówienie?
+2026-11-21 22:41:00,PL,return_refund,Zwrot i refundacja
+2026-11-21 22:42:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 22:47:00,DE,item_unavailable,Elektronikartikel seit Tagen ausverkauft
+2026-11-21 23:09:00,FR,order_status_delivery,Où est ma commande ?
+2026-11-21 23:09:00,PL,account_login,Nie mogę się zalogować
+2026-11-21 23:13:00,DE,return_refund,Rücksendung und Erstattung
+2026-11-21 23:29:00,DE,website_slow_or_error,Seite lädt sehr langsam
+2026-11-21 23:30:00,FR,item_unavailable,Article indisponible
+2026-11-21 23:31:00,DE,order_status_delivery,Wo ist meine Bestellung?
+2026-11-21 23:47:00,DE,order_status_delivery,Wo ist meine Bestellung?

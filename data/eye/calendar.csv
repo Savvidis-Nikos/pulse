@@ -1,0 +1,9 @@
+name,kind,country,start,end,expected_impact,metrics,expected_low,expected_high,announced_at
+Search index rebuild (planned maintenance),maintenance,*,2026-11-08 02:00,2026-11-08 04:00,"search partially unavailable, zero-result rate up",search_ctr;zero_result_rate,-0.45,0.0,2026-11-01 00:00
+Armistice Day (public holiday),public_holiday,FR,2026-11-11 00:00,2026-11-12 00:00,"more daytime shopping, sessions +15-50% 10-17h",sessions,-0.25,0.6,2026-11-01 00:00
+Independence Day (public holiday),public_holiday,PL,2026-11-11 00:00,2026-11-12 00:00,"more daytime shopping, sessions +15-50% 10-17h",sessions,-0.25,0.6,2026-11-01 00:00
+"Football: Germany national team match (TV, 20:45)",tv_event,DE,2026-11-14 20:00,2026-11-14 23:00,DE evening traffic -20% during the match,sessions,-0.35,0.0,2026-11-01 00:00
+St. Martin's Day,cultural,DE,2026-11-11 00:00,2026-11-12 00:00,none expected,,,,2026-11-01 00:00
+Nightly search index refresh,batch_job,*,2026-11-01 03:00,2026-11-22 00:00,"daily 03:00-03:15, no customer impact",,,,2026-11-01 00:00
+Black Week starts,sales_event,*,2026-11-23 00:00,2026-11-30 00:00,"traffic +40-80%, discounts up",sessions;discount_share,0.4,0.8,2026-11-01 00:00
+Black Friday,sales_event,*,2026-11-27 00:00,2026-11-28 00:00,peak day of the year,sessions;orders;gmv,0.5,2.0,2026-11-01 00:00
