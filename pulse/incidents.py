@@ -2,6 +2,7 @@
 
 Lifecycle
   alert, no active incident for kpi+direction  -> NEW incident  INC-<kpi>-<yyyymmddhh of onset>  state "open"
+                                                 (an active incident in the other direction counts it as recovery)
   alert, active incident                      -> "persisting" (ticks_seen += 1); ESCALATED when the deviation
                                                  grew >= 1.5x (and >= 3 points) since it was last reported
   ok / watch                                  -> recovery streak += 1; RESOLVED after `resolve_after` ticks
@@ -78,7 +79,7 @@ class IncidentBook:
         p.parent.mkdir(parents=True, exist_ok=True)
         tmp = p.with_suffix(".json.tmp")
         tmp.write_text(json.dumps(self.meta, indent=2), encoding="utf-8")
-        tmp.replace(p)
+        C.replace(tmp, p)
 
     # ------------------------------------------------------------ queries
     def get(self, inc_id: str) -> Incident | None:
@@ -104,6 +105,9 @@ class IncidentBook:
         events: list[IncidentEvent] = []
         for st in statuses:
             if st.severity == "alert" and st.direction in ("up", "down"):
+                for inc in self.active(st.name, segment=None):   # a rebound: the other direction's incident recovers
+                    if self.direction(inc) != st.direction:
+                        self._recover(inc, st, ts, events)
                 cur = self.active(st.name, st.direction, segment=None)
                 if cur:
                     events.append(self._persist(cur[0], st, ts))

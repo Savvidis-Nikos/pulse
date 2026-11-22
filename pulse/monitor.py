@@ -324,7 +324,8 @@ def evaluate_one(w, kd: KpiDef, now: pd.Timestamp, window_h: int | None = None) 
         ev.onset = f"{onset:%Y-%m-%d %H:%M}" if onset is not None else None
     sev, st.direction = classify(st.z, st.deviation_pct, polarity, kd.watch_z, kd.alert_z, kd.min_dev_pct)
     recent = bz[bz.index <= now].tail(SUSTAIN_H) if bz is not None else []
-    if sev == "watch" and len(recent) == SUSTAIN_H and (recent >= kd.watch_z).all():
+    if (sev == "watch" and polarity != "neutral" and len(recent) == SUSTAIN_H and (recent >= kd.watch_z).all()
+            and abs(st.deviation_pct or 0) >= kd.min_dev_pct):   # same guards as classify: never neutral, a real move
         sev = "alert"
         ev.notes.append(f"sustained: off in the unwanted direction for {SUSTAIN_H}+ hours")
     ev.bad_z = bad_direction_z(st.z, polarity)
