@@ -62,3 +62,6 @@ its data in `data/live/` and Pulse's state in `.pulse_live/`, so the recorded ru
 
 **Recorded run** switches the whole UI back to the state the server was started with. While the live market is shown,
 the briefing's **Refresh data** button runs the market one hour.
+
+## License
+MIT, see [LICENSE](LICENSE).
