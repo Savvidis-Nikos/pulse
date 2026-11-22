@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from pathlib import Path
 from typing import Literal, Optional
 
@@ -154,6 +155,7 @@ class Incident(BaseModel):
     history: list[str] = Field(default_factory=list)
     recalled: list[str] = Field(default_factory=list)   # similar past incidents from memory (hypotheses, not evidence)
     segment: Optional[dict] = None          # {"country": "NL"}: a segment incident (the KPI total is not alerting)
+    closed_reason: Optional[str] = None     # closed without resolving: "no longer tracked" (the CEO untracked the metric)
 
 
 # ---------------------------------------------------------------- interpretation
@@ -219,6 +221,18 @@ class Brief(BaseModel):
 
 
 # ---------------------------------------------------------------- io helpers
+
+def replace(tmp: Path, p: Path, tries: int = 40) -> None:
+    """Atomic rename of `tmp` onto `p`. On Windows it fails while another process (the web server) is reading `p`,
+    so retry for up to ~2 s instead of losing the write."""
+    for i in range(tries):
+        try:
+            tmp.replace(p)
+            return
+        except PermissionError:
+            if i == tries - 1:
+                raise
+            time.sleep(0.05)
 
 def save(model: BaseModel, rel: str) -> Path:
     p = STATE_DIR / rel

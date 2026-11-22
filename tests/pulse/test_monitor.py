@@ -96,9 +96,9 @@ def test_escalation_watch_flicker_and_data_hold(state_dir):
     st = _st("data_issue", dev=None, z=None, direction="flat")
     assert b.update([st], t + pd.Timedelta(hours=5))[0].kind == "held"
     assert st.incident_id == b.incidents[0].id and len(b.incidents) == 1
-    # opposite direction is a separate incident
+    # opposite direction is a separate incident; the first one counts the rebound toward its recovery
     ev = b.update([_st("alert", dev=+9, z=+5, direction="up")], t + pd.Timedelta(hours=6))
-    assert ev[0].kind == "opened" and len(b.incidents) == 2
+    assert [e.kind for e in ev] == ["recovering", "opened"] and len(b.incidents) == 2
 
 
 # ---------------------------------------------------------------- real data (simulator ground truth)

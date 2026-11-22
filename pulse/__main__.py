@@ -5,6 +5,8 @@
     python -m pulse replay --start TS --end TS [--step-h 1]  tick over a historical range (demo)
     python -m pulse watch [--interval-s 5]                  follow data/eye/live.json (marketplace.live), or step
                                                              the clock one hour per interval from the last tick
+    python -m pulse recheck                                 apply the CEO's pinned / untracked metrics to the last
+                                                             checked hour (no new data, no LLM call)
     python -m pulse status | spend | reset
 
 State goes to PULSE_STATE (default .pulse/). LLM mode from PULSE_LLM (default mock = free).
@@ -99,6 +101,12 @@ def cmd_watch(a):
         pass
 
 
+def cmd_recheck(a):
+    from pulse.orchestrator import recheck
+    st = recheck()
+    print(_line(st) if st else f"no state in {STATE_DIR} yet - run `python -m pulse tick` first", flush=True)
+
+
 def cmd_status(a):
     from pulse.orchestrator import status_text
     print(status_text())
@@ -129,6 +137,7 @@ def main(argv=None):
     p.add_argument("--step-h", type=int, default=1); p.add_argument("--quiet", action="store_true")
     p.set_defaults(fn=cmd_replay)
     p = sub.add_parser("watch"); p.add_argument("--interval-s", type=float, default=5.0); p.set_defaults(fn=cmd_watch)
+    sub.add_parser("recheck").set_defaults(fn=cmd_recheck)
     sub.add_parser("status").set_defaults(fn=cmd_status)
     sub.add_parser("spend").set_defaults(fn=cmd_spend)
     p = sub.add_parser("reset"); p.add_argument("--all", action="store_true"); p.set_defaults(fn=cmd_reset)

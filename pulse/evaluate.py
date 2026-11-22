@@ -79,11 +79,13 @@ def main(argv: list[str] | None = None) -> dict:
     a = ap.parse_args(argv)
     truth = json.loads((C.ROOT / "data" / "eye" / "injected.json").read_text())["scenarios"]
     C.STATE_DIR = Path(tempfile.mkdtemp(prefix="pulse_eval_"))   # never touch the demo state
+    from pulse.monitor import load_kpis
     from pulse.orchestrator import tick
     from pulse.world import world
     w, nonok = world(), {}
+    kpis = load_kpis(reg=w.reg)   # the kpis.yaml set, never the CEO's pinned / untracked choices: stays comparable
     for now in pd.date_range(a.start, a.end, freq="h"):
-        for k in tick(now, w=w).kpis:
+        for k in tick(now, w=w, kpis=kpis).kpis:
             nonok.setdefault(k.severity, set()).add(str(now))
     incs = C.load_list(C.Incident, "incidents.json")
     interps = {p.stem: json.loads(p.read_text(encoding="utf-8")) for p in (C.STATE_DIR / "interpretations").glob("*.json")

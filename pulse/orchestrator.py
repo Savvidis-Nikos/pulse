@@ -8,6 +8,10 @@ resolved incident, a KPI changed severity, a fresh investigation). All-ok ticks 
 non-ok ticks keep the last brief. Investigations: new incident, escalation, every K ticks while persisting,
 or a follow-up the previous brief asked for; at most PULSE_MAX_INVESTIGATIONS per tick, only new incidents when
 the LLM budget is nearly spent. Every decision is written to TickState.log in plain English.
+
+The KPI set is kpis.yaml adjusted by the CEO's choices (pulse.choices): pinned metrics are monitored like the KPIs,
+untracked ones are background metrics and their open incidents are closed as no longer tracked. `recheck()` applies a
+new choice to the last checked hour at once, without moving the clock.
 """
 from __future__ import annotations
 
@@ -18,16 +22,19 @@ from pathlib import Path
 import pandas as pd
 from pydantic import BaseModel, Field
 
+from pulse import choices
 from pulse import contracts as C
 from pulse import llm
 from pulse.brief import fmt_value, template_brief
 from pulse.contracts import Brief, BriefItem, Incident, Interpretation, TickState
 from pulse.incidents import IncidentBook, key as inc_key
-from pulse.monitor import SEG_BUDGET, Evaluation, evaluate_ex, evaluate_segments, load_kpis, segment_key
+from pulse.monitor import (SEG_BUDGET, Evaluation, evaluate_ex, evaluate_segments, headline_kpis, load_kpis,
+                           segment_key)
 
 REINVESTIGATE_EVERY = int(os.environ.get("PULSE_REINVESTIGATE_EVERY", "6"))
 MAX_INVESTIGATIONS = int(os.environ.get("PULSE_MAX_INVESTIGATIONS", "3"))
-PRIORITY = {"new incident": 0, "escalated": 1, "follow-up requested by the last brief": 2, "periodic re-check": 3}
+PRIORITY = {"new incident": 0, "escalated": 1, "follow-up requested by the last brief": 2, "periodic re-check": 3,
+            "not investigated yet": 3}
 
 
 class OrchMemory(BaseModel):
@@ -87,6 +94,35 @@ def _budget_tight() -> bool:
         return False
     cap = float(os.environ.get("PULSE_TOTAL_CAP_USD", "12.0"))
     return llm.total_spend() >= 0.8 * cap
+
+
+def _choice_log(before: set[str], after: list[str], closed: list[Incident]) -> list[str]:
+    """Plain-English log lines for metrics the CEO pinned or untracked since the last check."""
+    shut: dict[str, list[str]] = {}
+    for i in closed:
+        shut.setdefault(i.kpi, []).append(i.id)
+    base = choices.kpi_labels()
+    lines = [f"{m} restored: monitored again as a headline metric" if m in base else
+             f"{m} pinned: now monitored like the headline metrics" for m in after if before and m not in before]
+    lines += [f"{m} untracked: watched in the background only"
+              + (f", {', '.join(shut[m])} closed as no longer tracked" if m in shut else "")
+              for m in sorted((before - set(after)) | set(shut))]
+    return lines
+
+
+def _events_at(book: IncidentBook, ts: str) -> dict[str, tuple[str, Incident]]:
+    """Incident events of data hour `ts` read back from the incident book (KPI totals only): kpi -> (event, incident)."""
+    out: dict[str, tuple[str, Incident]] = {}
+    for inc in book.incidents:
+        if inc.segment:
+            continue
+        if inc.opened_at == ts and inc.state != "resolved":
+            out[inc.kpi] = ("opened", inc)
+        elif inc.state == "resolved" and inc.resolved_at == ts and not inc.closed_reason:
+            out[inc.kpi] = ("resolved", inc)
+        elif inc.state != "resolved" and any(h.startswith(f"{ts} ESCALATED") for h in inc.history):
+            out[inc.kpi] = ("escalated", inc)
+    return out
 
 
 # ---------------------------------------------------------------- investigations
@@ -228,6 +264,8 @@ Return only the JSON object."""
 def _situation(ts: str, evals: list[Evaluation], book: IncidentBook, events: dict[str, str],
                interps: dict[str, Interpretation], prev: Brief | None) -> str:
     lines = [f"Data clock: {ts} (one tick = one new hour of data).", "", "KPIs:"]
+    pinned = [e.name for e in evals if e.kpi.pinned]
+    untracked = [m for m in choices.load()["untracked"] if m not in {e.name for e in evals}]
     for e in evals:
         st = e.status
         lines.append(f"- {st.name} \"{st.label}\": {fmt_value(st.value, st.unit)} vs {fmt_value(st.expected, st.unit)} "
@@ -236,6 +274,11 @@ def _situation(ts: str, evals: list[Evaluation], book: IncidentBook, events: dic
                      + (f", incident {st.incident_id}" if st.incident_id else "")
                      + (f", event this tick: {events[st.name]}" if st.name in events else "")
                      + (f". Notes: {'; '.join(e.notes)}" if e.notes else ""))
+    if pinned:
+        lines.append(f"Pinned by the CEO (monitored like the others): {', '.join(pinned)}.")
+    if untracked:
+        lines.append(f"Untracked by the CEO (background metrics, no own alerts; mention them only as a cause or "
+                     f"knock-on effect): {', '.join(untracked)}.")
     act = book.active()
     lines += ["", "Active incidents:" if act else "Active incidents: none"]
     for inc in act:
@@ -306,11 +349,13 @@ def _mock_brief_policy(template: Brief, book: IncidentBook, interps: dict[str, I
 # ---------------------------------------------------------------- tick
 
 def tick(now=None, *, w=None, kpis=None) -> TickState:
-    """Run one monitoring tick at data hour `now` (default: the world's current clock = latest data)."""
+    """Run one monitoring tick at data hour `now` (default: the world's current clock = latest data).
+    kpis: the metrics to check; default = kpis.yaml adjusted by the CEO's choices (pinned in, untracked out)."""
     if w is None:
         from pulse.world import world
         w = world()
-    kpis = kpis or load_kpis(reg=w.reg)
+    chosen = not kpis
+    kpis = kpis or headline_kpis(w)
     mem = _load_mem()
     t_start = time.time()
     if now is not None:
@@ -335,6 +380,9 @@ def tick(now=None, *, w=None, kpis=None) -> TickState:
 
     # 2. incident memory
     book = IncidentBook.load()
+    if chosen:   # metrics the CEO pinned or untracked since the last tick
+        log += _choice_log(set(mem.last_severity), [k.name for k in kpis],
+                           book.close_untracked({k.name for k in kpis}, now))
     if same_hour:
         log.append(f"same data hour as the last tick ({ts}): re-evaluated, incident memory unchanged")
         for st in statuses:
@@ -403,7 +451,8 @@ def tick(now=None, *, w=None, kpis=None) -> TickState:
         elif ev.kind == "persisting":
             last = mem.last_investigated.get(ev.incident.id)
             if last is None or mem.tick - last >= REINVESTIGATE_EVERY:
-                todo.setdefault(ev.incident.id, (ev.incident, "periodic re-check"))
+                todo.setdefault(ev.incident.id, (ev.incident, "periodic re-check" if last is not None
+                                                 else "not investigated yet"))
     for k in mem.follow_up:
         for inc in book.active(k):
             todo.setdefault(inc.id, (inc, "follow-up requested by the last brief"))
@@ -498,6 +547,77 @@ def _llm_brief(ts, evals, book, events, interps, prev, template, investigated, l
     except Exception as e:
         log.append(f"orchestrator agent failed ({type(e).__name__}: {str(e)[:160]}) -> template brief")
         return template, []
+
+
+def recheck(*, w=None) -> TickState | None:
+    """Apply the CEO's latest choices to the last checked hour, without moving the data clock and without an LLM call:
+    a pinned metric is checked at that hour and gets its row (and an incident if it is alerting; the interpreter
+    looks at it on the next tick), an untracked one leaves and its open incident is closed as no longer tracked
+    (nothing written to case memory). The other rows keep their numbers and wording. The world is loaded only when a
+    metric joins."""
+    prev_state = C.load(TickState, "state.json")
+    if prev_state is None:
+        return None
+    ts, ch = prev_state.ts, choices.load()
+    have = [k.name for k in prev_state.kpis]
+    want = [m for m in dict.fromkeys([k.name for k in load_kpis()] + ch["pinned"]) if m not in ch["untracked"]]
+    kept = [k for k in prev_state.kpis if k.name in want]
+    added: list[Evaluation] = []
+    if any(m not in have for m in want):
+        if w is None:
+            from pulse.world import world
+            w = world()
+        new_kpis = [k for k in headline_kpis(w, ch) if k.name not in have]
+        added = evaluate_ex(w, new_kpis, ts) if new_kpis else []
+    statuses = kept + [e.status for e in added]
+    names = [s.name for s in statuses]
+    book = IncidentBook.load()
+    closed = book.close_untracked(set(names), ts)
+    opened = [ev for ev in book.update([e.status for e in added], ts, {e.name: e.onset for e in added})
+              if ev.kind == "opened"]
+    log = _choice_log(set(have), names, closed)
+    if not log:
+        return prev_state
+    by = {e.name: e for e in added}
+    for ev in opened:
+        e = by[ev.incident.kpi]
+        log.append(f"{_fmt_status(e)}" + (f", out of band since {e.onset[11:]}" if e.onset else "")
+                   + f" -> opened {ev.incident.id}")
+
+    # the brief: same hour, so kept rows keep their wording; the headline is rebuilt from the numbers
+    happened = _events_at(book, ts)
+    events = {k: kind for k, (kind, _) in happened.items()}
+    incident_of = {k: inc for k, (_, inc) in happened.items()}
+    for st in statuses:
+        act = book.active(st.name, segment=None)
+        st.incident_id = act[0].id if act else None
+        if act:
+            incident_of.setdefault(st.name, act[0])
+    interps = {k: it for k, inc in incident_of.items() if (it := _interp_for(inc)) is not None}
+    notes = {s.name: [n for n in s.note.split("; ") if n] for s in kept} | {e.name: e.notes for e in added}
+    template = template_brief(ts, statuses, events=events, incidents=incident_of, interps=interps, notes=notes,
+                              onsets={s.name: s.onset_ts for s in statuses})
+    prev = C.load(Brief, "brief.json")
+    brief = template
+    if prev is not None and prev.ts == ts:
+        old = {it.kpi: it for it in prev.items}
+        gone = set(have) - set(names)
+        moved = [s for s in prev_state.kpis if s.name in gone] + [e.status for e in added]
+        keep_words = prev.llm_mode in ("live", "replay") and all(s.severity == "ok" for s in moved)
+        brief = template.model_copy(update={
+            "items": [old.get(it.kpi, it) if it.kpi not in by else it for it in template.items],
+            "follow_up": [f for f in prev.follow_up if f not in gone],
+            **({"headline": prev.headline, "text": prev.text, "model": prev.model, "llm_mode": prev.llm_mode}
+               if keep_words else {})})
+    mem = _load_mem()
+    mem.last_severity = {s.name: s.severity for s in statuses}
+    mem.follow_up = [k for k in mem.follow_up if k in names]
+    state = prev_state.model_copy(update={"kpis": statuses, "log": prev_state.log + log})
+    book.save()
+    C.save(state, "state.json")
+    C.save(brief, "brief.json")
+    C.save(mem, "orchestrator.json")
+    return state
 
 
 def status_text() -> str:

@@ -23,6 +23,7 @@ not explained by a planned event in that segment.
 
     from pulse.monitor import evaluate, evaluate_ex, load_kpis
     statuses = evaluate(world(), load_kpis())          # list[KpiStatus]
+    kpis = headline_kpis(world())                      # kpis.yaml adjusted by the CEO's choices (pulse.choices)
     evals = evaluate_ex(world(), load_kpis())          # list[Evaluation]: status + notes/onset/context
     cells = evaluate_segments(world(), load_kpis(), evals, state={})   # list[Evaluation] with .segment
 """
@@ -63,6 +64,7 @@ class KpiDef:
     min_dev_pct: float = 3.0
     polarity: str | None = None
     series_h: int = 48
+    pinned: bool = False         # added by the CEO (pulse.choices), not listed in kpis.yaml
 
 
 @dataclass
@@ -86,17 +88,42 @@ class Evaluation:
 
 # ---------------------------------------------------------------- config
 
+def _settings(cfg: dict) -> dict:
+    d = cfg.get("defaults", {})
+    return {x: d[x] for x in ("window_h", "watch_z", "alert_z", "min_dev_pct", "series_h") if x in d}
+
+
 def load_kpis(path: str | Path | None = None, reg=None) -> list[KpiDef]:
     cfg = yaml.safe_load(Path(path or KPIS_PATH).read_text(encoding="utf-8"))
-    d = cfg.get("defaults", {})
     out = []
     for k in cfg["kpis"]:
-        kd = KpiDef(**{**{x: d[x] for x in ("window_h", "watch_z", "alert_z", "min_dev_pct", "series_h") if x in d},
-                       **k})
+        kd = KpiDef(**{**_settings(cfg), **k})
         if reg is not None and kd.name not in reg:
             raise KeyError(f"kpis.yaml: {kd.name!r} is not a metric in the registry")
         out.append(kd)
     return out
+
+
+def headline_kpis(w, choices: dict | None = None) -> list[KpiDef]:
+    """The KPIs of kpis.yaml adjusted by the CEO's choices (pulse.choices): untracked ones leave, pinned metrics join
+    with the default settings (a kpis.yaml KPI pinned again gets its own back). Pinned names that are not a metric in
+    this world are skipped."""
+    from pulse import choices as CH
+    ch = CH.load() if choices is None else choices
+    out = [k for k in load_kpis(reg=w.reg) if k.name not in ch["untracked"]]
+    extra = [m for m in ch["pinned"] if m not in ch["untracked"] and m not in {k.name for k in out}]
+    if any(m not in w.reg for m in extra):
+        from pulse.graph_api import ensure_applied
+        ensure_applied(w)   # a metric the graph handler added in this state dir
+    return out + [pinned_kpi(w, m) for m in extra if m in w.reg]
+
+
+def pinned_kpi(w, metric: str) -> KpiDef:
+    """A CEO-pinned metric with the kpis.yaml defaults; flow metrics are reported per hour like the KPIs."""
+    from pulse.graph_api import _label
+    flow = w.engine.shape(metric).additive and w.reg[metric].time_agg == "sum"
+    cfg = yaml.safe_load(KPIS_PATH.read_text(encoding="utf-8"))
+    return KpiDef(**_settings(cfg), name=metric, label=_label(metric) + (" / hour" if flow else ""), pinned=True)
 
 
 # ---------------------------------------------------------------- pure logic
@@ -297,7 +324,8 @@ def evaluate_one(w, kd: KpiDef, now: pd.Timestamp, window_h: int | None = None) 
         ev.onset = f"{onset:%Y-%m-%d %H:%M}" if onset is not None else None
     sev, st.direction = classify(st.z, st.deviation_pct, polarity, kd.watch_z, kd.alert_z, kd.min_dev_pct)
     recent = bz[bz.index <= now].tail(SUSTAIN_H) if bz is not None else []
-    if sev == "watch" and len(recent) == SUSTAIN_H and (recent >= kd.watch_z).all():
+    if (sev == "watch" and polarity != "neutral" and len(recent) == SUSTAIN_H and (recent >= kd.watch_z).all()
+            and abs(st.deviation_pct or 0) >= kd.min_dev_pct):   # same guards as classify: never neutral, a real move
         sev = "alert"
         ev.notes.append(f"sustained: off in the unwanted direction for {SUSTAIN_H}+ hours")
     ev.bad_z = bad_direction_z(st.z, polarity)

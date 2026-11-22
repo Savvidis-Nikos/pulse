@@ -12,12 +12,14 @@ Never run `python -m marketplace.*` while others work: it rewrites `data/eye/`.
 
 ## One tick (`pulse/orchestrator.py: tick(now=None, *, w=None, kpis=None) -> TickState`)
 1. inbox: new files in `$PULSE_INBOX` (default `<state>/inbox`) -> `graph_handler.ingest_metric` -> moved to `processed/`
-2. `monitor.evaluate_ex` -> KpiStatus per KPI in `pulse/kpis.yaml` (9 KPIs; seasonal baseline, robust z,
+2. `monitor.evaluate_ex` -> KpiStatus per headline KPI (`monitor.headline_kpis`: the 9 KPIs in `pulse/kpis.yaml` plus
+   the CEO's pinned metrics minus the untracked ones, `pulse/choices.py`; seasonal baseline, robust z,
    polarity-aware severity, completeness -> data_issue, onset; watch for 6 h in a row -> alert (slow drift);
    planned event overlapping the window -> watch if: KPI listed + inside its expected range, or healthy net outcome,
    or the event moves an input upstream of the KPI in the graph and started with the move; a segment-scoped event
    (FR campaign) is NOT accepted when another segment is just as far off -> competing cause stays an alert)
-3. `incidents.IncidentBook.update` -> open / persisting / escalated / resolved (no re-reporting)
+3. `incidents.IncidentBook.update` -> open / persisting / escalated / resolved (no re-reporting); a metric the CEO
+   untracked -> its open incidents closed as "no longer tracked" (Incident.closed_reason, nothing written to memory)
 4. investigate (new, escalated, every 6 ticks, follow_up; max 3/tick) -> `interpreter.interpret(w, kpi, incident_id=)`
 5. on resolve -> `memory.remember` (case written to memory.jsonl); on investigate -> `memory.recall` (hypotheses only)
 6. brief: ONE orchestrator LLM call only on material change, else `brief.template_brief` (no LLM)
@@ -25,21 +27,22 @@ Never run `python -m marketplace.*` while others work: it rewrites `data/eye/`.
 ## Modules (lines) -> public API
 | file | role | API |
 |---|---|---|
-| contracts.py (253) | pydantic models + state layout + io | Node Edge GraphSnapshot GraphChange KpiStatus TickState Incident TraceStep Finding Interpretation Brief; save/load/save_list/load_list/append_jsonl |
+| choices.py (71) | the CEO's choices, one store for every run (`choices.json` at the repo root or `$PULSE_CHOICES`, git-ignored, survives `reset`); ignored by evaluate | load, save, apply(pin/untrack/restore, metric), kpi_labels, METRIC_ID |
+| contracts.py (256) | pydantic models + state layout + io | Node Edge GraphSnapshot GraphChange KpiStatus TickState Incident TraceStep Finding Interpretation Brief; save/load/save_list/load_list/append_jsonl |
 | llm.py (306) | ONLY Claude gateway, cost caps, cassettes; any live failure -> logged + caller's mock policy | `run_agent(role, system, prompt, tools, schema, mock=, max_turns=, on_call=)`, Tool, obj, mode, total_spend, load_dotenv |
 | world.py (22) | cached argus World | `world(reload=False)` -> w.wh w.reg w.engine w.graph w.now w.set_now |
-| monitor.py (420) | statistics | load_kpis, classify, find_onset, planned_events, evaluate_ex, evaluate |
-| incidents.py (157) | incident lifecycle | IncidentBook(load/save/update/active/get), IncidentEvent |
+| monitor.py (610) | statistics | load_kpis, headline_kpis (kpis.yaml + choices), pinned_kpi, classify, find_onset, planned_events, evaluate_ex, evaluate |
+| incidents.py (244) | incident lifecycle | IncidentBook(load/save/update/active/get/close_untracked), IncidentEvent |
 | memory.py (77) | persistent case memory | cases, remember, recall, describe |
 | brief.py (147) | template brief + markdown | template_brief, kpi_sentence, render_markdown |
-| orchestrator.py (501) | the harness | tick, status_text, OrchMemory (orchestrator.json) |
+| orchestrator.py (641) | the harness; the brief prompt lists pinned / untracked metrics | tick (kpis=None -> headline_kpis; explicit kpis -> choices ignored), recheck (apply new choices to the last checked hour: no clock move, no LLM; an alerting pinned metric opens its incident, investigated next tick), status_text, OrchMemory (orchestrator.json) |
 | graph_api.py (1235) | read-only annotated graph | build_snapshot, node_detail, breakdown, neighbors, search_data, validate_edge, record_change, load_changes, try_formula, stats, attribution, localize, changes_near, ensure_applied, apply_change |
 | graph_handler.py (731) | Graph Handler agent (Sonnet) | ingest_metric(w, raw), discover(w, around), try_definition |
 | interpreter.py (1318) | Graph Interpreter agent (Sonnet) | interpret(w, kpi, incident_id=, depth=2, window_h=3, on_step=, onset=) |
-| evaluate.py (106) | scorecard vs simulator ground truth (throwaway state) | `python -m pulse.evaluate [--start --end --json]` |
+| evaluate.py (108) | scorecard vs simulator ground truth (throwaway state) | `python -m pulse.evaluate [--start --end --json]` |
 | dashboard/layout.py, encoding.py | pure helpers used by the web UI | solar_layout; node_style, edge_style, LEGEND, trace_frames, style_snapshot |
 | dashboard/make_fixtures.py | ONLY fixture source -> pulse/fixtures/state_demo | write_all, simulate |
-| web/server.py + web/static/js/{app,orrery,format,spark,api}.js | the ONLY demo UI (stdlib server; reads state, one write: POST /api/refresh runs `pulse tick --next`, preceded by `marketplace.live tick --hours 1` when data/eye/live.json exists and Pulse is at its last hour; off with --demo; briefing shows the tick log through app.js `activity()`, a plain-English rewrite of the orchestrator's log lines; graph legend lists only the tokens the current snapshot draws) | serve; pages Briefing / Investigations / Metric graph |
+| web/server.py + web/static/js/{app,orrery,format,spark,api}.js | the ONLY demo UI (stdlib server; reads state, writes: POST /api/refresh runs `pulse tick --next`, preceded by `marketplace.live tick --hours 1` when data/eye/live.json exists and Pulse is at its last hour; POST /api/choices {action: pin/untrack/restore, metric} saves the choice and runs `pulse recheck` on the state on screen (GET /api/overview `choices`: pinned, untracked, labels); both off (403) with --demo; pin bar on graph pages = app.js `enablePinning()`, Untrack in a briefing row's detail, Restore in the background metrics line; briefing shows the tick log through app.js `activity()`, a plain-English rewrite of the orchestrator's log lines; graph legend lists only the tokens the current snapshot draws) | serve; pages Briefing / Investigations / Metric graph |
 | web/console.py | event console on the Investigations page: a live simulated market in data/live/ with its own state .pulse_live/ (never data/eye/ or the recorded run); one job at a time in a worker thread; simulator kept in memory, Pulse via `pulse replay` subprocess; log in .pulse_live/console.jsonl; CATALOG = offered scenarios | Console(root): status, act({action: source/start/inject/run}), run_sync, state_dir; GET/POST /api/console |
 
 Design rules (keep): statistics decide *whether*, the graph decides *where*, the LLM chooses next step and
@@ -52,17 +55,17 @@ snapshots/<kpi>-<center>-<YYYYmmddHH>.json, interpretations/<incident_id>.json (
 graph_changes.jsonl (re-applied on every load = graph survives restarts), inbox/, spend.json, llm_log.jsonl, cassettes/.
 
 ## Run
-- loop: `.venv/Scripts/python.exe -m pulse tick [--at TS | --next] | replay --start TS --end TS | watch | status | spend | reset [--all]`
+- loop: `.venv/Scripts/python.exe -m pulse tick [--at TS | --next] | replay --start TS --end TS | watch | recheck | status | spend | reset [--all]`
 - demo window: `replay --start "2026-11-17 12:00" --end "2026-11-19 03:00"` (payment fault DE/android 11-17 15:00,
   resolves 11-18 05:00; inventory data_issue 11-18 00-07; FR campaign = innocent from 11-18 18:00).
   Data-issue window: 11-21 20:00-23:00. Drop `pulse/inbox_examples/*` into the inbox for the new-metric moment.
 - UI: `.venv/Scripts/python.exe -m pulse.web --state .pulse | --demo | --demo-live` -> http://127.0.0.1:8765
-- tests: `.venv/Scripts/python.exe -m pytest tests/pulse -q` (47 pass, ~30 s, mostly world load; the live LLM path is
+- tests: `.venv/Scripts/python.exe -m pytest tests/pulse -q` (58 pass, ~60 s, mostly world load; the live LLM path is
   covered offline by tests/pulse/test_llm_live_stub.py with a fake client returning real SDK message objects)
 - scorecard: `.venv/Scripts/python.exe -m pulse.evaluate` (~90 s, 11-08..11-21, mock): faults detected 8/14, root-cause
   change named 6/11, segment named 6/12, innocent changes alerted 0/6, data issues seen 2/2, false alarms 0
 - env: PULSE_LLM=mock(default)|replay|live, PULSE_RUN_CAP_USD=0.60, PULSE_TOTAL_CAP_USD=12, PULSE_MODEL_<ROLE>,
-  PULSE_INBOX, PULSE_DATA, PULSE_REINVESTIGATE_EVERY, PULSE_MAX_INVESTIGATIONS. Key in `.env` (ANTHROPIC_API_KEY).
+  PULSE_INBOX, PULSE_DATA, PULSE_CHOICES, PULSE_REINVESTIGATE_EVERY, PULSE_MAX_INVESTIGATIONS. Key in `.env` (ANTHROPIC_API_KEY).
 
 ## Claims: proven vs not (do not oversell, do not build beyond this without asking the user)
 Proven offline (mock, real data): autonomous loop; seasonality/completeness/planned events; no re-reporting;

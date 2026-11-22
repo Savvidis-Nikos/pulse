@@ -26,11 +26,12 @@ copy .env.example .env      # optional: add ANTHROPIC_API_KEY for live runs
 # monitoring loop (mock LLM by default)
 .\.venv\Scripts\python.exe -m pulse replay --start "2026-11-17 12:00" --end "2026-11-19 03:00"   # demo window
 .\.venv\Scripts\python.exe -m pulse tick --next
+.\.venv\Scripts\python.exe -m pulse recheck    # apply pinned / untracked metrics to the last checked hour
 .\.venv\Scripts\python.exe -m pulse status
 .\.venv\Scripts\python.exe -m pulse reset
 
 # checks
-.\.venv\Scripts\python.exe -m pytest tests/pulse -q    # 53 tests, incl. a check that this README matches the code
+.\.venv\Scripts\python.exe -m pytest tests/pulse -q    # 58 tests, incl. a check that this README matches the code
 .\.venv\Scripts\python.exe -m pulse.evaluate           # scorecard against the simulator's ground truth
 ```
 
@@ -62,6 +63,18 @@ its data in `data/live/` and Pulse's state in `.pulse_live/`, so the recorded ru
 
 **Recorded run** switches the whole UI back to the state the server was started with. While the live market is shown,
 the briefing's **Refresh data** button runs the market one hour.
+
+## Pin and untrack metrics
+The CEO decides which metrics are on the briefing.
+- **Pin**: click a metric on the Investigations graph or the Metric graph, then **Pin to the briefing**. It is then
+  monitored like the 9 CEO KPIs: its own row with the 48-hour chart, seasonal normal range, alerts, issues and
+  investigations. The row appears in about 15 seconds, for the hour already checked.
+- **Untrack**: open a row on the briefing and click **Untrack**. The metric becomes a background metric: no alerts or
+  issues of its own (an open issue is closed as no longer tracked), but it stays in the graph and investigations of
+  the other metrics still look at it. **Restore** in the background metrics line under the table brings it back.
+
+The choices are saved in `choices.json` at the repo root (not committed). The recorded run and the live market use the
+same choices, and they survive restarts and `pulse reset`. The scorecard (`pulse.evaluate`) ignores them.
 
 ## License
 MIT, see [LICENSE](LICENSE).

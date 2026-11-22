@@ -11,6 +11,12 @@ import pandas as pd
 from pulse.contracts import Brief, BriefItem, Incident, Interpretation, KpiStatus
 
 SEV_ORDER = {"alert": 0, "data_issue": 1, "watch": 2, "ok": 3}
+SOURCE_WORDS = {   # data sources (argus/config/tables.yaml) in CEO words
+    "orders_db": "order data", "web_analytics": "web traffic data", "inventory": "inventory data",
+    "erp": "purchasing data", "ads_platform": "advertising data", "recsys": "recommendation data",
+    "payment_gateway": "payment data", "observability": "app and service health data",
+    "seller_feeds": "seller feed data", "support_desk": "support ticket data", "price_monitoring": "price data",
+}
 
 
 def fmt_value(v: float | None, unit: str | None) -> str:
@@ -42,6 +48,17 @@ def _cap(s: str) -> str:
     return s[:1].upper() + s[1:]
 
 
+def data_problem_text(problems: str) -> str:
+    """'orders_db late: only 38% ...; erp stale: ...' -> 'Order data late: only 38% .... Purchasing data stale: ....'"""
+    out = []
+    for p in (x for x in problems.split("; ") if x):
+        m = re.match(r"^(\w+) (late|stale|silent|down|frozen): ", p)
+        if m:
+            p = SOURCE_WORDS.get(m[1], m[1].replace("_", " ") + " data") + p[len(m[1]):]
+        out.append(_cap(p.rstrip(".")) + ".")
+    return " ".join(out)
+
+
 def _ok_sentence(st: KpiStatus) -> str:
     d = st.deviation_pct
     if d is None or abs(d) < 3:
@@ -65,7 +82,7 @@ def kpi_text(st: KpiStatus, *, event: str | None = None, incident: Incident | No
     if st.severity == "data_issue":
         dq = next((n for n in notes if n.startswith("data issue")), "")
         return (f"{st.label} can't be trusted this hour, so we are holding judgement.",
-                _cap(dq.replace("data issue: ", "")) + "." if dq else "")
+                data_problem_text(dq.replace("data issue: ", "")) if dq else "")
     if event == "resolved" and incident is not None:
         return f"{st.label} is back to normal.", f"The issue that started at {_hh(incident.onset_ts or incident.opened_at)} is closed."
     if st.severity == "alert":
